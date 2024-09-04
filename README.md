@@ -73,7 +73,7 @@ LESSON MATCH is a platform that allows individuals to exchange skills with one a
 
 ### Entity-Relationship (ER) Diagram
 
-![ER Diagram](./images/er_diagram.png)
+![ER Diagram](./images/Customer.png)
 
 ## Teaser (MS3)
 
