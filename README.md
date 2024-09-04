@@ -60,9 +60,11 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ## System Definition (MS0)
 
+### **LESSON MATCH**
+
 ### Purpose
 
-2-5 sentences describing what the system does
+LESSON MATCH is a platform that allows individuals to exchange skills with one another. For example, someone might offer to teach how to play the guitar in exchange for learning photography. The website would facilitate these exchanges by connecting users based on their offered skills and desired skills. 
 
 ### Pages
 
