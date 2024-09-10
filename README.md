@@ -60,16 +60,32 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ## System Definition (MS0)
 
-### **LESSON MATCH**
-
 ### Purpose
 
-LESSON MATCH is a platform that allows individuals to exchange skills with one another. For example, someone might offer to teach how to play the guitar in exchange for learning photography. The website would facilitate these exchanges by connecting users based on their offered skills and desired skills. 
+LessonMatch is a platform designed to connect people who want to learn and teach new skills. Users create profiles where they list what they can teach and what they want to learn, and the app matches them with others who have complementary skills. The goal is to create a community where people can easily share knowledge and help each other grow.
 
 ### Pages
 
-* Home: 1-3 sentences describing what the page displays and what a user can do
-* Shopping cart: ...
+**All** pages will have a menu bar at the top of the page, where users can navigate to most of the other pages on the website. The menu will always be at the top of the user’s screen, meaning it will follow the user if they scroll up/down.
+
+**All** pages will also have a footer at the bottom of the page to display links, trademarks, etc.
+
+* **Home**: This is the landing page, which will contain information about what LessonMatch is, and how it can benefit users to learn something new. In addition to the menu bar, there will also be buttons for users to sign in, sign up, and navigate to the ‘Find match’ page.
+
+
+* **About Us**: Contains information about the website, where the initial idea came from and why it was created. Here the user can read about the developers and how they managed to come up with the idea of LessonMatch.
+
+
+* **Create Account**: The page displays multiple input boxes where the user can fill in their personal information to create an account. At the end the user can finalize the creation by agreeing to terms and clicking a button that says “create account”. 
+
+
+* **Sign in**: This page will contain and display a sign-in form for existing users to sign into their accounts. The sign-in form will ask for a username/email as the identifier, and a password. There will also be a ‘remember me’ button for users to tick in if they don’t want to sign in every time they open the website.
+
+
+* **Profile**: The page displays the user’s profile and personal information such as name, age, current skills, progress, etc. Here the user can edit their information and get an overview of their skills and what other users see when they view their profile. 
+
+
+* **Find Match**: The page will display other user-profiles and their main skills that they are willing to give a lesson on. Here the user can “match” with other users based on their skills and give lessons to each other on their respective skills.
 
 ### Entity-Relationship (ER) Diagram
 
