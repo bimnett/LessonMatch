@@ -73,7 +73,7 @@ LessonMatch is a platform designed to connect people who want to learn and teach
 * **Home**: This is the landing page, which will contain information about what LessonMatch is, and how it can benefit users to learn something new. In addition to the menu bar, there will also be buttons for users to sign in, sign up, and navigate to the ‘Find match’ page.
 
 
-* **About Us**: Contains information about the website, where the initial idea came from and why it was created. Here the user can read about the developers and how they managed to come up with the idea of LessonMatch.
+* **Chatroom**: This page allows users to engage in real-time conversations with others they've matched with. Users can exchange messages, ask questions, and collaborate on learning the skills they are interested in. The chat interface will include basic messaging features, and users can communicate directly to arrange lessons or provide help.
 
 
 * **Create Account**: The page displays multiple input boxes where the user can fill in their personal information to create an account. At the end the user can finalize the creation by agreeing to terms and clicking a button that says “create account”. 
