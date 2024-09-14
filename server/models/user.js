@@ -15,7 +15,7 @@ var userSchema = new Schema ({
     },
     birth_date: {
         type: Date, 
-        require: true
+        required: true
     },
     location: {
         city: {
