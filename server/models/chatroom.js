@@ -6,11 +6,13 @@ var Schema = mongoose.Schema;
 var chatroomSchema = new Schema ({
     chatroomID: {
         user1: {
-            type: String,
+            type: Schema.Types.ObjectId,
+            ref: 'User',
             required: true
         },
         user2: {
-            type: String,
+            type: Schema.Types.ObjectId,
+            ref: 'User',
             required: true
         }
     }

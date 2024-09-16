@@ -4,6 +4,10 @@ var Schema = mongoose.Schema;
 
 // Define Mongoose message schema
 var messageSchema = new Schema ({
+    chatroomID: {
+        type: Schema.Types.ObjectId,
+        ref: 'Chatroom'
+    },
     messageID: {
         type: Number,
         unique: true
@@ -13,7 +17,7 @@ var messageSchema = new Schema ({
         ref: 'User'
     },
     sentAt: {
-        type: String
+        type: Date
     },
     content: {
         type: String
