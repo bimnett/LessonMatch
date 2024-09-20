@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
-//var Skill = require('../models/skill'); 
+var Skill = require('../models/skill'); 
 
 router.post('/v1/users', async (req, res) => {
     try { 
@@ -15,7 +15,7 @@ router.post('/v1/users', async (req, res) => {
 });
 
 // GET endpoint to find users by skill name
-/*router.get('/users', async (req, res) => {
+router.get('/users', async (req, res) => {
     try {
         
         var skillName = req.query.skill;
@@ -43,5 +43,5 @@ router.post('/v1/users', async (req, res) => {
         res.status(500).json({ message: "Server error, please try again later." });
     }
 });
-*/
+
 module.exports = router;
