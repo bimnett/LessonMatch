@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 // Define Mongoose chatroom schema
 var chatroomSchema = new Schema ({
-    chatroomID: {
+    
         user1: {
             type: Schema.Types.ObjectId,
             ref: 'User',
@@ -15,7 +15,7 @@ var chatroomSchema = new Schema ({
             ref: 'User',
             required: true
         }
-    }
+    
 });
 
 // Ensure combination of fields is unique
