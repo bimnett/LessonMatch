@@ -31,7 +31,7 @@ app.options('*', cors());
 app.use(cors());
 
 // Include users controller
-app.use('/api', userController);
+app.use('', userController);
 
 // Import routes
 app.get('/api', function(req, res) {
