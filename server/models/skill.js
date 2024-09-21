@@ -18,6 +18,11 @@ var skillSchema = new Schema ({
     category : {
         type: String,
         required: true,
+    }, 
+    user : {
+        type: Schema.Types.ObjectId,
+        ref: 'User',  // Reference to the User model
+        required: true
     }
 });
 
