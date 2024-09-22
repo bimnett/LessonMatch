@@ -60,13 +60,21 @@ app.use(function(err, req, res, next) {
         'message': err.message,
         'error': {}
     };
+    // Handle Mongoose-specific errors
+    if (err.name === 'CastError' && err.kind === 'ObjectId') {
+        
+        res.status(400).json({ message: 'Invalid ID format' });
+    } else if (err.name === 'ValidationError') {
+        // Mongoose validation error
+        res.status(400).json({ message: 'Validation failed', errors: err.errors });
+    } else {
     if (env === 'development') {
-        // Return sensitive stack trace only in dev mode
+       
         err_res['error'] = err.stack;
     }
     res.status(err.status || 500);
     res.json(err_res);
-});
+}});
 
 app.listen(port, function(err) {
     if (err) throw err;
