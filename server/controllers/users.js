@@ -10,8 +10,8 @@ router.post('/v1/users', async (req, res) => {
         await user.save();
         res.status(201).json(user);
     } catch (error) {
-        console.log(error);
-        res.status(500).json("User was not created");
+       console.log(error);
+      res.status(500).json("User was not created");
     }
 });
 
@@ -52,7 +52,7 @@ router.put('/v1/users/:userId/skills', async (req,res,next)=>{
             return res.status(404).json({message : 'User not found'});
         }
 
-        for (var updatedSkill of updatedskills){
+        for (var updatedSkill of updatedSkills){
             var{_id, name, level, category } = updatedSkill;
             var skill = await Skill.findById(_id);
 
