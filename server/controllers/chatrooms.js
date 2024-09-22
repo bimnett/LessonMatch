@@ -31,4 +31,24 @@ router.get('/chatrooms', (req, res) => {
     });
 });
 
+//Delete endpoint to delete a specific chatroom for a specific user
+router.delete('v1/chatrooms/:chatroomId/users/:userId', function(req,res,next){
+
+    var{ chatroomId, userId} = req.params;
+   
+    Chatroom.findOneAndDelete({
+        _id : chatroomId,
+        $or : [ {user1 : userId}, {user2 : userId}]
+    },function(err, chatroom){
+        if(err){
+            return next(err);
+        }
+        if(!chatroom){
+            return res.status(404).json({message:"Chatroom not found or user is not a part of this chatroom!"});
+        }
+        res.json({message: " Chatroom deleted successfully !", chatroom});
+    });
+
+});
+
 module.exports = router;

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var Skill = require('../models/skill'); 
-const skill = require('../models/skill');
+
 
 router.post('/v1/users', async (req, res) => {
     try { 
