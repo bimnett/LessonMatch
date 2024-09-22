@@ -43,5 +43,38 @@ router.get('/users', async (req, res) => {
         res.status(500).json({ message: "Server error, please try again later." });
     }
 });
+// PUT endpoint to update all info about skills for an specific user
+router.put('/users/:userId/skills', async (req,res)=>{
+
+    const{ userId} = req.params;
+    const updatedSkills = req.body.skills;
+
+    try {
+        const user = await User.findById(userId).populate('skills');
+
+        if(!user){
+            return res.status(404).json({message : 'User not found'});
+        }
+
+        for (const updatedSkill of updatedskills){
+            const{_id, name, level, category } = updatedSkill;
+            const skill = await Skill.findById(_id);
+
+            if (!skill){
+                return res.status(404).json({message: 'skill with Id ${_id} not found'});
+            }
+
+            if (name) skill.name =name; 
+            if (level !== undefined) skill.level = level;
+            if (category) skill.category = category;
+
+            await skill.save();
+        }
+        res.status(200).json({message: 'All skills updated successfully!'});
+    }   catch(error){
+        console.error('Error updating skills:', error);
+        res.status(500).json({message: 'Server error'});
+    }
+});
 
 module.exports = router;
