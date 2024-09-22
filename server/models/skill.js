@@ -7,7 +7,6 @@ var skillSchema = new Schema ({
     name: {
         type: String,
         required: true,
-
     },
     level: {
         type: Number,
@@ -15,11 +14,11 @@ var skillSchema = new Schema ({
         max: [10, 'Level can at maximum be 10'],
         required: true
     },
-    category : {
+    category: {
         type: String,
         required: true,
     }, 
-    user : {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User',  // Reference to the User model
         required: true

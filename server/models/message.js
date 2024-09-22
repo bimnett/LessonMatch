@@ -6,11 +6,8 @@ var Schema = mongoose.Schema;
 var messageSchema = new Schema ({
     chatroomID: {
         type: Schema.Types.ObjectId,
-        ref: 'Chatroom'
-    },
-    messageID: {
-        type: Number,
-        unique: true
+        ref: 'Chatroom',
+        requred: true
     },
     senderID: {
         type: Schema.Types.ObjectId,
