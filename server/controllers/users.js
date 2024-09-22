@@ -3,6 +3,7 @@ var router = express.Router();
 var User = require('../models/user');
 var Skill = require('../models/skill'); 
 
+// POST endpoint - Creates a new user
 router.post('/v1/users', async (req, res, next) => {
     try { 
         var user = new User(req.body);

@@ -1,4 +1,5 @@
 var express = require('express');
+var methodOverride = require('method-override');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var path = require('path');
@@ -29,6 +30,9 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
+
+// Override request method with method in X-HTTP-Method-Override header
+app.use(methodOverride('X-HTTP-Method-Override'));
 
 // Include users controller
 app.use('/api', userController);
