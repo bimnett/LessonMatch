@@ -23,7 +23,7 @@ var skillSchema = new Schema ({
         ref: 'User',  // Reference to the User model
         required: true
     },
-    isInterest: {
+    isAnInterest: {
         type: Boolean,
         required: true
     }
