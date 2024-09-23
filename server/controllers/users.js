@@ -186,24 +186,17 @@ router.get('/v1/users/:id', async (req, res, next) => {
 });
 
 
-// GET endpoint to find users by skill name
-router.get('/v1/users', async (req, res, next) => {
-    try {
-         const skillName = req.query.skill;
+// GET endpoint to find users by skill id
+router.get('/v1/users/skills/:skillId', async (req, res, next) => {
+    const  skillId  = req.params;
+ try {
+       
+        const skill = await Skill.findById(skillId);
+        const usersWithSkill = await User.find({ skills: skillId })
+            .populate('skills', 'name level category') // Populate skill details
+            .select('username location skills interests'); // Return only relevant user fields
 
-        if (!skillName) {
-            return res.status(400).json({ message: "Please provide a skill to search for!" });
-        }const skill = await Skill.findOne({ name: skillName });
-
-        if (!skill) {
-            return res.status(404).json({ message: "Skill not found." });
-        } const users = await User.find({ skills: skill._id }).populate('skills');
-        
-        if (users.length === 0) {
-            return res.status(404).json({ message: "No users found with the specified skill." });
-        }
-        res.status(200).json(users);
-
+        res.status(200).json({ users: usersWithSkill });
     } catch (error) {
         next(error);
     }
