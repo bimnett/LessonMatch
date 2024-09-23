@@ -13,4 +13,18 @@ router.post('/v1/messages', async (req, res, next) => {
     }
 });
 
+//GET endpoint - Returns message with given id
+router.get('/v1/messages/:id', async (req, res, next) => {
+    try {
+        var id = req.params.id;
+        var message = await Message.findById(id)
+        if (message === null){
+            res.status(404).json("There is no message with that id");
+        };
+        res.json(message);
+    } catch (error) {
+        next(error);
+    };
+});
+
 module.exports = router;
