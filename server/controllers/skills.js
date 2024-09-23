@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const Skill = require('../models/skill'); 
-const User = require('/models/user');
+const User = require('../models/user');
 
 
 // GET endpoint to retrieve all skills
