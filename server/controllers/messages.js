@@ -27,4 +27,18 @@ router.get('/v1/messages/:id', async (req, res, next) => {
     };
 });
 
+// DELETE endpoint - Deletes a message with given id
+router.delete('/v1/messages/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const message = await Message.findByIdAndDelete(id);
+        if (message === null){
+            res.status(404).json("There is no message with that id");
+        };
+        res.json(message);
+    } catch (error) {
+        next(error);
+    };
+});
+
 module.exports = router;
