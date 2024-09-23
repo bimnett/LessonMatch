@@ -1,12 +1,172 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user');
-var Skill = require('../models/skill'); 
+const express = require('express');
+const router = express.Router();
+
+const User = require('../models/user');
+const Skill = require('../models/skill');
+const Message = require('../models/message');
+
+// Get specific message from a specific user
+router.get('/v1/users/:userId/messages/:messageId', async (req, res, next) => {
+
+    const { userId, messageId } = req.params;
+
+    try {
+
+        const user = await User.findById(userId);
+
+        if(!user) {
+            return res.status(404).json({ error: "User not found."} );
+        }
+
+        const message = await Message.find({ senderID: userId, _id: messageId });
+
+        if(message.length === 0) {
+            return res.status(404).json({ error: "Message not found."} );
+        }
+
+        res.status(200).json(message[0]);
+
+    } catch(err) {
+
+        next(err);
+    }
+});
+
+
+// Delete user
+router.delete('/v1/users/:id', async (req, res, next) => {
+
+    const userId = req.params.id;
+
+    try {
+
+        const user = await User.findById(userId);
+
+        if(!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        await User.deleteOne({ _id: userId });
+
+        res.status(200).json({});
+
+    } catch(err) {
+
+        next(err);
+    }
+});
+
+
+// Delete all skills from a user
+router.delete('/v1/users/:id/skills', async (req, res, next) => {
+
+    const userId = req.params.id;
+
+    try {
+
+        const user = await User.findById(userId);
+
+        if(!user) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        const deletedResponse = await Skill.deleteMany({ user: userId });
+
+        res.status(200).json(deletedResponse);
+    } catch(err) {
+        next(err);
+    }
+});
+
+
+// Update the level of a user's existing skill
+router.patch('/v1/users/:id/skills/levels', async (req, res, next) => {
+
+    // Save skill information from request body
+    const { skillName, newLevel } = req.body;
+
+    // Reject request if either skill name or skill level is empty
+    if(!skillName || !newLevel) {
+        return res.status(400).json({ error: "The entered value(s) can not be empty." });
+    }
+
+    // Reject request if desired level is out of bounds
+    if(newLevel < 0 || newLevel > 10) {
+        return res.status(400).json({error: "Skill level needs to have a value between 0 and 10"});
+    }
+
+    try {
+
+        // Query database for user
+        const user = await User.findById(req.params.id).populate('skills');
+        
+        // Respond with 404 if user isn't found
+        if(!user) {
+            return res.status(404).json({ error: "User not found."});
+        }
+
+        // Query database for the skill that will change level
+        const skillIndex = user.skills.findIndex(skill => skill.name === skillName);
+
+        // Reject request if user doesn't currently have skill.
+        if(skillIndex === -1) {
+
+            return res.status(400).json({ error: "User does not have this skill." });
+        }
+
+        user.skills[skillIndex].level = newLevel;
+
+        // Save updated information to user
+        await user.save();
+
+        res.status(200).json(user.skills[skillIndex]);
+
+    } catch(err) {
+
+        next(err);
+    }
+});
+
+
+// Update user location
+router.patch('/v1/users/:id/locations', async (req, res) => {
+
+    const { newCountry, newCity } = req.body;
+    const userId = req.params.id;
+
+    if(!newCountry || !newCity) {
+        return res.status(400).json({ error: "The entered value(s) can not be empty." });
+    }
+
+    try {
+
+        const user = await User.findById(userId);
+
+        if(!user) {
+            return res.status(404).json({ error: "User not found."} );
+        }
+
+        user.location = {
+            country: newCountry,
+            city: newCity
+        }
+
+        await user.save();
+
+        res.status(200).json(user.location);
+
+    } catch(err) {
+
+        console.log(err);
+        res.status(500).json({ error: "Something went wrong when attempting to update the user location."});
+    }
+});
+
 
 // POST endpoint - Creates a new user
 router.post('/v1/users', async (req, res, next) => {
     try { 
-        var user = new User(req.body);
+        const user = new User(req.body);
         await user.save();
         res.status(201).json(user);
     } catch (error) {
@@ -17,8 +177,8 @@ router.post('/v1/users', async (req, res, next) => {
 // GET endpoint - Returns user with given id
 router.get('/v1/users/:id', async (req, res, next) => {
     try {
-        var id = req.params.id;
-        var user = await User.findById(id)
+        const id = req.params.id;
+        const user = await User.findById(id)
         res.json(user);
     } catch (error) {
         next(error);
@@ -29,15 +189,15 @@ router.get('/v1/users/:id', async (req, res, next) => {
 // GET endpoint to find users by skill name
 router.get('/v1/users', async (req, res, next) => {
     try {
-         var skillName = req.query.skill;
+         const skillName = req.query.skill;
 
         if (!skillName) {
             return res.status(400).json({ message: "Please provide a skill to search for!" });
-        }var skill = await Skill.findOne({ name: skillName });
+        }const skill = await Skill.findOne({ name: skillName });
 
         if (!skill) {
             return res.status(404).json({ message: "Skill not found." });
-        } var users = await User.find({ skills: skill._id }).populate('skills');
+        } const users = await User.find({ skills: skill._id }).populate('skills');
         
         if (users.length === 0) {
             return res.status(404).json({ message: "No users found with the specified skill." });
@@ -53,19 +213,19 @@ router.get('/v1/users', async (req, res, next) => {
 // PUT endpoint to update all info about skills for an specific user
 router.put('/v1/users/:userId/skills', async (req,res,next)=>{
 
-    var{ userId} = req.params;
-    var updatedSkills = req.body.skills;
+    const{ userId} = req.params;
+    const updatedSkills = req.body.skills;
 
     try {
-        var user = await User.findById(userId).populate('skills');
+        const user = await User.findById(userId).populate('skills');
 
         if(!user){
             return res.status(404).json({message : 'User not found'});
         }
 
-        for (var updatedSkill of updatedSkills){
-            var{_id, name, level, category } = updatedSkill;
-            var skill = await Skill.findById(_id);
+        for (const updatedSkill of updatedSkills){
+            const{_id, name, level, category } = updatedSkill;
+            const skill = await Skill.findById(_id);
 
             if (!skill){
                 return res.status(404).json({message: 'skill with Id ${_id} not found'});
@@ -85,11 +245,11 @@ router.put('/v1/users/:userId/skills', async (req,res,next)=>{
 
 //Put endpoint for updating user info
 router.put('v1/users/:userId', async(req,res,next)=>{
-  var {userId} = req.params;
-  var {username, password, birth_date,location, skills, interests} = req.body;
+  const {userId} = req.params;
+  const {username, password, birth_date,location, skills, interests} = req.body;
 
   try{
-     var user = await User.findById(userId);
+     const user = await User.findById(userId);
      if(!user){
         return res.status(404).json({message:'User not found'});
      }
