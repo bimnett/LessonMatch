@@ -73,4 +73,32 @@ router.delete('v1/chatrooms/:chatroomId/users/:userId', function(req,res,next){
 
 });
 
+ //post endpoint to creat a new chatroom
+router.post('/v1/chatrooms', async (req, res, next) => {
+    const { user1, user2 } = req.body;
+
+    try {
+        const existingChatroom = await Chatroom.findOne({
+            $or: [
+                { user1: user1, user2: user2 },
+                { user1: user2, user2: user1 } 
+            ]
+        });
+
+        if (existingChatroom) {
+            return res.status(400).json({ message: 'Chatroom already exists between these users.' });
+        }
+        const newChatroom = new Chatroom({ user1, user2 });
+
+        const savedChatroom = await newChatroom.save();
+
+        res.status(201).json(savedChatroom);
+    } catch (error) {
+        
+        next(error);
+    }
+});
+
+
+
 module.exports = router;
