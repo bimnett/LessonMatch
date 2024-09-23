@@ -7,6 +7,8 @@ const cors = require('cors');
 const history = require('connect-history-api-fallback');
 const userController = require('./controllers/users');
 const messageController = require('./controllers/messages');
+const chatroomController = require('./controllers/chatrooms');
+const skillController = require('./controllers/skills');
 
 // constiables
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -35,19 +37,11 @@ app.use(cors());
 // Override request method with method in X-HTTP-Method-Override header
 app.use(methodOverride('X-HTTP-Method-Override'));
 
-// Include users controller
+// Include model controllers
 app.use('/api', userController);
-// Include messages controller
 app.use('/api', messageController);
-
-// Import routes
-const userRoutes = require('./controllers/users');
-const messageRoutes = require('./controllers/messages');
-const chatroomRoutes = require('./controllers/chatrooms');
-// Register API routes
-app.use('/api', userRoutes);
-app.use('/api', messageRoutes);
-app.use('/api', chatroomRoutes);
+app.use('/api', chatroomController);
+app.use('/api', skillController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
