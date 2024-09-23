@@ -3,18 +3,16 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // Define Mongoose chatroom schema
-var chatroomSchema = new Schema ({
-    chatroomID: {
-        user1: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        user2: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        }
+var chatroomSchema = new Schema({ 
+    user1: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    user2: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 
