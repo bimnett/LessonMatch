@@ -4,18 +4,16 @@ const Schema = mongoose.Schema;
 
 // Define Mongoose chatroom schema
 const chatroomSchema = new Schema ({
-   
-        user1: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        },
-        user2: {
-            type: Schema.Types.ObjectId,
-            ref: 'User',
-            required: true
-        }
-    
+    user1: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    user2: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 });
 
 // Ensure combination of fields is unique
