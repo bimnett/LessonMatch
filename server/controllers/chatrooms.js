@@ -1,10 +1,36 @@
-var express = require('express');
-var router = express.Router();
-var Chatroom = require('../models/chatroom');
+const express = require('express');
+const router = express.Router();
+
+const Chatroom = require('../models/chatroom');
+const Message = require('../models/message');
+
+// Delete all messages from a chatroom
+router.delete('/v1/chatrooms/:id/messages', async (req, res, next) => {
+
+    const chatroomId = req.params.id;
+
+    if(chatroomId.length !== 24) {
+        return res.status(400).json({ error: "Chatroom ID format is incorrect."} );
+    }
+
+    try {
+
+        chatroomMessages = await Message.find({ chatroomID: chatroomId });
+
+        await Message.deleteMany({ chatroomID: chatroomId });
+
+        res.status(200).json(chatroomMessages);
+
+    } catch(err) {
+
+        next(err);
+    }
+});
+
 
 // GET endpoint to retrieve all chatrooms for a specific user
-router.get('/chatrooms', (req, res) => {
-    const userId = req.query.userId; 
+router.get('/v1/chatrooms', (req, res) => {
+    const userId = req.body.userId; 
     if (!userId) {
         return res.status(400).json({ message: "User ID is required." });
     }
@@ -34,7 +60,7 @@ router.get('/chatrooms', (req, res) => {
 //Delete endpoint to delete a specific chatroom for a specific user
 router.delete('v1/chatrooms/:chatroomId/users/:userId', function(req,res,next){
 
-    var{ chatroomId, userId} = req.params;
+    const { chatroomId, userId } = req.params;
    
     Chatroom.findOneAndDelete({
         _id : chatroomId,
