@@ -8,9 +8,9 @@ const Message = require('../models/message');
 // Get specific message from a specific user
 router.get('/v1/users/:userId/messages/:messageId', async (req, res, next) => {
 
-    const { userId, messageId } = req.params;
-
     try {
+
+        const { userId, messageId } = req.params;
 
         const user = await User.findById(userId);
 
@@ -18,16 +18,15 @@ router.get('/v1/users/:userId/messages/:messageId', async (req, res, next) => {
             return res.status(404).json({ error: "User not found."} );
         }
 
-        const message = await Message.find({ senderID: userId, _id: messageId });
+        const message = await Message.findOne({ _id: messageId, senderID: userId });
 
-        if(message.length === 0) {
+        if(!message) {
             return res.status(404).json({ error: "Message not found."} );
         }
 
-        res.status(200).json(message[0]);
+        res.status(200).json(message);
 
     } catch(err) {
-
         next(err);
     }
 });
@@ -80,25 +79,27 @@ router.delete('/v1/users/:id/skills', async (req, res, next) => {
 
 
 // Update the level of a user's existing skill
-router.patch('/v1/users/:id/skills/levels', async (req, res, next) => {
-
-    // Save skill information from request body
-    const { skillName, newLevel } = req.body;
-
-    // Reject request if either skill name or skill level is empty
-    if(!skillName || !newLevel) {
-        return res.status(400).json({ error: "The entered value(s) can not be empty." });
-    }
-
-    // Reject request if desired level is out of bounds
-    if(!(0 <= newLevel <= 10)) {
-        return res.status(400).json({error: "Skill level needs to have a value between 0 and 10"});
-    }
+router.patch('/v1/users/:id/skills', async (req, res, next) => {
 
     try {
 
+        // Save skill information from request body
+        const { skillName, newLevel } = req.body;
+        const userId = req.params.id;
+
+        // Reject request if either skill name or skill level is empty
+        if(!skillName || !newLevel) {
+            return res.status(400).json({ error: "The entered value(s) can not be empty." });
+        }
+
+        // Reject request if desired level is out of bounds
+        if(newLevel < 0 || newLevel > 10) {
+            return res.status(400).json({error: "Skill level needs to have a value between 0 and 10"});
+        }
+
         // Query database for user
-        const user = await User.findById(req.params.id).populate('skills');
+        const user = await User.findById(userId);
+        console.log(user);
         
         // Respond with 404 if user isn't found
         if(!user) {
@@ -106,20 +107,17 @@ router.patch('/v1/users/:id/skills/levels', async (req, res, next) => {
         }
 
         // Query database for the skill that will change level
-        const skillIndex = user.skills.findIndex(skill => skill.name === skillName);
+        const skill = await Skill.findOne({ name: skillName, user: userId });
 
-        // Reject request if user doesn't currently have skill.
-        if(skillIndex === -1) {
-
-            return res.status(400).json({ error: "User does not have this skill." });
+        if(!skill){
+            return res.status(404).json({ error: "Skill not found."});
         }
 
-        user.skills[skillIndex].level = newLevel;
+        // Save updated information to skill
+        skill.level = newLevel;
+        await skill.save();
 
-        // Save updated information to user
-        await user.save();
-
-        res.status(200).json(user.skills[skillIndex]);
+        res.status(200).json(skill);
 
     } catch(err) {
 
@@ -129,7 +127,7 @@ router.patch('/v1/users/:id/skills/levels', async (req, res, next) => {
 
 
 // Update user location
-router.patch('/v1/users/:id/locations', async (req, res) => {
+router.patch('/v1/users/:id/', async (req, res) => {
 
     const { newCountry, newCity } = req.body;
     const userId = req.params.id;
@@ -159,6 +157,27 @@ router.patch('/v1/users/:id/locations', async (req, res) => {
 
         console.log(err);
         res.status(500).json({ error: "Something went wrong when attempting to update the user location."});
+    }
+});
+
+
+// Get specific skill from specific user
+router.get('/v1/users/:userId/skills/:skillId', async (req, res, next) => {
+
+    try {
+
+        const { userId, skillId } = req.params;
+
+        const skill = await Skill.findOne({ user: userId, _id: skillId });
+
+        if(!skill) {
+            return res.status(404).json({ error: "Skill not found." });
+        }
+
+        res.status(200).json(skill);
+
+    } catch(err){
+        next(err);
     }
 });
 

@@ -7,13 +7,9 @@ const Message = require('../models/message');
 // Delete all messages from a chatroom
 router.delete('/v1/chatrooms/:id/messages', async (req, res, next) => {
 
-    const chatroomId = req.params.id;
-
-    if(chatroomId.length !== 24) {
-        return res.status(400).json({ error: "Chatroom ID format is incorrect."} );
-    }
-
     try {
+
+        const chatroomId = req.params.id;
 
         chatroomMessages = await Message.find({ chatroomID: chatroomId });
 
