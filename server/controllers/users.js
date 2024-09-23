@@ -70,9 +70,9 @@ router.delete('/v1/users/:id/skills', async (req, res, next) => {
             return res.status(404).json({ error: "User not found." });
         }
 
-        const deletedResponse = await Skill.deleteMany({ user: userId });
+        await Skill.deleteMany({ user: userId });
 
-        res.status(200).json(deletedResponse);
+        res.status(200).json([]);
     } catch(err) {
         next(err);
     }
@@ -91,7 +91,7 @@ router.patch('/v1/users/:id/skills/levels', async (req, res, next) => {
     }
 
     // Reject request if desired level is out of bounds
-    if(newLevel < 0 || newLevel > 10) {
+    if(!(0 <= newLevel <= 10)) {
         return res.status(400).json({error: "Skill level needs to have a value between 0 and 10"});
     }
 
