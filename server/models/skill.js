@@ -22,6 +22,10 @@ var skillSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'User',  // Reference to the User model
         required: true
+    },
+    isInterest: {
+        type: Boolean,
+        required: true
     }
 });
 
