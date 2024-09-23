@@ -14,6 +14,18 @@ router.post('/v1/users', async (req, res, next) => {
     }
 });
 
+// GET endpoint - Returns user with given id
+router.get('/v1/users/:id', async (req, res, next) => {
+    try {
+        var id = req.params.id;
+        var user = await User.findById(id)
+        res.json(user);
+    } catch (error) {
+        next(error);
+    };
+});
+
+
 // GET endpoint to find users by skill name
 router.get('/v1/users', async (req, res, next) => {
     try {
