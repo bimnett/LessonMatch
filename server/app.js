@@ -1,10 +1,12 @@
 var express = require('express');
+var methodOverride = require('method-override');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
 var userController = require('./controllers/users');
+var messageController = require('./controllers/messages');
 
 // Variables
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -30,8 +32,13 @@ app.use(morgan('dev'));
 app.options('*', cors());
 app.use(cors());
 
+// Override request method with method in X-HTTP-Method-Override header
+app.use(methodOverride('X-HTTP-Method-Override'));
+
 // Include users controller
 app.use('/api', userController);
+// Include messages controller
+app.use('/api', messageController);
 
 // Import routes
 app.get('/api', function(req, res) {
