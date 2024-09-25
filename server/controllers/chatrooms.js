@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const User = require('../models/user');
 const Chatroom = require('../models/chatroom');
 const Message = require('../models/message');
-const User = require('/..models/user');
 
 // POST endpoint - Create a chatroom for the given user
 router.post('/v1/users/:id/chatrooms', async (req, res, next) => {
@@ -23,13 +23,9 @@ router.post('/v1/users/:id/chatrooms', async (req, res, next) => {
 // Delete all messages from a chatroom
 router.delete('/v1/chatrooms/:id/messages', async (req, res, next) => {
 
-    const chatroomId = req.params.id;
-
-    if(chatroomId.length !== 24) {
-        return res.status(400).json({ error: "Chatroom ID format is incorrect."} );
-    }
-
     try {
+
+        const chatroomId = req.params.id;
 
         chatroomMessages = await Message.find({ chatroomID: chatroomId });
 
@@ -98,12 +94,23 @@ router.post('/v1/chatrooms', async (req, res, next) => {
     const { user1, user2 } = req.body;
 
     try {
-    
+        const existingChatroom = await Chatroom.findOne({
+            $or: [
+                { user1: user1, user2: user2 },
+                { user1: user2, user2: user1 } 
+            ]
+        });
+
+        if (existingChatroom) {
+            return res.status(400).json({ message: 'Chatroom already exists between these users.' });
+        }
         const newChatroom = new Chatroom({ user1, user2 });
+
         const savedChatroom = await newChatroom.save();
 
         res.status(201).json(savedChatroom);
     } catch (error) {
+        
         next(error);
     }
 });
