@@ -256,31 +256,38 @@ router.put('/v1/users/:userId/skills', async (req,res,next)=>{
 });
 
 //Put endpoint for updating user info
-router.put('v1/users/:userId', async(req,res,next)=>{
-  const {userId} = req.params;
-  const {username, password, birth_date,location, skills, interests} = req.body;
+router.put('/v1/users/:userId', async(req,res,next)=>{
 
-  try{
-     const user = await User.findById(userId);
-     if(!user){
-        return res.status(404).json({message:'User not found'});
-     }
-     if(username) user.username = username;
-     if(password) user.password = password;
-     if(birth_date) user.birth_date = birth_date;
-     if(location){
+
+  try {
+
+    const { userId } = req.params;
+    const { username, password, birth_date, location, skills, interests} = req.body;
+
+    const user = await User.findById(userId);
+
+    if(!user){
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    if(username) user.username = username;
+    if(password) user.password = password;
+    if(birth_date) user.birth_date = birth_date;
+
+    if(location){
         if(location.city) user.location.city = location.city;
         if(location.country) user.location.country = location.country;
-     }
-     if(skills && Array.isArray(skills)) {user.skills = skills;}
-     if(interests && Array.isArray(interests)) {user.interests = interests;}
+    }
 
-     await user.save();
-     res.status(200).json({message:'User updated succesfully',user});
+    if(skills && Array.isArray(skills)) user.skills = skills;
+    if(interests && Array.isArray(interests)) user.interests = interests;
+
+    await user.save();
+    res.status(200).json({ message: 'User updated succesfully',user });
 
   } catch (error){
-   next(error);
-  }
+        next(error);
+    }
 });
 
 module.exports = router;
