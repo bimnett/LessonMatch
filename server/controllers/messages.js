@@ -33,7 +33,7 @@ router.delete('/v1/messages/:id', async (req, res, next) => {
         const id = req.params.id;
         const message = await Message.findByIdAndDelete(id);
         if (message === null){
-            res.status(404).json("There is no message with that id");
+            res.status(404).json({ error: "There is no message with that id" });
         };
         res.json(message);
     } catch (error) {

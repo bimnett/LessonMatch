@@ -70,23 +70,26 @@ router.get('/v1/chatrooms', (req, res) => {
 });
 
 //Delete endpoint to delete a specific chatroom for a specific user
-router.delete('v1/chatrooms/:chatroomId/users/:userId', function(req,res,next){
+router.delete('/v1/chatrooms/:chatroomId/users/:userId', async function(req,res,next){
 
-    const { chatroomId, userId } = req.params;
-   
-    Chatroom.findOneAndDelete({
-        _id : chatroomId,
-        $or : [ {user1 : userId}, {user2 : userId}]
-    },function(err, chatroom){
-        if(err){
-            return next(err);
-        }
+
+    try {
+
+        const { chatroomId, userId } = req.params;
+
+        const chatroom = await Chatroom.findOneAndDelete({
+            _id : chatroomId,
+            $or : [ {user1 : userId}, {user2 : userId}]
+        });
+
         if(!chatroom){
-            return res.status(404).json({message:"Chatroom not found or user is not a part of this chatroom!"});
+            return res.status(404).json({ error: "Chatroom not found." });
         }
-        res.json({message: " Chatroom deleted successfully !", chatroom});
-    });
 
+        res.status(200).json(chatroom);
+    } catch(err) {
+        next(err);
+    }
 });
 
  //post endpoint to creat a new chatroom

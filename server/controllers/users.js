@@ -47,7 +47,7 @@ router.delete('/v1/users/:id', async (req, res, next) => {
 
         await User.deleteOne({ _id: userId });
 
-        res.status(200).json({});
+        res.status(200).json(user);
 
     } catch(err) {
 
@@ -99,7 +99,6 @@ router.patch('/v1/users/:id/skills', async (req, res, next) => {
 
         // Query database for user
         const user = await User.findById(userId);
-        console.log(user);
         
         // Respond with 404 if user isn't found
         if(!user) {
