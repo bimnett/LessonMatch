@@ -195,9 +195,16 @@ router.post('/v1/users', async (req, res, next) => {
 
 // GET endpoint - Returns user with given id
 router.get('/v1/users/:id', async (req, res, next) => {
+
     try {
+
         const id = req.params.id;
         const user = await User.findById(id);
+
+        if(!user) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
         res.json(user);
     } catch (error) {
         next(error);
