@@ -5,6 +5,21 @@ const User = require('../models/user');
 const Skill = require('../models/skill');
 const Message = require('../models/message');
 
+// GET endpoint to retrieve all users
+router.get('/v1/users', (req, res) => {
+    User.find() 
+        .then(users => {
+            if (users.length === 0) {
+                return res.status(404).json({ message: "No users found." }); // If no users found
+            }
+            res.status(200).json({ users: users }); // Respond with the list of users
+        })
+        .catch(err => {
+            console.error(err); // Log the error
+            res.status(500).json({ message: 'Internal Server Error' }); // Respond with an error message
+        });
+});
+
 // Get specific message from a specific user
 router.get('/v1/users/:userId/messages/:messageId', async (req, res, next) => {
 
@@ -211,23 +226,6 @@ router.get('/v1/users/:id', async (req, res, next) => {
 });
 
 
-// GET endpoint to find users by skill id
-router.get('/v1/users/skills/:skillId', async (req, res, next) => {
-    const  skillId  = req.params;
- try {
-       
-        const skill = await Skill.findById(skillId);
-        const usersWithSkill = await User.find({ skills: skillId })
-            .populate('skills', 'name level category') // Populate skill details
-            .select('username location skills interests'); // Return only relevant user fields
-
-        res.status(200).json({ users: usersWithSkill });
-    } catch (error) {
-        next(error);
-    }
-});
-
-
 // PUT endpoint to update all info about skills for an specific user
 router.put('/v1/users/:userId/skills', async (req,res,next)=>{
 
@@ -295,5 +293,6 @@ router.put('/v1/users/:userId', async(req,res,next)=>{
         next(error);
     }
 });
+
 
 module.exports = router;

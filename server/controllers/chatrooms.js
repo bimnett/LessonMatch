@@ -5,6 +5,7 @@ const User = require('../models/user');
 const Chatroom = require('../models/chatroom');
 const Message = require('../models/message');
 
+
 // POST endpoint - Create a chatroom for the given user
 router.post('/v1/users/:id/chatrooms', async (req, res, next) => {
     try { 
@@ -117,7 +118,6 @@ router.post('/v1/chatrooms', async (req, res, next) => {
         next(error);
     }
 });
-
 
 
 module.exports = router;
