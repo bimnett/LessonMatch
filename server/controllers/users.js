@@ -160,14 +160,14 @@ router.patch('/v1/users/:id/', async (req, res) => {
 });
 
 
-// Get specific skill from specific user
-router.get('/v1/users/:userId/skills/:skillId', async (req, res, next) => {
+// Get all skills from a specific user
+router.get('/v1/users/:userId/skills/', async (req, res, next) => {
 
     try {
 
-        const { userId, skillId } = req.params;
+        const { userId } = req.params;
 
-        const skill = await Skill.findOne({ user: userId, _id: skillId });
+        const skill = await Skill.find({ user: userId });
 
         if(!skill) {
             return res.status(404).json({ error: "Skill not found." });
