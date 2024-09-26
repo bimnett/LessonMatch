@@ -20,15 +20,15 @@ router.get('/v1/skills', (req, res, next) => {
 });
 
 //POST endpoint to post a new skill for an specific user
-router.post('/v1/skills', async (req, res, next) => {
-    try { 
-        var skill = new Skill(req.body);
-        await skill.save();
-        res.status(201).json(skill);
-    } catch (error) {
-        next(error);
-    }
-});
+//router.post('/v1/skills', async (req, res, next) => {
+   // try { 
+    //    var skill = new Skill(req.body);
+    //    await skill.save();
+   //     res.status(201).json(skill);
+  //  } catch (error) {
+   //     next(error);
+   // }
+//});
 //POST endpoint for creating new skills
 router.post('/v1/skills', async (req, res, next) => {
 
@@ -39,7 +39,7 @@ router.post('/v1/skills', async (req, res, next) => {
             name,
             level,
             category,
-            user: userId,
+            user,
             isAnInterest
         });
 
@@ -55,5 +55,6 @@ router.post('/v1/skills', async (req, res, next) => {
         next(error);
     }
 });
+
 
 module.exports = router;
