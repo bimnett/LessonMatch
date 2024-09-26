@@ -227,10 +227,10 @@ router.get('/v1/users/:id', async (req, res, next) => {
 
 
 // PUT endpoint to update all info about skills for an specific user
-router.put('/v1/users/:userId/skills', async (req,res,next)=>{
+router.put('/v1/users/:userId/skills/:skillId', async (req,res,next)=>{
 
-    const{ userId} = req.params;
-    const updatedSkills = req.body.skills;
+    const { userId, skillId } = req.params;
+    const { name, category, level} = req.body;
 
     try {
         const user = await User.findById(userId).populate('skills');
@@ -239,21 +239,15 @@ router.put('/v1/users/:userId/skills', async (req,res,next)=>{
             return res.status(404).json({message : 'User not found'});
         }
 
-        for (const updatedSkill of updatedSkills){
-            const{_id, name, level, category } = updatedSkill;
-            const skill = await Skill.findById(_id);
+        const skill = await Skill.findById(skillId);
 
-            if (!skill){
-                return res.status(404).json({message: 'skill with Id ${_id} not found'});
-            }
+        skill.name = name;
+        skill.level = level;
+        skill.category = category;
 
-            if (name) skill.name =name; 
-            if (level !== undefined) skill.level = level;
-            if (category) skill.category = category;
-
-            await skill.save();
-        }
-        res.status(200).json({message: 'All skills updated successfully!'});
+        await skill.save();
+        
+        res.status(200).json(skill);
     }   catch(error){
        next(error);
     }
