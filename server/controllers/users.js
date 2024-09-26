@@ -5,6 +5,21 @@ const User = require('../models/user');
 const Skill = require('../models/skill');
 const Message = require('../models/message');
 
+// GET endpoint to retrieve all users
+router.get('/v1/users', (req, res) => {
+    User.find() 
+        .then(users => {
+            if (users.length === 0) {
+                return res.status(404).json({ message: "No users found." }); // If no users found
+            }
+            res.status(200).json({ users: users }); // Respond with the list of users
+        })
+        .catch(err => {
+            console.error(err); // Log the error
+            res.status(500).json({ message: 'Internal Server Error' }); // Respond with an error message
+        });
+});
+
 // Get specific message from a specific user
 router.get('/v1/users/:userId/messages/:messageId', async (req, res, next) => {
 
@@ -279,18 +294,5 @@ router.put('/v1/users/:userId', async(req,res,next)=>{
     }
 });
 
-// GET endpoint to retrieve all users
-router.get('/v1/users', (req, res, next) => {
-    User.find()
-        .then(users => {
-            if (users.length === 0) {
-                return res.status(404).json({ message: "No user found." });
-            }
-            res.status(200).json({ users });
-        })
-        .catch(error => {
-            next(error);
-        });
-});
 
 module.exports = router;
