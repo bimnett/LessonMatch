@@ -141,7 +141,7 @@ router.patch('/v1/users/:id/skills', async (req, res, next) => {
 
 
 // Update user location
-router.patch('/v1/users/:id/', async (req, res) => {
+router.patch('/v1/users/:id', async (req, res) => {
 
     const { newCountry, newCity } = req.body;
     const userId = req.params.id;
@@ -176,7 +176,7 @@ router.patch('/v1/users/:id/', async (req, res) => {
 
 
 // Get all skills from a specific user
-router.get('/v1/users/:userId/skills/', async (req, res, next) => {
+router.get('/v1/users/:userId/skills', async (req, res, next) => {
 
     try {
 
