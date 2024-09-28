@@ -4,6 +4,18 @@ const router = express.Router()
 const Skill = require('../models/skill'); 
 const User = require('../models/user');
 
+// DELETE endpoint - Delete collection of skills
+router.delete('/skills', async (req, res, next) => {
+    try {
+        const deletedSkills = await Skill.deleteMany({});
+        if (deletedSkills.deletedCount === 0){
+            res.status(404).json({error: "No skills left to delete"});
+        }
+        res.status(200).json("All " + deletedSkills.deletedCount + " skills successfully deleted");
+    } catch (err) {
+        next(err);
+    }
+});
 
 // Get all users who have any skill within a given category
 router.get('/v1/skills/users', async (req, res, next) => {
