@@ -11,9 +11,7 @@ router.post('/v1/users/:id/chatrooms', async (req, res, next) => {
     try { 
         const user1_id = req.params.id;
         const user2_id = req.body.user2;
-        const chatroom = new Chatroom();
-        chatroom.user1 = user1_id;
-        chatroom.user2 = user2_id;
+        const chatroom = new Chatroom({user1: user1_id, user2: user2_id});
         await chatroom.save();
         res.status(201).json(chatroom);
     } catch (error) {
