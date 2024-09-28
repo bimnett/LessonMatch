@@ -381,6 +381,56 @@
 			"response": []
 		},
 		{
+			"name": "Get users that have any skill within given category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has list of user objects\", () => {",
+							"",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    const firstUser = jsonData[0];",
+							"",
+							"    pm.expect(firstUser).to.have.property('username');",
+							"}); "
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/skills/users?categoryName=Sport",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"skills",
+						"users"
+					],
+					"query": [
+						{
+							"key": "categoryName",
+							"value": "Sport"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get a specific user",
 			"event": [
 				{
