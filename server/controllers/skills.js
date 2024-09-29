@@ -5,12 +5,13 @@ const Skill = require('../models/skill');
 const User = require('../models/user');
 
 // DELETE endpoint - Delete collection of skills
-router.delete('/skills', async (req, res, next) => {
+router.delete('/v1/skills', async (req, res, next) => {
     try {
+        const skillsCount = await Skill.countDocuments();
+        if (skillsCount === 0){
+            return res.status(404).json({error: "No skills left to delete"});
+        };
         const deletedSkills = await Skill.deleteMany({});
-        if (deletedSkills.deletedCount === 0){
-            res.status(404).json({error: "No skills left to delete"});
-        }
         res.status(200).json("All " + deletedSkills.deletedCount + " skills successfully deleted");
     } catch (err) {
         next(err);

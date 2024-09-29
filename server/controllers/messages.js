@@ -42,12 +42,13 @@ router.delete('/v1/messages/:id', async (req, res, next) => {
 });
 
 // DELETE endpoint - Deletes collection of messasges
-router.delete('/messages', async (req, res, next) => {
+router.delete('/v1/messages', async (req, res, next) => {
     try {
+        const messagesCount = await Message.countDocuments();
+        if (messagesCount === 0){
+            return res.status(404).json({error: "No messages left to delete"});
+        };
         const deletedMessages = await Message.deleteMany({});
-        if (deletedMessages.deletedCount === 0){
-            res.status(404).json({error: "No messages left to delete"});
-        }
         res.status(200).json("All " + deletedMessages.deletedCount + " messages successfully deleted");
     } catch (err) {
         next(err);
