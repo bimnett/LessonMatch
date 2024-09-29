@@ -88,6 +88,31 @@ router.post('/skills', async (req, res, next) => {
     }
 });
 
+router.put('/skills/:skillId', async (req,res,next)=>{
+
+    const { skillId } = req.params;
+    const { name, level, category, isAnInterest} = req.body;
+
+    try {
+        const skill = await Skill.findById(skillId);
+
+        if(!skill){
+            return res.status(404).json({message : 'Skill not found'});
+        }
+
+
+        skill.name = name;
+        skill.level = level;
+        skill.category = category;
+        skill.isAnInterest = isAnInterest;
+
+        await skill.save();
+        
+        res.status(200).json(skill);
+    }   catch(error){
+       next(error);
+    }
+});
 
 router.get('/')
 
