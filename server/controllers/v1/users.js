@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/user');
-const Skill = require('../models/skill');
-const Message = require('../models/message');
+const User = require('../../models/user');
+const Skill = require('../../models/skill');
+const Message = require('../../models/message');
 
 // GET endpoint to retrieve all users
-router.get('/v1/users', (req, res) => {
+router.get('/users', (req, res) => {
     User.find() 
         .then(users => {
             if (users.length === 0) {
@@ -21,7 +21,7 @@ router.get('/v1/users', (req, res) => {
 });
 
 // Get specific message from a specific user
-router.get('/v1/users/:userId/messages/:messageId', async (req, res, next) => {
+router.get('/users/:userId/messages/:messageId', async (req, res, next) => {
 
     try {
 
@@ -48,7 +48,7 @@ router.get('/v1/users/:userId/messages/:messageId', async (req, res, next) => {
 
 
 // Delete user
-router.delete('/v1/users/:id', async (req, res, next) => {
+router.delete('/users/:id', async (req, res, next) => {
 
     const userId = req.params.id;
 
@@ -72,7 +72,7 @@ router.delete('/v1/users/:id', async (req, res, next) => {
 
 
 // Delete all skills from a user
-router.delete('/v1/users/:id/skills', async (req, res, next) => {
+router.delete('/users/:id/skills', async (req, res, next) => {
 
     const userId = req.params.id;
 
@@ -94,7 +94,7 @@ router.delete('/v1/users/:id/skills', async (req, res, next) => {
 
 
 // Update the level of a user's existing skill
-router.patch('/v1/users/:id/skills', async (req, res, next) => {
+router.patch('/users/:id/skills', async (req, res, next) => {
 
     try {
 
@@ -141,7 +141,7 @@ router.patch('/v1/users/:id/skills', async (req, res, next) => {
 
 
 // Update user location
-router.patch('/v1/users/:id', async (req, res) => {
+router.patch('/users/:id', async (req, res) => {
 
     const { newCountry, newCity } = req.body;
     const userId = req.params.id;
@@ -176,7 +176,7 @@ router.patch('/v1/users/:id', async (req, res) => {
 
 
 // Get all skills from a specific user
-router.get('/v1/users/:userId/skills', async (req, res, next) => {
+router.get('/users/:userId/skills', async (req, res, next) => {
 
     try {
 
@@ -197,7 +197,7 @@ router.get('/v1/users/:userId/skills', async (req, res, next) => {
 
 
 // POST endpoint - Creates a new user
-router.post('/v1/users', async (req, res, next) => {
+router.post('/users', async (req, res, next) => {
     try { 
         const user = new User(req.body);
         await user.save();
@@ -208,7 +208,7 @@ router.post('/v1/users', async (req, res, next) => {
 });
 
 // GET endpoint - Returns user with given id
-router.get('/v1/users/:id', async (req, res, next) => {
+router.get('/users/:id', async (req, res, next) => {
 
     try {
 
@@ -227,7 +227,7 @@ router.get('/v1/users/:id', async (req, res, next) => {
 
 
 // PUT endpoint to update all info about skills for an specific user
-router.put('/v1/users/:userId/skills/:skillId', async (req,res,next)=>{
+router.put('/users/:userId/skills/:skillId', async (req,res,next)=>{
 
     const { userId, skillId } = req.params;
     const { name, category, level} = req.body;
@@ -254,7 +254,7 @@ router.put('/v1/users/:userId/skills/:skillId', async (req,res,next)=>{
 });
 
 //Put endpoint for updating user info
-router.put('/v1/users/:userId', async(req,res,next)=>{
+router.put('/users/:userId', async(req,res,next)=>{
 
 
   try {

@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const Skill = require('../models/skill'); 
-const User = require('../models/user');
+const Skill = require('../../models/skill'); 
+const User = require('../../models/user');
 
 // DELETE endpoint - Delete collection of skills
-router.delete('/v1/skills', async (req, res, next) => {
+router.delete('/skills', async (req, res, next) => {
     try {
         const skillsCount = await Skill.countDocuments();
         if (skillsCount === 0){
@@ -19,7 +19,7 @@ router.delete('/v1/skills', async (req, res, next) => {
 });
 
 // Get all users who have any skill within a given category
-router.get('/v1/skills/users', async (req, res, next) => {
+router.get('/skills/users', async (req, res, next) => {
 
     try {
 
@@ -47,7 +47,7 @@ router.get('/v1/skills/users', async (req, res, next) => {
 
 
 // GET endpoint to retrieve all skills
-router.get('/v1/skills', (req, res, next) => {
+router.get('/skills', (req, res, next) => {
     Skill.find()
         .then(skills => {
             if (skills.length === 0) {
@@ -62,7 +62,7 @@ router.get('/v1/skills', (req, res, next) => {
 
 
 //POST endpoint for creating new skills
-router.post('/v1/skills', async (req, res, next) => {
+router.post('/skills', async (req, res, next) => {
 
     const { name, level, category, userId, isAnInterest } = req.body;
     try {

@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/user');
-const Chatroom = require('../models/chatroom');
-const Message = require('../models/message');
+const User = require('../../models/user');
+const Chatroom = require('../../models/chatroom');
+const Message = require('../../models/message');
 
 
 // POST endpoint - Create a chatroom for the given user
-router.post('/v1/users/:id/chatrooms', async (req, res, next) => {
+router.post('/users/:id/chatrooms', async (req, res, next) => {
     try { 
         const user1_id = req.params.id;
         const user2_id = req.body.user2;
@@ -20,7 +20,7 @@ router.post('/v1/users/:id/chatrooms', async (req, res, next) => {
 });
 
 // Delete all messages from a chatroom
-router.delete('/v1/chatrooms/:id/messages', async (req, res, next) => {
+router.delete('/chatrooms/:id/messages', async (req, res, next) => {
 
     try {
 
@@ -40,7 +40,7 @@ router.delete('/v1/chatrooms/:id/messages', async (req, res, next) => {
 
 
 // GET endpoint to retrieve all chatrooms for a specific user
-router.get('/v1/chatrooms', (req, res) => {
+router.get('/chatrooms', (req, res) => {
     const userId = req.body.userId; 
     if (!userId) {
         return res.status(400).json({ message: "User ID is required." });
@@ -69,7 +69,7 @@ router.get('/v1/chatrooms', (req, res) => {
 });
 
 //Delete endpoint to delete a specific chatroom for a specific user
-router.delete('/v1/chatrooms/:chatroomId/users/:userId', async function(req,res,next){
+router.delete('/chatrooms/:chatroomId/users/:userId', async function(req,res,next){
 
 
     try {
@@ -92,7 +92,7 @@ router.delete('/v1/chatrooms/:chatroomId/users/:userId', async function(req,res,
 });
 
  //post endpoint to creat a new chatroom
-router.post('/v1/chatrooms', async (req, res, next) => {
+router.post('/chatrooms', async (req, res, next) => {
     const { user1, user2 } = req.body;
 
     try {

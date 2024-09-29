@@ -5,10 +5,10 @@ const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
 const history = require('connect-history-api-fallback');
-const userController = require('./controllers/users');
-const messageController = require('./controllers/messages');
-const chatroomController = require('./controllers/chatrooms');
-const skillController = require('./controllers/skills');
+const userController = require('./controllers/v1/users');
+const messageController = require('./controllers/v1/messages');
+const chatroomController = require('./controllers/v1/chatrooms');
+const skillController = require('./controllers/v1/skills');
 
 // constiables
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -38,10 +38,10 @@ app.use(cors());
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 // Include model controllers
-app.use('/api', userController);
-app.use('/api', messageController);
-app.use('/api', chatroomController);
-app.use('/api', skillController);
+app.use('/api/v1', userController);
+app.use('/api/v1', messageController);
+app.use('/api/v1', chatroomController);
+app.use('/api/v1', skillController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {

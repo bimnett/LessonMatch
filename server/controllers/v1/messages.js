@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const Message = require('../models/message');
+const Message = require('../../models/message');
 
 // POST endpoint - Creates a new message
-router.post('/v1/messages', async (req, res, next) => {
+router.post('/messages', async (req, res, next) => {
     try {
         const message = new Message(req.body);
         await message.save();
@@ -14,7 +14,7 @@ router.post('/v1/messages', async (req, res, next) => {
 });
 
 //GET endpoint - Returns message with given id
-router.get('/v1/messages/:id', async (req, res, next) => {
+router.get('/messages/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const message = await Message.findById(id)
@@ -28,7 +28,7 @@ router.get('/v1/messages/:id', async (req, res, next) => {
 });
 
 // DELETE endpoint - Deletes a message with given id
-router.delete('/v1/messages/:id', async (req, res, next) => {
+router.delete('/messages/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
         const message = await Message.findByIdAndDelete(id);
@@ -42,7 +42,7 @@ router.delete('/v1/messages/:id', async (req, res, next) => {
 });
 
 // DELETE endpoint - Deletes collection of messasges
-router.delete('/v1/messages', async (req, res, next) => {
+router.delete('/messages', async (req, res, next) => {
     try {
         const messagesCount = await Message.countDocuments();
         if (messagesCount === 0){
