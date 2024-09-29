@@ -88,6 +88,7 @@ router.post('/skills', async (req, res, next) => {
     }
 });
 
+//PUT endpoint- Update info for specific skill
 router.put('/skills/:skillId', async (req,res,next)=>{
 
     const { skillId } = req.params;

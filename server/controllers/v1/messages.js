@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Message = require('../../models/message');
 
+
 // POST endpoint - Creates a new message
 router.post('/messages', async (req, res, next) => {
     try {
@@ -55,4 +56,23 @@ router.delete('/messages', async (req, res, next) => {
     }
 });
 
+//PATCH endpoint- edit content of a specific message
+router.patch('/messages/:id', async(req, res, next) =>{
+    const id = req.params.id;
+    const newContent = req.body;
+
+    if (!content){
+        return res.status(404).json({error: "Content can not be empty!"});
+    }
+
+    try{
+        const message = Message.findById(id);
+        message.content = newContent; 
+        await message.save();
+        res.status(200).json(message);
+    }catch(err){
+        next(err);
+    }
+
+});
 module.exports = router;
