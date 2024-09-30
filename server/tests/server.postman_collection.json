@@ -3,8 +3,8 @@
 		"_postman_id": "6fc68e3e-21aa-4cbb-864e-38eca8f95cc2",
 		"name": "LessonMatch",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38349166",
-		"_collection_link": "https://group-6-9373.postman.co/workspace/webdev~45a66d7b-d2d2-4bd0-a2f7-db67756e42c9/collection/37389635-6fc68e3e-21aa-4cbb-864e-38eca8f95cc2?action=share&source=collection_link&creator=38349166"
+		"_exporter_id": "38421803",
+		"_collection_link": "https://group-6-9373.postman.co/workspace/webdev~45a66d7b-d2d2-4bd0-a2f7-db67756e42c9/collection/37389635-6fc68e3e-21aa-4cbb-864e-38eca8f95cc2?action=share&source=collection_link&creator=38421803"
 	},
 	"item": [
 		{
@@ -20,7 +20,7 @@
 							"",
 							"const jsonData = pm.response.json();",
 							"",
-							"pm.environment.set(\"userId_1\", jsonData._id);",
+							"pm.environment.set(\"userId_1\", jsonData.user._id);",
 							"const getUserID = pm.variables.get(\"userId_1\");",
 							"",
 							"",
@@ -53,7 +53,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n        \"username\": \"John boooo\",\n        \"password\": \"johnbo123\", \n        \"birth_date\": \"1985-06-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"New York\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
+					"raw": "{\n        \"username\": \"John DdDbbd\",\n        \"password\": \"johnbo123\", \n        \"birth_date\": \"1985-06-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"New York\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -86,7 +86,7 @@
 							"});",
 							"",
 							"const jsonData = pm.response.json();",
-							"pm.environment.set(\"userId_2\", jsonData._id);",
+							"pm.environment.set(\"userId_2\", jsonData.user._id);",
 							"const getUserID = pm.variables.get(\"userId_2\");",
 							"",
 							""
@@ -111,7 +111,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n        \"username\": \"Jane Doeeeeeee\",\n        \"password\": \"jane1f23\", \n        \"birth_date\": \"2012-04-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"Chicago\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
+					"raw": "{\n        \"username\": \"Jane Doeeeeeeee\",\n        \"password\": \"jane1f23\", \n        \"birth_date\": \"2012-04-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"Chicago\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -144,7 +144,7 @@
 							"});",
 							"",
 							"const jsonData = pm.response.json();",
-							"pm.environment.set(\"userId_3\", jsonData._id);",
+							"pm.environment.set(\"userId_3\", jsonData.user._id);",
 							"const getUserID = pm.variables.get(\"userId_3\");",
 							"",
 							""
@@ -359,7 +359,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"chatroomID\": \"{{chatroomId}}\",\n    \"senderID\": \"{{userId_2}}\",\n    \"sentAt\": \"2023-09-01T14:36:12Z\",\n    \"content\": \"Hello Janee!\"\n}",
+					"raw": "{\n    \"chatroomID\": \"{{chatroomId2}}\",\n    \"senderID\": \"{{userId_2}}\",\n    \"sentAt\": \"2023-09-01T14:36:12Z\",\n    \"content\": \"Hello Janeeee!\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -401,7 +401,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Swimming\",\n    \"level\": 8,\n    \"category\": \"Sport\",\n    \"userId\": \"{{userId_2}}\",\n    \"isAnInterest\": false\n}",
+					"raw": "{\n    \"name\": \"running\",\n    \"level\": 8,\n    \"category\": \"Sport\",\n    \"userId\": \"{{userId_2}}\",\n    \"isAnInterest\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -443,7 +443,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"chatroomID\": \"{{chatroomId2}}\",\n    \"senderID\": \"{{userId_2}}\",\n    \"sentAt\": \"2023-09-01T14:36:12Z\",\n    \"content\": \"Hello!\"\n}",
+					"raw": "{\n    \"chatroomID\": \"{{chatroomId2}}\",\n    \"senderID\": \"{{userId_2}}\",\n    \"sentAt\": \"2023-09-01T14:36:12Z\",\n    \"content\": \"byeee!\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -922,6 +922,53 @@
 			"response": []
 		},
 		{
+			"name": "update specific skill info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"skillName\", jsonData.name);",
+							"const getSkillName = pm.variables.get(\"skillName\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"hunting\",\n    \"level\": 5,\n    \"category\": \"Sport\",\n    \"isAnInterest\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/skills/{{skillId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"skills",
+						"{{skillId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Update user location",
 			"event": [
 				{
@@ -1022,6 +1069,50 @@
 						"users",
 						"{{userId_3}}",
 						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update message content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"newContent\": \"Hello Januufuee againn!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/messages/{{messageId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"messages",
+						"{{messageId}}"
 					]
 				}
 			},
@@ -1238,6 +1329,41 @@
 			"response": []
 		},
 		{
+			"name": "Delete all skills",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/skills",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Delete user",
 			"event": [
 				{
@@ -1274,41 +1400,6 @@
 						"v1",
 						"users",
 						"{{userId_1}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete all skills",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/v1/skills",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"skills"
 					]
 				}
 			},
