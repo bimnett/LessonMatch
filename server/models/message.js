@@ -7,7 +7,7 @@ var messageSchema = new Schema ({
     chatroomID: {
         type: Schema.Types.ObjectId,
         ref: 'Chatroom',
-        requred: true
+        required: true
     },
     senderID: {
         type: Schema.Types.ObjectId,
