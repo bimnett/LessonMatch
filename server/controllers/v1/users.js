@@ -201,7 +201,15 @@ router.post('/users', async (req, res, next) => {
     try { 
         const user = new User(req.body);
         await user.save();
-        res.status(201).json(user);
+        res.status(201).json({user,
+            links: [
+            {
+                rel: "update",
+                href: '/api/v1/users/' + user._id,
+                method: "PUT"
+            }
+            ]
+        });
     } catch (error) {
         next(error);
     }
