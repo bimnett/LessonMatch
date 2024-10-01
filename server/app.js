@@ -1,13 +1,18 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var morgan = require('morgan');
-var path = require('path');
-var cors = require('cors');
-var history = require('connect-history-api-fallback');
+const express = require('express');
+const methodOverride = require('method-override');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const path = require('path');
+const cors = require('cors');
+const history = require('connect-history-api-fallback');
+const userController = require('./controllers/v1/users');
+const messageController = require('./controllers/v1/messages');
+const chatroomController = require('./controllers/v1/chatrooms');
+const skillController = require('./controllers/v1/skills');
 
-// Variables
-var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
-var port = process.env.PORT || 3000;
+// constiables
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
+const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose.connect(mongoURI).catch(function(err) {
@@ -19,7 +24,7 @@ mongoose.connect(mongoURI).catch(function(err) {
 });
 
 // Create Express app
-var app = express();
+const app = express();
 // Parse requests of content-type 'application/json'
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -29,10 +34,14 @@ app.use(morgan('dev'));
 app.options('*', cors());
 app.use(cors());
 
-// Import routes
-app.get('/api', function(req, res) {
-    res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
-});
+// Override request method with method in X-HTTP-Method-Override header
+app.use(methodOverride('X-HTTP-Method-Override'));
+
+// Include model controllers
+app.use('/api/v1', userController);
+app.use('/api/v1', messageController);
+app.use('/api/v1', chatroomController);
+app.use('/api/v1', skillController);
 
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
@@ -43,25 +52,37 @@ app.use('/api/*', function (req, res) {
 // Support Vuejs HTML 5 history mode
 app.use(history());
 // Serve static assets
-var root = path.normalize(__dirname + '/..');
-var client = path.join(root, 'client', 'dist');
+const root = path.normalize(__dirname + '/..');
+const client = path.join(root, 'client', 'dist');
 app.use(express.static(client));
 
 // Error handler (i.e., when exception is thrown) must be registered last
-var env = app.get('env');
-// eslint-disable-next-line no-unused-vars
+const env = app.get('env');
+// eslint-disable-next-line no-unused-consts
 app.use(function(err, req, res, next) {
     console.error(err.stack);
-    var err_res = {
+    const err_res = {
         'message': err.message,
         'error': {}
     };
+    // Handle Mongoose-specific errors
+    if (err.name === 'CastError' && err.kind === 'ObjectId') {
+        
+        res.status(400).json({ message: 'Invalid ID format' });
+    } else if (err.name === 'ValidationError') {
+        // Mongoose validation error
+        res.status(400).json({ message: 'Validation failed', errors: err.errors });
+    } else {
     if (env === 'development') {
-        // Return sensitive stack trace only in dev mode
+       
         err_res['error'] = err.stack;
     }
     res.status(err.status || 500);
     res.json(err_res);
+}});
+
+app.get('/api', (req, res) => {
+    res.json({ 'message': 'Welcome to your DIT342 backend ExpressJS project!'} );
 });
 
 app.listen(port, function(err) {

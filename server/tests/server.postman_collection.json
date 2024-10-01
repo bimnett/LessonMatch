@@ -1,40 +1,1405 @@
 {
 	"info": {
-		"_postman_id": "f7ee95b5-9cb9-442f-a6a9-42de46138872",
-		"name": "server",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "6fc68e3e-21aa-4cbb-864e-38eca8f95cc2",
+		"name": "LessonMatch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38421803",
+		"_collection_link": "https://group-6-9373.postman.co/workspace/webdev~45a66d7b-d2d2-4bd0-a2f7-db67756e42c9/collection/37389635-6fc68e3e-21aa-4cbb-864e-38eca8f95cc2?action=share&source=collection_link&creator=38421803"
 	},
 	"item": [
 		{
-			"name": "GET /api",
+			"name": "Create 1st user",
 			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"",
+							"pm.environment.set(\"userId_1\", jsonData.user._id);",
+							"const getUserID = pm.variables.get(\"userId_1\");",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "b58d92ec-5214-450c-adb0-28e068aa71b9",
 						"exec": [
 							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-HTTP-Method-Override",
+						"value": "GET ",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"username\": \"John DdDbbd\",\n        \"password\": \"johnbo123\", \n        \"birth_date\": \"1985-06-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"New York\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create 2nd user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"userId_2\", jsonData.user._id);",
+							"const getUserID = pm.variables.get(\"userId_2\");",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"username\": \"Jane Doeeeeeeee\",\n        \"password\": \"jane1f23\", \n        \"birth_date\": \"2012-04-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"Chicago\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create 3rd user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"userId_3\", jsonData.user._id);",
+							"const getUserID = pm.variables.get(\"userId_3\");",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"username\": \"Joen boyteee\",\n        \"password\": \"joe122623\", \n        \"birth_date\": \"2012-04-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"Boston\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a chatroom for user with given id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"chatroomId\", jsonData._id);",
+							"const getChatroomId = pm.environment.get(\"chatroomId\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user2\": \"{{userId_2}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_1}}/chatrooms",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_1}}",
+						"chatrooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new skill w",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"skillId\", jsonData._id);",
+							"const getSkillId = pm.variables.get(\"skillId\");",
+							"pm.environment.set(\"skillName\", jsonData.name);",
+							"const getSkillName = pm.variables.get(\"skillName\");",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Swimming\",\n    \"level\": 8,\n    \"category\": \"Sport\",\n    \"userId\": \"{{userId_3}}\",\n    \"isAnInterest\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/skills",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new chatroom for 2 given users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"chatroomId2\", jsonData._id);",
+							"const getChatroomId2 = pm.variables.get(\"chatroomId2\");",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user1\": \"{{userId_2}}\",  \n    \"user2\": \"{{userId_3}}\"   \n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/chatrooms",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"chatrooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"messageId\", jsonData._id);",
+							"const getMessageId = pm.variables.get(\"messageId\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"chatroomID\": \"{{chatroomId2}}\",\n    \"senderID\": \"{{userId_2}}\",\n    \"sentAt\": \"2023-09-01T14:36:12Z\",\n    \"content\": \"Hello Janeeee!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/messages",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create skill for user2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"running\",\n    \"level\": 8,\n    \"category\": \"Sport\",\n    \"userId\": \"{{userId_2}}\",\n    \"isAnInterest\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/skills",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new message for user2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"chatroomID\": \"{{chatroomId2}}\",\n    \"senderID\": \"{{userId_2}}\",\n    \"sentAt\": \"2023-09-01T14:36:12Z\",\n    \"content\": \"byeee!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/messages",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get users that have any skill within given category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has list of user objects\", () => {",
+							"",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    const firstUser = jsonData[0];",
+							"",
+							"    pm.expect(firstUser).to.have.property('username');",
+							"}); "
+						],
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"url": {
-					"raw": "{{host}}/api",
+					"raw": "{{host}}/api/v1/skills/users?categoryName=Sport",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"api"
+						"api",
+						"v1",
+						"skills",
+						"users"
+					],
+					"query": [
+						{
+							"key": "categoryName",
+							"value": "Sport"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a specific user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_1}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_1}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "66f18d19a0db4eae4a356d30",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all chatrooms for a specific user w",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": \"{{userId_2}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/chatrooms",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"chatrooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get collection of skills w",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/skills",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific message for a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has message data\", () => {",
+							"    const message = pm.response.json();",
+							"",
+							"    pm.expect(message).to.have.property('content');",
+							"    pm.expect(message.content).to.not.be.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_2}}/messages/{{messageId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_2}}",
+						"messages",
+						"{{messageId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all skills from a specific user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has skill object\", () => {",
+							"    const skill = pm.response.json();",
+							"",
+							"    pm.expect(skill).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_3}}/skills",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_3}}",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a specific message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/messages/{{messageId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"messages",
+						"{{messageId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users w",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update skill info for a user w",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"skillName\", jsonData.name);",
+							"const getSkillName = pm.variables.get(\"skillName\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Javascript\",\n    \"level\": \"4\",\n    \"category\": \"Programming\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_3}}/skills/{{skillId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_3}}",
+						"skills",
+						"{{skillId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user info w",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate the response schema for the user object\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.userId).to.not.exist;",
+							"    pm.expect(responseData.username).to.not.exist;",
+							"    pm.expect(responseData.email).to.not.exist;",
+							"    pm.expect(responseData.age).to.not.exist;",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Generate or set the userId dynamically (replace with actual user ID)",
+							"pm.environment.set(\"userId\", \"66f096a7a9d06b9210d3c134\"); // Set with the actual userId to test",
+							"",
+							"// Prepare a dynamic request body for updating user information",
+							"const userData = {",
+							"    username: \"john_doe_updated\",",
+							"    password: \"new_password123\",",
+							"    birth_date: \"1990-01-01\",",
+							"    location: { city: \"Los Angeles\", country: \"USA\" },",
+							"    skills: [\"60d21b4667d0d8992e610c85\"], // Replace with actual skill IDs",
+							"    interests: [\"coding\", \"music\", \"travel\"]",
+							"};",
+							"",
+							"// Set the dynamic request body",
+							"pm.environment.set(\"userUpdateData\", JSON.stringify(userData));",
+							"",
+							"// Logging for debugging",
+							"console.log(\"User ID: \" + pm.environment.get(\"userId\"));",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"saraJBdgbdfrth\",\n  \"password\": \"newpassword123\",\n  \"birth_date\": \"2000-05-15\",\n  \"location\": {\n    \"city\": \"Gothenburg\",\n    \"country\": \"Sweden\"\n  },\n  \"skills\": [],\n  \"interests\": []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_1}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update specific skill info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const jsonData = pm.response.json();",
+							"pm.environment.set(\"skillName\", jsonData.name);",
+							"const getSkillName = pm.variables.get(\"skillName\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"hunting\",\n    \"level\": 5,\n    \"category\": \"Sport\",\n    \"isAnInterest\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/skills/{{skillId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"skills",
+						"{{skillId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user location",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has updated location object\", () => {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    const requestBody = JSON.parse(pm.request.body.raw);",
+							"",
+							"    pm.expect(jsonData.country).to.eql(requestBody.newCountry);",
+							"    pm.expect(jsonData.city).to.eql(requestBody.newCity);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"newCity\": \"Copenhagen\",\n    \"newCountry\": \"Denmark\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_1}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user skill level",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has updated skill object\", () => {",
+							"    const jsonData = pm.response.json();",
+							"",
+							"    const requestBody = JSON.parse(pm.request.body.raw);",
+							"",
+							"    pm.expect(jsonData.level).to.eql(requestBody.newLevel);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"skillName\": \"{{skillName}}\",\n    \"newLevel\": 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_3}}/skills",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_3}}",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update message content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"newContent\": \"Hello Januufuee againn!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/messages/{{messageId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"messages",
+						"{{messageId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all skills from user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is an empty list\", () => {",
+							"    const responseBody = pm.response.json();",
+							"    ",
+							"    pm.expect(responseBody).to.be.an('array').that.is.empty;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_3}}/skills",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_3}}",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a message",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/messages/{{messageId}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"messages",
+						"{{messageId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all messages from a chatroom",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is an empty list\", () => {",
+							"    const responseBody = pm.response.json();",
+							"    ",
+							"    pm.expect(responseBody).to.be.an('array');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/chatrooms/{{chatroomId}}/messages/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"chatrooms",
+						"{{chatroomId}}",
+						"messages",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all messages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/messages",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete chatroom for specific user w",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is OK\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData).to.have.property('user1');",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/chatrooms/{{chatroomId}}/users/{{userId_2}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"chatrooms",
+						"{{chatroomId}}",
+						"users",
+						"{{userId_2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all skills",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/skills",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"skills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is OK\", () => {",
+							"",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response body is deleted user\", () => {",
+							"    const responseBody = pm.response.json();",
+							"    ",
+							"    pm.expect(responseBody).to.be.an('object');",
+							"    pm.expect(responseBody).to.have.property('location');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/users/{{userId_1}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"{{userId_1}}"
 					]
 				}
 			},
@@ -45,8 +1410,8 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "05864cff-5cba-4070-bac3-a59328954ebf",
 				"type": "text/javascript",
+				"packages": {},
 				"exec": [
 					""
 				]
@@ -55,21 +1420,12 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e9c319be-3306-4fc5-ba34-fcf64391213a",
 				"type": "text/javascript",
+				"packages": {},
 				"exec": [
 					""
 				]
 			}
 		}
-	],
-	"variable": [
-		{
-			"id": "cd185905-a834-4211-8030-583d17702534",
-			"key": "host",
-			"value": "http://localhost:3000",
-			"type": "string"
-		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
