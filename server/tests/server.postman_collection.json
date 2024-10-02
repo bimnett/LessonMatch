@@ -3,8 +3,8 @@
 		"_postman_id": "6fc68e3e-21aa-4cbb-864e-38eca8f95cc2",
 		"name": "LessonMatch",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38421803",
-		"_collection_link": "https://group-6-9373.postman.co/workspace/webdev~45a66d7b-d2d2-4bd0-a2f7-db67756e42c9/collection/37389635-6fc68e3e-21aa-4cbb-864e-38eca8f95cc2?action=share&source=collection_link&creator=38421803"
+		"_exporter_id": "38349166",
+		"_collection_link": "https://group-6-9373.postman.co/workspace/webdev~45a66d7b-d2d2-4bd0-a2f7-db67756e42c9/collection/37389635-6fc68e3e-21aa-4cbb-864e-38eca8f95cc2?action=share&source=collection_link&creator=38349166"
 	},
 	"item": [
 		{
@@ -23,7 +23,11 @@
 							"pm.environment.set(\"userId_1\", jsonData.user._id);",
 							"const getUserID = pm.variables.get(\"userId_1\");",
 							"",
+							"pm.environment.set(\"username\", jsonData.user.username);",
+							"const getUsername = pm.variables.get(\"username\");",
 							"",
+							"pm.environment.set(\"password\", jsonData.user.password);",
+							"const getPassword = pm.variables.get(\"password\");",
 							""
 						],
 						"type": "text/javascript",
@@ -111,7 +115,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n        \"username\": \"Jane Doeeeeeeee\",\n        \"password\": \"jane1f23\", \n        \"birth_date\": \"2012-04-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"Chicago\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
+					"raw": "{\n        \"username\": \"Jane Doeeeeeeeee\",\n        \"password\": \"jane1f23\", \n        \"birth_date\": \"2012-04-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"Chicago\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -169,7 +173,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n        \"username\": \"Joen boyteee\",\n        \"password\": \"joe122623\", \n        \"birth_date\": \"2012-04-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"Boston\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
+					"raw": "{\n        \"username\": \"Joen boyyteee\",\n        \"password\": \"joe122623\", \n        \"birth_date\": \"2012-04-23T18:25:43.511Z\", \n        \"location\": { \"city\": \"Boston\", \"country\": \"USA\" },\n        \"skills\": [],\n        \"interests\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -185,6 +189,48 @@
 						"api",
 						"v1",
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log in existing user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"login"
 					]
 				}
 			},
@@ -266,7 +312,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Swimming\",\n    \"level\": 8,\n    \"category\": \"Sport\",\n    \"userId\": \"{{userId_3}}\",\n    \"isAnInterest\": false\n}",
+					"raw": "{\n    \"name\": \"Dancing\",\n    \"level\": 8,\n    \"category\": \"Music\",\n    \"userId\": \"{{userId_3}}\",\n    \"isAnInterest\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -401,7 +447,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"running\",\n    \"level\": 8,\n    \"category\": \"Sport\",\n    \"userId\": \"{{userId_2}}\",\n    \"isAnInterest\": false\n}",
+					"raw": "{\n    \"name\": \"Leaping\",\n    \"level\": 8,\n    \"category\": \"Sport\",\n    \"userId\": \"{{userId_2}}\",\n    \"isAnInterest\": false\n}",
 					"options": {
 						"raw": {
 							"language": "json"
