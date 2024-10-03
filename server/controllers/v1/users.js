@@ -5,6 +5,26 @@ const User = require('../../models/user');
 const Skill = require('../../models/skill');
 const Message = require('../../models/message');
 
+// POST endpoint - Logs in an already existing user
+router.post('/login', async (req, res, next) => {
+    try {
+        const {username, password} = req.body;
+        const user = await User.findOne({username: username});
+
+        if (!user) {
+            return res.status(404).json("There is no user with that username.");
+        };
+        if (password !== user.password){
+            return res.status(401).json("Incorrect credentials, try again.")
+        };
+
+        res.status(200).json(user._id);
+
+    } catch (error){
+        next(error);
+    };
+});
+
 // GET endpoint to retrieve all users
 router.get('/users', (req, res) => {
     User.find() 
