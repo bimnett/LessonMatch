@@ -24,7 +24,7 @@
   </template>
   
   <script>
-  import axios from 'axios';
+  import { Api } from '@/Api';  
   import UpdateProfileForm from '@/components/UpdateProfileForm.vue';
   
   export default {
@@ -53,7 +53,7 @@
           const userId = localStorage.getItem('userId');
           if (!userId) throw new Error('User not found');
           
-          const response = await axios.put(`/api/users/${userId}`, updatedData);
+          const response = await Api.put(`/users/${userId}`, updatedData);
           if (response.status === 200) {
             this.form = updatedData; // Update the local form data
             this.$bvToast.toast('Profile updated successfully!', {
@@ -73,12 +73,20 @@
         }
       }
     },
-    mounted() {
+    async mounted() {
+      try {
       const userId = localStorage.getItem('userId');
-      axios.get(`/api/users/${userId}`).then((response) => {
-        this.form = response.data;
+      const response = await Api.get(`/users/${userId}`);
+      this.form = response.data;
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      this.$bvToast.toast('Error fetching user data', {
+        title: 'Error',
+        variant: 'danger',
+        solid: true
       });
     }
-  };
+  }
+};
   </script>
   

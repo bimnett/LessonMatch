@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import { updateUserProfile } from '@/Api'; 
 export default {
   props: {
     initialFormData: {
@@ -57,13 +58,30 @@ export default {
     };
   },
   methods: {
-    submitUpdate() {
-      this.$emit('update-profile', this.form); 
+    async submitUpdate() {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+          throw new Error('User ID not found');
+        }
+        
+        // Call the update function from the API
+        const response = await updateUserProfile(userId, this.form);
+        
+        // Emit the updated data back to the parent component
+        this.$emit('update-profile', response);
+      } catch (error) {
+        console.error('Error updating profile:', error);
+        this.$bvToast.toast('Error updating profile', {
+          title: 'Error',
+          variant: 'danger',
+          solid: true
+        });
+      }
     }
   }
 };
 </script>
-
 
 <style scoped>
 .update-profile-form {
