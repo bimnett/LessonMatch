@@ -32,3 +32,25 @@ export const logInUser = (username, password) => {
     console.log(error);
 });
 };
+export const updateUserProfile = (userId, formData) => {
+  return Api.put(`/api/v1/users/${userId}`, formData)
+    .then(response => {
+      console.log(response.data);
+      return response.data; 
+    })
+    .catch(error => {
+      console.log(error);
+      throw error; 
+    });
+};
+export const getUserProfile = (userId) => {
+  return Api.get(`/api/v1/users/${userId}`)
+    .then(response => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch(error => {
+      console.log(error);
+      throw error; 
+    });
+};
