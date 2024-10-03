@@ -1,7 +1,7 @@
 <template>
   <div class="update-profile-form">
     <h2>Update Profile</h2>
-    <b-form @submit.prevent="updateProfile">
+    <b-form @submit.prevent="submitUpdate">
       <div class="form-group">
         <label for="username">Username:</label>
         <input v-model="form.username" type="text" id="username" required />
@@ -37,75 +37,33 @@
         <input v-model="form.interests" type="text" id="interests" placeholder="Comma-separated interests" />
       </div>
 
-      <b-button type="submit" variant="primary">Update Profile</b-button>
+      <b-button type="submit" variant="primary">Save Changes</b-button>
+      <b-button variant="secondary" @click="$emit('cancel-edit')">Cancel</b-button>
     </b-form>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-  props: ['initialFormData'],
+  props: {
+    initialFormData: {
+      type: Object,
+      required: true,
+    }
+  },
   data() {
     return {
-      form: {
-        username: '',
-        password: '',
-        birth_date: '',
-        location: {
-          city: '',
-          country: ''
-        },
-        skills: '',
-        interests: ''
-      }
+      form: { ...this.initialFormData } 
     };
   },
-  watch: {
-    initialFormData: {
-      immediate: true,
-      handler(newData) {
-        this.form = { ...newData };
-      }
-    }
-  },
   methods: {
-    async updateProfile() {
-      try {
-        const userId = localStorage.getItem('userId');
-
-        if (!userId) {
-          throw new Error('User not found');
-        }
-
-        const response = await axios.put(`/api/users/${userId}`, this.form);
-        if (response.status === 200) {
-          this.$bvToast.toast('Profile updated successfully!', {
-            title: 'Success',
-            variant: 'success',
-            solid: true
-          });
-          this.$router.push('/profile');
-        }
-      } catch (error) {
-        console.error('Error updating profile:', error);
-        this.$bvToast.toast('Error updating profile', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        });
-      }
+    submitUpdate() {
+      this.$emit('update-profile', this.form); 
     }
-  },
-  mounted() {
-    const userId = localStorage.getItem('userId');
-    axios.get(`/api/users/${userId}`).then((response) => {
-      this.form = response.data;
-    });
   }
 };
 </script>
+
 
 <style scoped>
 .update-profile-form {
