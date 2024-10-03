@@ -1,38 +1,58 @@
 <template>
-    <div>
-        <SignUpForm @form-data="postNewUser" />
-        <div v-if="formData.name">
-            {{ formData }}
-        </div>
+    <div class = "sign-up-form">
+        <h1>Sign Up Page</h1>
+        <form v-on:submit.prevent="register">
+            <input v-model="username" type="text" placeholder="Username" required />
+            <input v-model="password" type="password" placeholder="Password" required />
+            <input v-model="birth_date" type="date" placeholder="Birth Date" required />
+            <input v-model="location.city" type="text" placeholder="City" required />
+            <input v-model="location.country" type="text" placeholder="Country" required />
+            <button type="submit">Sign up</button>
+        </form>
     </div>
 </template>
 
 <script>
-import SignUpForm from '@/components/SignUpForm.vue'
+import { registerUser } from '@/Api';
 
 export default {
-    name: 'SignUp',
-    components: {
-        SignUpForm
-    },
+    name: 'Sign Up',
     data() {
         return {
-            formData: {
-                name: '',
-                email: '',
-                password: ''
+            username: '',
+            password: '',
+            birth_date: '',
+            location: {
+                city: '',
+                country: ''
             }
-        }
+        };
     },
-    methods: {
-        async postNewUser(formData){
-            // Send request to create a new user
-            this.formData = formData;
+  methods: {
+    async register() {
+        try {
+            const registrationResponse = await registerUser(
+                this.username,
+                this.password,
+                this.birth_date,
+                this.location
+            );
+            console.log('Registration successful:', registrationResponse);
+            const loginResponse = await logInUser(
+                this.username,
+                this.password
+            );
+            console.log('Log-In successful:');
+            const userId = loginResponse.data;
+            localStorage.setItem('userId', userId);
+        } catch (error) {
+            console.error(error);
         }
     }
-}
+  }
+};
 </script>
 
-
 <style scoped>
+
 </style>
