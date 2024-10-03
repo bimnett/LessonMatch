@@ -8,10 +8,10 @@
 export default {
   methods: {
     navigateToProfile() {
-      this.$router.push('/profile');
+      this.$router.push('/profile')
     }
   }
-};
+}
 </script>
 
 <style scoped>

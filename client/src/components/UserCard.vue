@@ -1,17 +1,16 @@
 <template>
     <div>
-        
+
     </div>
 </template>
 
 <script>
 
 export default {
-    name: 'UserCard',
-    
+  name: 'UserCard'
+
 }
 </script>
-
 
 <style scoped>
 </style>

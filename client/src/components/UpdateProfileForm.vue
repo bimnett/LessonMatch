@@ -44,43 +44,43 @@
 </template>
 
 <script>
-import { updateUserProfile } from '@/Api'; 
+import { updateUserProfile } from '@/Api'
 export default {
   props: {
     initialFormData: {
       type: Object,
-      required: true,
+      required: true
     }
   },
   data() {
     return {
-      form: { ...this.initialFormData } 
-    };
+      form: { ...this.initialFormData }
+    }
   },
   methods: {
     async submitUpdate() {
       try {
-        const userId = localStorage.getItem('userId');
+        const userId = localStorage.getItem('userId')
         if (!userId) {
-          throw new Error('User ID not found');
+          throw new Error('User ID not found')
         }
-        
+
         // Call the update function from the API
-        const response = await updateUserProfile(userId, this.form);
-        
+        const response = await updateUserProfile(userId, this.form)
+
         // Emit the updated data back to the parent component
-        this.$emit('update-profile', response);
+        this.$emit('update-profile', response)
       } catch (error) {
-        console.error('Error updating profile:', error);
+        console.error('Error updating profile:', error)
         this.$bvToast.toast('Error updating profile', {
           title: 'Error',
           variant: 'danger',
           solid: true
-        });
+        })
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>

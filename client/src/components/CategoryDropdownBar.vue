@@ -8,30 +8,30 @@
       </select>
     </div>
   </template>
-  
-  <script>
 
-  export default {
-    name: 'CategoryDropdownBar',
+<script>
 
-    data() {
-      return {
-        selectedCategory: '',
-        categories: [
-          'Music', 'Books', 'Movies', 'Programming', 'Sports'
-        ]
-      };
-    },
+export default {
+  name: 'CategoryDropdownBar',
 
-    methods: {
-      sendCategorySelection(category) {
-        this.$emit('category-selected', this.selectedCategory);
-      }
+  data() {
+    return {
+      selectedCategory: '',
+      categories: [
+        'Music', 'Books', 'Movies', 'Programming', 'Sports'
+      ]
     }
-  };
+  },
 
-  </script>
-  
+  methods: {
+    sendCategorySelection(category) {
+      this.$emit('category-selected', this.selectedCategory)
+    }
+  }
+}
+
+</script>
+
   <style scoped>
   .category-dropdown-bar {
     display: flex;
@@ -39,7 +39,7 @@
     align-items: center;
     padding: 10px;
   }
-  
+
   .category-dropdown {
     padding: 8px;
     font-size: 16px;

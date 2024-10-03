@@ -12,29 +12,28 @@ import UserCard from '@/components/UserCard.vue'
 import axios from 'axios'
 
 export default {
-    name: 'Search',
+  name: 'Search',
 
-    components: {
-        CategoryDropdownBar
-    },
+  components: {
+    CategoryDropdownBar
+  },
 
-    data() {
-        return {
-            selectedCategory: '',
-            users: []
-        }
-    },
+  data() {
+    return {
+      selectedCategory: '',
+      users: []
+    }
+  },
 
-    methods: {
-        async searchCategory(category) {
-            this.selectedCategory = category;
-            // await the category endpoint here
-            this.user
-        }
-    },
+  methods: {
+    async searchCategory(category) {
+      this.selectedCategory = category
+      // await the category endpoint here
+      this.user
+    }
+  }
 }
 </script>
-
 
 <style scoped>
 </style>

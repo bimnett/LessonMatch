@@ -13,44 +13,44 @@
 </template>
 
 <script>
-import { registerUser } from '@/Api';
+import { registerUser } from '@/Api'
 
 export default {
-    name: 'Sign Up',
-    data() {
-        return {
-            username: '',
-            password: '',
-            birth_date: '',
-            location: {
-                city: '',
-                country: ''
-            }
-        };
-    },
+  name: 'Sign Up',
+  data() {
+    return {
+      username: '',
+      password: '',
+      birth_date: '',
+      location: {
+        city: '',
+        country: ''
+      }
+    }
+  },
   methods: {
     async register() {
-        try {
-            const registrationResponse = await registerUser(
-                this.username,
-                this.password,
-                this.birth_date,
-                this.location
-            );
-            console.log('Registration successful:', registrationResponse);
-            const loginResponse = await logInUser(
-                this.username,
-                this.password
-            );
-            console.log('Log-In successful:');
-            const userId = loginResponse.data;
-            localStorage.setItem('userId', userId);
-        } catch (error) {
-            console.error(error);
-        }
+      try {
+        const registrationResponse = await registerUser(
+          this.username,
+          this.password,
+          this.birth_date,
+          this.location
+        )
+        console.log('Registration successful:', registrationResponse)
+        const loginResponse = await logInUser(
+          this.username,
+          this.password
+        )
+        console.log('Log-In successful:')
+        const userId = loginResponse.data
+        localStorage.setItem('userId', userId)
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
-};
+}
 </script>
 
 <style scoped>

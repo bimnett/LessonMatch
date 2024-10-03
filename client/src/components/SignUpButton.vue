@@ -9,6 +9,6 @@
 <script>
 
 export default {
-    name: 'SignUpButton',
+  name: 'SignUpButton'
 }
 </script>
