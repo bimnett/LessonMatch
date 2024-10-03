@@ -45,6 +45,8 @@ export default {
             console.log('Log-In successful:');
             const userId = loginResponse.data;
             localStorage.setItem('userId', userId);
+
+            this.$router.push('/');
         } catch (error) {
             console.error(error);
         }
