@@ -24,7 +24,7 @@
   </template>
   
   <script>
-  import { Api } from '@/Api';  
+  import { getUserProfile, updateUserProfile} from '@/Api';  
   import UpdateProfileForm from '@/components/UpdateProfileForm.vue';
   
   export default {
@@ -53,14 +53,13 @@
           const userId = localStorage.getItem('userId');
           if (!userId) throw new Error('User not found');
           
-          const response = await Api.put(`/users/${userId}`, updatedData);
-          if (response.status === 200) {
-            this.form = updatedData; // Update the local form data
-            this.$bvToast.toast('Profile updated successfully!', {
-              title: 'Success',
-              variant: 'success',
-              solid: true
-            });
+          await updateUserProfile(userId, updatedData);
+        this.form = updatedData; 
+        this.$bvToast.toast('Profile updated successfully!', {
+          title: 'Success',
+          variant: 'success',
+          solid: true
+        });
             this.editMode = false; 
           }
         } catch (error) {
@@ -76,8 +75,8 @@
     async mounted() {
       try {
       const userId = localStorage.getItem('userId');
-      const response = await Api.get(`/users/${userId}`);
-      this.form = response.data;
+      const response = await getUserProfile(userId);
+      this.form = response;
     } catch (error) {
       console.error('Error fetching user data:', error);
       this.$bvToast.toast('Error fetching user data', {
@@ -87,6 +86,6 @@
       });
     }
   }
-};
+;
   </script>
   
