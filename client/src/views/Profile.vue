@@ -4,7 +4,7 @@
   
       <div v-if="!editMode">
         <p><strong>Username:</strong> {{ form.username }}</p>
-        <p><strong>Email:</strong> {{ form.email }}</p>
+        <p><strong>Password:</strong> {{ form.password }}</p>
         <p><strong>Birth Date:</strong> {{ form.birth_date }}</p>
         <p><strong>City:</strong> {{ form.location.city }}</p>
         <p><strong>Country:</strong> {{ form.location.country }}</p>
