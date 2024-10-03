@@ -11,7 +11,7 @@
         <p><strong>Skills:</strong> {{ form.skills }}</p>
         <p><strong>Interests:</strong> {{ form.interests }}</p>
 
-        <UpdateProfileButton @toggle-edit="editMode = true" />
+        <b-button @click="editMode = true" variant="link">Edit Profile</b-button>
       </div>
   
       <div v-else>
@@ -26,19 +26,17 @@
   <script>
   import axios from 'axios';
   import UpdateProfileForm from '@/components/UpdateProfileForm.vue';
-  import UpdateProfileButton from '@/components/UpdateProfileButton.vue';
   
   export default {
     components: {
       UpdateProfileForm,
-      UpdateProfileButton
     },
     data() {
       return {
         editMode: false,
         form: {
           username: '',
-          email: '',
+          password: '',
           birth_date: '',
           location: {
             city: '',
