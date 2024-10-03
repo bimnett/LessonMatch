@@ -30,24 +30,26 @@ export default {
   },
   methods: {
     async register() {
-      try {
-        const registrationResponse = await registerUser(
-          this.username,
-          this.password,
-          this.birth_date,
-          this.location
-        )
-        console.log('Registration successful:', registrationResponse)
-        const loginResponse = await logInUser(
-          this.username,
-          this.password
-        )
-        console.log('Log-In successful:')
-        const userId = loginResponse.data
-        localStorage.setItem('userId', userId)
-      } catch (error) {
-        console.error(error)
-      }
+        try {
+            const registrationResponse = await registerUser(
+                this.username,
+                this.password,
+                this.birth_date,
+                this.location
+            );
+            console.log('Registration successful:', registrationResponse);
+            const loginResponse = await logInUser(
+                this.username,
+                this.password
+            );
+            console.log('Log-In successful:');
+            const userId = loginResponse.data;
+            localStorage.setItem('userId', userId);
+
+            this.$router.push('/');
+        } catch (error) {
+            console.error(error);
+        }
     }
   }
 }
