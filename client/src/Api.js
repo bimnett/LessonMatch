@@ -5,7 +5,7 @@ export const Api = axios.create({
 })
 
 export const registerUser = (username, password, birth_date, location) => {
-  return axios.post('/api/v1/users', {
+  return Api.post('/v1/users', {
     username,
     password,
     birth_date,
@@ -13,6 +13,7 @@ export const registerUser = (username, password, birth_date, location) => {
   })
     .then(response => {
       console.log(response.data)
+      return response;
     })
     .catch(error => {
       console.log(error)
@@ -20,12 +21,15 @@ export const registerUser = (username, password, birth_date, location) => {
 }
 
 export const logInUser = (username, password) => {
-  return axios.post('/api/v1/login', {
+  return Api.post('/v1/login', {
     username,
     password
   })
     .then(response => {
-      console.log(response.data)
+      console.log('User ID created')
+      const userId = response.data;
+      localStorage.setItem('userId', userId);
+      return response;
     })
     .catch(error => {
       console.log(error)

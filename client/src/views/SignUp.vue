@@ -14,6 +14,7 @@
 
 <script>
 import { registerUser } from '@/Api'
+import { logInUser } from '@/Api'
 
 export default {
   name: 'Sign Up',
@@ -31,22 +32,23 @@ export default {
   methods: {
     async register() {
         try {
-            const registrationResponse = await registerUser(
+            await registerUser(
                 this.username,
                 this.password,
                 this.birth_date,
                 this.location
             );
-            console.log('Registration successful:', registrationResponse);
-            const loginResponse = await logInUser(
+            console.log('Registration successful');
+            await logInUser(
                 this.username,
                 this.password
             );
-            console.log('Log-In successful:');
-            const userId = loginResponse.data;
-            localStorage.setItem('userId', userId);
+            console.log('Log-In successful');
+
+            // TODO - Implement HATEOAS
 
             this.$router.push('/');
+            
         } catch (error) {
             console.error(error);
         }
