@@ -57,6 +57,7 @@ export const getUserProfile = (userId) => {
       throw error
     })
 }
+
 export const deleteUserProfile = (userId) => {
   return Api.delete(`/api/v1/users/${userId}`)
     .then(response => {

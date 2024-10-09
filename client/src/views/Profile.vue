@@ -8,8 +8,8 @@
       <p><strong>Birth Date:</strong> {{ form.birth_date }}</p>
       <p><strong>City:</strong> {{ form.location.city }}</p>
       <p><strong>Country:</strong> {{ form.location.country }}</p>
-      <p><strong>Skills:</strong> {{ form.skills }}</p>
-      <p><strong>Interests:</strong> {{ form.interests }}</p>
+      <p><strong>Skills:</strong> <ul> <li v-for= "skill in skills :key="skill._id>{{ skill.name }} (Level: {{ skill.level }}, Category: {{ skill.category }})</li></ul></p>
+      <p><strong>Interests:</strong> <ul> <li v-for= "interest in interests :key="interest._id>{{ interest.name }} (Level: {{ interest.level }}, Category: {{ interest.category }})</li></ul></p>
 
       <b-button @click="editMode = true" variant="link">Edit Profile</b-button>
       <div>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { getUserProfile, updateUserProfile, deleteUserProfile } from '@/Api'
+import { getUserProfile, updateUserProfile, deleteUserProfile, getUserSkills, getUserInterests } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
 
 export default {
@@ -62,9 +62,11 @@ export default {
           city: '',
           country: ''
         },
-        skills: '',
-        interests: ''
-      }
+        skills: [],
+        interests: []
+      },
+      skills: [],
+      interests: []
     }
   },
   methods: {
@@ -116,6 +118,22 @@ export default {
     cancelDelete() {
       this.showConfirmDelete = false
       this.confirmedDelete = false
+    },
+    async fetchSkillsAndInterests(userId) {
+      try {
+        const skillsResponse = await getUserSkills(userId)
+        this.skills = skillsResponse
+
+        const interestsResponse = await getUserInterests(userId)
+        this.interests = interestsResponse
+      } catch (error) {
+        console.error('Error fetching skills or interests:', error)
+        this.$bvToast.toast('Error fetching skills or interests', {
+          title: 'Error',
+          variant: 'danger',
+          solid: true
+        })
+      }
     }
   },
   async mounted() {
@@ -123,6 +141,7 @@ export default {
       const userId = localStorage.getItem('userId')
       const response = await getUserProfile(userId)
       this.form = response// Set the form data with the response data
+      await this.fetchSkillsAndInterests(userId)
     } catch (error) {
       console.error('Error fetching user data:', error)
       this.$bvToast.toast('Error fetching user data', {
