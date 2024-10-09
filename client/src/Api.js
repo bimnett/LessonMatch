@@ -13,7 +13,7 @@ export const registerUser = (username, password, birth_date, location) => {
   })
     .then(response => {
       console.log(response.data)
-      return response;
+      return response
     })
     .catch(error => {
       console.log(error)
@@ -27,9 +27,9 @@ export const logInUser = (username, password) => {
   })
     .then(response => {
       console.log('User ID created')
-      const userId = response.data;
-      localStorage.setItem('userId', userId);
-      return response;
+      const userId = response.data
+      localStorage.setItem('userId', userId)
+      return response
     })
     .catch(error => {
       console.log(error)
