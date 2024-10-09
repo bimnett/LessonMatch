@@ -12,6 +12,7 @@
       <p><strong>Interests:</strong> {{ form.interests }}</p>
 
       <b-button @click="editMode = true" variant="link">Edit Profile</b-button>
+      
     </div>
 
     <div v-else>
@@ -74,6 +75,7 @@ export default {
         });
       }
     }
+
   },
   async mounted() {
     try {

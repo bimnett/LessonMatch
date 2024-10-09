@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 export const Api = axios.create({
   baseURL: import.meta.env.VITE_API_ENDPOINT || 'http://localhost:3000/api'
@@ -48,6 +48,17 @@ export const updateUserProfile = (userId, formData) => {
 }
 export const getUserProfile = (userId) => {
   return Api.get(`/api/v1/users/${userId}`)
+    .then(response => {
+      console.log(response.data)
+      return response.data
+    })
+    .catch(error => {
+      console.log(error)
+      throw error
+    })
+}
+export const DeleteUserProfile = (userId) => {
+  return Api.delete(`/api/v1/users/${userId}`)
     .then(response => {
       console.log(response.data)
       return response.data
