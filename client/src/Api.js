@@ -57,6 +57,30 @@ export const getUserProfile = (userId) => {
       throw error
     })
 }
+export const getUserSkills = (userId) => {
+  return Api.get(`/api/v1/users/${userId}/skills`)
+    .then(response => {
+      console.log(response.data)
+      const skills = response.data.filter(skill => skill.isAnInterest === false)
+      return skills
+    })
+    .catch(error => {
+      console.log(error)
+      throw error
+    })
+}
+export const getUserinterests = (userId) => {
+  return Api.get(`/api/v1/users/${userId}/skills`)
+    .then(response => {
+      console.log(response.data)
+      const interests = response.data.filter(skill => skill.isAnInterest === true)
+      return interests
+    })
+    .catch(error => {
+      console.log(error)
+      throw error
+    })
+}
 
 export const deleteUserProfile = (userId) => {
   return Api.delete(`/api/v1/users/${userId}`)
