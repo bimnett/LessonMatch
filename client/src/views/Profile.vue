@@ -12,7 +12,25 @@
       <p><strong>Interests:</strong> {{ form.interests }}</p>
 
       <b-button @click="editMode = true" variant="link">Edit Profile</b-button>
-      <b-button @click="confirmDeleteprofile" varient="danger">Delete Profile</b-button>
+      <div>
+        <b-button @click="showConfirmDelete = !showConfirmDelete" variant="danger">Delete Profile</b-button>
+
+           <div v-show="showConfirmDelete" class="mt-2">
+          <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
+          <b-button
+            @click="confirmDeleteProfile"
+            variant="danger"
+            :disabled="!confirmedDelete"
+          >Yes, Delete My Profile</b-button>
+
+          <b-button @click="cancelDelete" variant="secondary">Cancel</b-button>
+
+              <div class="mt-2">
+            <b-form-checkbox v-model="confirmedDelete">I understand the consequences.</b-form-checkbox>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div v-else>
@@ -26,7 +44,7 @@
 </template>
 
 <script>
-import { getUserProfile, updateUserProfile, DeleteUserProfile } from '@/Api'
+import { getUserProfile, updateUserProfile, deleteUserProfile } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
 
 export default {
@@ -73,26 +91,19 @@ export default {
         })
       }
     },
-    async confirmDeleteprofile() {
-      const confirmed = confirm('Are you sure you want to delete your profile? This action is irreversible.')
-
-      if (confirmed) {
-        await this.handleDeleteProfile()
-      }
-    },
-    async handleDeleteProfile() {
+    async confirmDeleteProfile() {
       try {
         const userId = localStorage.getItem('userId')
         if (!userId) throw new Error('User not found')
 
-        await DeleteUserProfile(userId)
+        await deleteUserProfile(userId)
 
         this.$bvToast.toast('Profile delted successfully!', {
           title: 'Success',
           variant: 'success',
           solid: true
         })
-        this.$router.push('/signup')
+        this.$router.push({ name: 'Home' })
       } catch (error) {
         console.error('Error deleting profile:', error)
         this.$bvToast.toast('Error deleting Profile', {
@@ -101,6 +112,10 @@ export default {
           solid: true
         })
       }
+    },
+    cancelDelete() {
+      this.showConfirmDelete = false
+      this.confirmedDelete = false
     }
   },
   async mounted() {
