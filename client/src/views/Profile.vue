@@ -12,7 +12,7 @@
       <p><strong>Interests:</strong> {{ form.interests }}</p>
 
       <b-button @click="editMode = true" variant="link">Edit Profile</b-button>
-      
+      <b-button @click="confirmDeleteprofile" varient="danger">Delete Profile</b-button>
     </div>
 
     <div v-else>
