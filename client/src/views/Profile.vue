@@ -26,8 +26,9 @@
 </template>
 
 <script>
-import { getUserProfile, updateUserProfile } from '@/Api';  
+import { getUserProfile, updateUserProfile, DeleteUserProfile } from '@/Api';  
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue';
+import { M } from 'vite/dist/node/types.d-aGj9QkWt';
 
 export default {
   components: {
@@ -75,7 +76,35 @@ export default {
         });
       }
     }
+    async confirmDeleteprofile(){
+      const confirmed = confirm ("Are you sure you want to delete your profile? This action is irreversible.");
+    
+      if (confirmed){
+        await this.handleDeleteProfile();
+      }
+    },
+    async handleDeleteProfile(){
+      try{
+        const userId = localStorage.getItem('userId');
+        if(!userId)throw new Error('User not found');
 
+        await DeleteUserProfile(userId);
+
+        this.$bvToast.toast('Profile delted successfully!',{
+        title: 'Success',
+        variant:'success',
+        solid: true
+        });
+        this.$router.push('/signup');
+      } catch (error) {
+        console.error('Error deleting profile:', error);
+        this.$bvToast.toast('Error deleting Profile',{
+          title: 'Error',
+          variant: 'danger',
+          solid: true
+        });
+      }
+    }
   },
   async mounted() {
     try {
