@@ -8,8 +8,8 @@
       <p><strong>Birth Date:</strong> {{ form.birth_date }}</p>
       <p><strong>City:</strong> {{ form.location.city }}</p>
       <p><strong>Country:</strong> {{ form.location.country }}</p>
-      <p><strong>Skills:</strong> <ul> <li v-for= "skill in skills :key="skill._id>{{ skill.name }} (Level: {{ skill.level }}, Category: {{ skill.category }})</li></ul></p>
-      <p><strong>Interests:</strong> <ul> <li v-for= "interest in interests :key="interest._id>{{ interest.name }} (Level: {{ interest.level }}, Category: {{ interest.category }})</li></ul></p>
+      <p><strong>Skills:</strong> <ul> <li v-for= "skill in skills" :key="skill._id">{{ skill.name }} (Level: {{ skill.level }}, Category: {{ skill.category }})</li></ul></p>
+      <p><strong>Interests:</strong> <ul> <li v-for= "interest in interests" :key="interest._id">{{ interest.name }} (Level: {{ interest.level }}, Category: {{ interest.category }})</li></ul></p>
 
       <b-button @click="editMode = true" variant="link">Edit Profile</b-button>
       <div>
