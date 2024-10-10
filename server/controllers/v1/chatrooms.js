@@ -68,6 +68,25 @@ router.get('/chatrooms', (req, res) => {
     });
 });
 
+
+// Get a specific chatroom
+router.get('/chatrooms/:id', async (req, res, next) => {
+
+    try {
+        const chatroomId = req.params.id;
+
+        const chatroom = await Chatroom.findById(chatroomId).populate('messages');
+
+        if(!chatroom){
+            return res.status(400).json({ error: "Chatroom not found" });
+        }
+
+        res.status(200).json(chatroom);
+    } catch(err){
+        next(err);
+    }
+});
+
 //Delete endpoint to delete a specific chatroom for a specific user
 router.delete('/chatrooms/:chatroomId/users/:userId', async function(req,res,next){
 

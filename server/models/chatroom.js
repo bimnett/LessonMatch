@@ -13,7 +13,13 @@ const chatroomSchema = new Schema ({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    messages: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Message'
+        }
+    ]
 });
 
 // Ensure combination of fields is unique
