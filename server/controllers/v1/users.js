@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../../models/user');
 const Skill = require('../../models/skill');
 const Message = require('../../models/message');
+const Chatroom = require('../../models/chatroom');
 
 // POST endpoint - Logs in an already existing user
 router.post('/login', async (req, res, next) => {
@@ -251,6 +252,35 @@ router.get('/users/:id', async (req, res, next) => {
     } catch (error) {
         next(error);
     };
+});
+
+
+// GET endpoint to retrieve all chatrooms for a specific user
+router.get('/users/:id/chatrooms/', (req, res, next) => {
+    const userId  = req.params.id; 
+
+    if (!userId) {
+        return res.status(400).json({ message: "User ID is required." });
+    }
+
+    Chatroom.find({
+        $or: [
+            { user1: userId },
+            { user2: userId }
+        ]
+    })
+    .populate('user1', 'username location skills interests') 
+    .populate('user2', 'username location skills interests') 
+    .then(chatrooms => {
+        if (chatrooms.length === 0) {
+            return res.status(404).json({ message: "No chatrooms found for this user." });
+        }
+
+        res.status(200).json({ chatrooms: chatrooms });
+    })
+    .catch(error => {
+        next(error);
+    });
 });
 
 
