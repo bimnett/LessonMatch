@@ -23,8 +23,11 @@
 							"pm.environment.set(\"userId_1\", jsonData.user._id);",
 							"const getUserID = pm.variables.get(\"userId_1\");",
 							"",
+							"pm.environment.set(\"username\", jsonData.user.username);",
+							"const getUsername = pm.variables.get(\"username\");",
 							"",
-							""
+							"pm.environment.set(\"password\", jsonData.user.password);",
+							"const getPassword = pm.variables.get(\"password\");"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -645,26 +648,6 @@
 			"response": []
 		},
 		{
-			"name": "Get specific chatroom",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/api/v1/chatrooms/{{chatroomId2}}",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"api",
-						"v1",
-						"chatrooms",
-						"{{chatroomId2}}"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Get collection of skills w",
 			"event": [
 				{
@@ -845,6 +828,26 @@
 						"api",
 						"v1",
 						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific chatroom",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/chatrooms/{{chatroomId2}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"chatrooms",
+						"{{chatroomId2}}"
 					]
 				}
 			},
