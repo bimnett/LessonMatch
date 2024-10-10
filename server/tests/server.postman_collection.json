@@ -3,8 +3,8 @@
 		"_postman_id": "6fc68e3e-21aa-4cbb-864e-38eca8f95cc2",
 		"name": "LessonMatch",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38349166",
-		"_collection_link": "https://group-6-9373.postman.co/workspace/webdev~45a66d7b-d2d2-4bd0-a2f7-db67756e42c9/collection/37389635-6fc68e3e-21aa-4cbb-864e-38eca8f95cc2?action=share&source=collection_link&creator=38349166"
+		"_exporter_id": "37389635",
+		"_collection_link": "https://group-6-9373.postman.co/workspace/webdev~45a66d7b-d2d2-4bd0-a2f7-db67756e42c9/collection/37389635-6fc68e3e-21aa-4cbb-864e-38eca8f95cc2?action=share&source=collection_link&creator=37389635"
 	},
 	"item": [
 		{
@@ -23,11 +23,7 @@
 							"pm.environment.set(\"userId_1\", jsonData.user._id);",
 							"const getUserID = pm.variables.get(\"userId_1\");",
 							"",
-							"pm.environment.set(\"username\", jsonData.user.username);",
-							"const getUsername = pm.variables.get(\"username\");",
 							"",
-							"pm.environment.set(\"password\", jsonData.user.password);",
-							"const getPassword = pm.variables.get(\"password\");",
 							""
 						],
 						"type": "text/javascript",
@@ -643,6 +639,26 @@
 						"api",
 						"v1",
 						"chatrooms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get specific chatroom",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/chatrooms/{{chatroomId2}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"chatrooms",
+						"{{chatroomId2}}"
 					]
 				}
 			},

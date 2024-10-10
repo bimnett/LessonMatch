@@ -8,7 +8,7 @@ const Chatroom = require('../../models/chatroom');
 router.post('/messages', async (req, res, next) => {
     try {
 
-        const chatroomID = req.body;
+        const chatroomID = req.body.chatroomID;
 
         const message = new Message(req.body);
         await message.save();
@@ -16,7 +16,7 @@ router.post('/messages', async (req, res, next) => {
         // Update messages attribute in the chatroom document
         await Chatroom.findByIdAndUpdate(
             chatroomID,
-            { $push: { messages: savedMessage._id } }
+            { $push: { messages: message._id } }
         );
 
         res.status(201).json(message);
