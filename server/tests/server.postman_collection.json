@@ -611,7 +611,12 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							""
+							"pm.test(\"Response shall have a chatrooms property\", () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    pm.expect(response).to.have.property('chatrooms');",
+							"    pm.expect(response.chatrooms).to.not.be.empty;",
+							"})"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -626,7 +631,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"userId\": \"{{userId_2}}\"\n}",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -634,14 +639,17 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/api/v1/chatrooms",
+					"raw": "{{host}}/api/v1/users/{{userId_2}}/chatrooms/",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
 						"api",
 						"v1",
-						"chatrooms"
+						"users",
+						"{{userId_2}}",
+						"chatrooms",
+						""
 					]
 				}
 			},
