@@ -109,3 +109,11 @@ export const deleteAllUsers = async () => {
     console.error("There was a problem deleting all users.");
   }
 }
+export const deleteAllMessages = async () => {
+  try {
+    const response = await Api.delete('/v1/messages/');
+    return response.data;
+  } catch(err){
+    console.error("There was a problem deleting all messages.");
+  }
+}

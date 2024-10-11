@@ -10,8 +10,12 @@ export default {
 
     methods: {
         async handleDeleteUsers(){
-            const message = await deleteAllUsers();
-            console.log(message);
+            try {
+                const message = await deleteAllUsers();
+                console.log(message);
+            } catch(err){
+                console.log("There was a problem deleting all users.")
+            }
         }
     }
 }
