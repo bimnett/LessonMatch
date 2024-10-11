@@ -143,19 +143,22 @@ export default {
     }
   },
   async mounted() {
-    try {
-      const userId = localStorage.getItem('userId')
-      const response = await getUserProfile(userId)
-      this.form = response// Set the form data with the response data
-      await this.fetchSkillsAndInterests(userId)
-    } catch (error) {
-      console.error('Error fetching user data:', error)
-      this.$bvToast.toast('Error fetching user data', {
-        title: 'Error',
-        variant: 'danger',
-        solid: true
-      })
+    if(this.userId){
+      try {
+        const userId = localStorage.getItem('userId')
+        const response = await getUserProfile(userId)
+        this.form = response// Set the form data with the response data
+        await this.fetchSkillsAndInterests(userId)
+      } catch (error) {
+          console.error('Error fetching user data:', error)
+          this.$bvToast.toast('Error fetching user data', {
+          title: 'Error',
+          variant: 'danger',
+          solid: true
+        })
+      }
     }
+    
   }
 }
 </script>
