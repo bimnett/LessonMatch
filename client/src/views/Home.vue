@@ -4,6 +4,9 @@
       <h1 class="display-5 fw-bold">LessonMatch</h1>
       <SignUpButton />
     </b-container>
+    <div v-if="!userId">
+      <SignIn/>
+    </div>
   </div>
 </template>
 
@@ -11,19 +14,22 @@
 
 import { Api } from '@/Api'
 import SignUpButton from '@/components/SignUpButton.vue'
+import SignIn from '@/components/SignIn.vue';
 
 export default {
   name: 'home',
   data() {
     return {
-      message: 'none'
+      message: 'none',
+      userId: localStorage.getItem('userId')
     }
   },
   methods: {
 
   },
   components: {
-    SignUpButton
+    SignUpButton,
+    SignIn
   }
 }
 </script>

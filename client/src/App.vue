@@ -3,8 +3,11 @@
     <div id="nav">
       <router-link to="/">Home</router-link>
       <router-link to="/search">Search</router-link>
-      <router-link to="/profile">Profile</router-link>
-      <router-link to="/chatrooms">Chatroom</router-link>
+
+      <router-link :to="`/profile/${userId}`">Profile</router-link>
+      <router-link :to="`/chatrooms/${userId}`">Chatroom</router-link>
+
+      <router-link to="/signup">Sign Up</router-link>
     </div>
     <!-- Render the content of the current page view -->
     <router-view/>
@@ -14,7 +17,13 @@
 <script>
 
 export default {
-  name: 'App'
+  name: 'App',
+
+  data() {
+    return {
+      userId: localStorage.getItem('userId')
+    }
+  }
 
 }
 </script>

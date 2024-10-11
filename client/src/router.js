@@ -7,11 +7,11 @@ import Search from './views/Search.vue'
 import Profile from './views/Profile.vue'
 
 const routes = [
-  { path: '/', name: 'home', component: Home },
+  { path: '/', name: 'Home', component: Home },
   { path: '/signup', name: 'Sign Up', component: SignUp },
-  { path: '/chatrooms', name: 'Chatroom', component: Chatroom },
+  { path: '/chatrooms/:userId', name: 'Chatroom', component: Chatroom },
   { path: '/search', name: 'Search', component: Search },
-  { path: '/profile', name: 'Profile', component: Profile }
+  { path: '/profile/:userId', name: 'Profile', component: Profile }
 ]
 
 const router = createRouter({

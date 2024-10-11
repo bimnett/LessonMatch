@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="userId">
     <h1>Your Profile</h1>
 
     <div v-if="!editMode">
@@ -41,19 +41,25 @@
       />
     </div>
   </div>
+  <div v-else>
+    <SignIn/>
+  </div>
 </template>
 
 <script>
 import { getUserProfile, updateUserProfile, deleteUserProfile, getUserSkills, getUserInterests } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
+import SignIn from '@/components/SignIn.vue';
 
 export default {
   components: {
-    UpdateProfileForm
+    UpdateProfileForm,
+    SignIn
   },
   data() {
     return {
       editMode: false,
+      userId: localStorage.getItem('userId'),
       form: {
         username: '',
         password: '',
