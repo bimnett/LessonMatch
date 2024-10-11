@@ -36,7 +36,7 @@ export const logInUser = (username, password) => {
     })
 }
 export const updateUserProfile = (userId, formData) => {
-  return Api.put(`/api/v1/users/${userId}`, formData)
+  return Api.put(`/v1/users/${userId}`, formData)
     .then(response => {
       console.log(response.data)
       return response.data
@@ -47,7 +47,7 @@ export const updateUserProfile = (userId, formData) => {
     })
 }
 export const getUserProfile = (userId) => {
-  return Api.get(`/api/v1/users/${userId}`)
+  return Api.get(`/v1/users/${userId}`)
     .then(response => {
       console.log(response.data)
       return response.data
@@ -58,7 +58,7 @@ export const getUserProfile = (userId) => {
     })
 }
 export const getUserSkills = (userId) => {
-  return Api.get(`/api/v1/users/${userId}/skills`)
+  return Api.get(`/v1/users/${userId}/skills`)
     .then(response => {
       console.log(response.data)
       const skills = response.data.filter(skill => skill.isAnInterest === false)
@@ -69,8 +69,8 @@ export const getUserSkills = (userId) => {
       throw error
     })
 }
-export const getUserinterests = (userId) => {
-  return Api.get(`/api/v1/users/${userId}/skills`)
+export const getUserInterests = (userId) => {
+  return Api.get(`/v1/users/${userId}/skills`)
     .then(response => {
       console.log(response.data)
       const interests = response.data.filter(skill => skill.isAnInterest === true)
@@ -83,7 +83,7 @@ export const getUserinterests = (userId) => {
 }
 
 export const deleteUserProfile = (userId) => {
-  return Api.delete(`/api/v1/users/${userId}`)
+  return Api.delete(`/v1/users/${userId}`)
     .then(response => {
       console.log(response.data)
       return response.data
@@ -92,4 +92,12 @@ export const deleteUserProfile = (userId) => {
       console.log(error)
       throw error
     })
+}
+export const getChatrooms = async (userId) => {
+  try {
+    const response = await Api.get('/v1/chatrooms/');
+    return response.data;
+  }catch(err){
+    console.error("There was a problem retrieving the chatrooms.");
+  }
 }
