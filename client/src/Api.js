@@ -101,3 +101,11 @@ export const getChatrooms = async (userId) => {
     console.error("There was a problem retrieving the chatrooms.");
   }
 }
+export const deleteAllUsers = async () => {
+  try{
+    const response = await Api.delete('/v1/users/');
+    return response.data;
+  } catch(err){
+    console.error("There was a problem deleting all users.");
+  }
+}

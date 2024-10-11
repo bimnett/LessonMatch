@@ -347,4 +347,16 @@ router.put('/users/:userId', async(req,res,next)=>{
 });
 
 
+// Delete all users
+router.delete('/users', async (req, res, next) => {
+
+    try{
+        await User.deleteMany({});
+        res.status(200).json({ message: "All users deleted successfully" });
+    } catch(err){
+        next(err);
+    }
+});
+
+
 module.exports = router;
