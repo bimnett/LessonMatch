@@ -6,6 +6,7 @@
 
       <router-link :to="`/profile/${userId}`">Profile</router-link>
       <router-link :to="`/chatrooms/${userId}`">Chatroom</router-link>
+      <router-link :to="`/admin`" v-if="admin">Admin</router-link>
 
       <router-link to="/signup">Sign Up</router-link>
     </div>
@@ -21,7 +22,8 @@ export default {
 
   data() {
     return {
-      userId: localStorage.getItem('userId')
+      userId: localStorage.getItem('userId'),
+      admin: localStorage.getItem('admin')
     }
   }
 
