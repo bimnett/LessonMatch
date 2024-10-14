@@ -225,9 +225,9 @@ router.post('/users', async (req, res, next) => {
         res.status(201).json({user,
             links: [
             {
-                rel: "update",
+                rel: "read",
                 href: '/api/v1/users/' + user._id,
-                method: "PUT"
+                method: "GET"
             }
             ]
         });
