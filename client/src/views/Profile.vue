@@ -49,7 +49,7 @@
 <script>
 import { getUserProfile, updateUserProfile, deleteUserProfile, getUserSkills, getUserInterests } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
-import SignIn from '@/components/SignIn.vue';
+import SignIn from '@/components/SignIn/SignInButton.vue';
 
 export default {
   components: {

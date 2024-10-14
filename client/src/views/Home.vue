@@ -2,9 +2,9 @@
   <div>
     <b-container fluid>
       <h1 class="display-5 fw-bold">LessonMatch</h1>
-      <SignUpButton />
     </b-container>
     <div v-if="!userId">
+      <SignUpButton/>
       <SignIn/>
     </div>
   </div>
@@ -13,8 +13,8 @@
 <script>
 
 import { Api } from '@/Api'
-import SignUpButton from '@/components/SignUpButton.vue'
-import SignIn from '@/components/SignIn.vue';
+import SignUpButton from '@/components/SignUp/SignUpButton.vue'
+import SignIn from '@/components/SignIn/SignInButton.vue';
 
 export default {
   name: 'home',

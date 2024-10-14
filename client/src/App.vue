@@ -7,8 +7,6 @@
       <router-link :to="`/profile/${userId}`">Profile</router-link>
       <router-link :to="`/chatrooms/${userId}`">Chatroom</router-link>
       <router-link :to="`/admin`" v-if="admin">Admin</router-link>
-
-      <router-link to="/signup">Sign Up</router-link>
     </div>
     <!-- Render the content of the current page view -->
     <router-view/>
