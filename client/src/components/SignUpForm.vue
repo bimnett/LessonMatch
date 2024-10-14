@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'SignUpForm',
+  name: '',
   data() {
     return {
       name: '',
