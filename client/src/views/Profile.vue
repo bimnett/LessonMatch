@@ -157,11 +157,9 @@ export default {
         const response = await getUserProfileHyperlink(this.hyperlink)
         this.form = response// Set the form data with the response data
         localStorage.removeItem('hyperlink')
-        console.log('Successful GET request via hyperlink')
       } else if (this.userId) {
         const response = await getUserProfile(this.userId)
         this.form = response// Set the form data with the response data
-        console.log('Successful GET request')
       }
       await this.fetchSkillsAndInterests(this.userId)
     } catch (error) {
