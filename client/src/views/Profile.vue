@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userId">
+ <div v-if="userId">
     <h1>Your Profile</h1>
 
     <div v-if="!editMode">
@@ -17,6 +17,12 @@
 
            <div v-show="showConfirmDelete" class="mt-2">
           <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
+          <div class="checkbox-bar">
+        <b-form-checkbox v-model="confirmedDelete">
+          I understand the consequences.
+        </b-form-checkbox>
+        </div>
+      <div class="button-group mt-2">
           <b-button
             @click="confirmDeleteProfile"
             variant="danger"
@@ -25,12 +31,10 @@
 
           <b-button @click="cancelDelete" variant="secondary">Cancel</b-button>
 
-              <div class="mt-2">
-            <b-form-checkbox v-model="confirmedDelete">I understand the consequences.</b-form-checkbox>
-          </div>
         </div>
       </div>
 
+    </div>
     </div>
 
     <div v-else>
@@ -44,6 +48,7 @@
   <div v-else>
     <SignIn/>
   </div>
+
 </template>
 
 <script>
@@ -109,7 +114,7 @@ export default {
 
         await deleteUserProfile(userId)
 
-        this.$bvToast.toast('Profile delted successfully!', {
+        this.$bvToast.toast('Profile deleted successfully!', {
           title: 'Success',
           variant: 'success',
           solid: true
