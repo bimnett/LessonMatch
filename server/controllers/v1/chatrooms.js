@@ -38,34 +38,43 @@ router.delete('/chatrooms/:id/messages', async (req, res, next) => {
     }
 });
 
+// Get all messages for a specific chatroom, sorted in chronological order
+router.get('/chatrooms/:id/messages', async (req, res, next) => {
 
-// GET endpoint to retrieve all chatrooms for a specific user
-router.get('/chatrooms', (req, res) => {
-    const userId = req.body.userId; 
-    if (!userId) {
-        return res.status(400).json({ message: "User ID is required." });
-    }
+    try {
+        const chatroomId = req.params.id;
 
-    
-    Chatroom.find({
-        $or: [
-            { user1: userId },
-            { user2: userId }
-        ]
-    })
-    .populate('user1', 'username location skills interests') 
-    .populate('user2', 'username location skills interests') 
-    .then(chatrooms => {
-        if (chatrooms.length === 0) {
-            return res.status(404).json({ message: "No chatrooms found for this user." });
+        const chatroom = await Chatroom.findById(chatroomId).populate({
+            path: 'messages',
+            options: { sort: { sentAt: 1 } } 
+        });
+
+        if(!chatroom){
+            return res.status(400).json({ error: "Chatroom not found" });
         }
 
-        res.status(200).json({ chatrooms: chatrooms });
-    })
-    .catch(error => {
-        console.error(error);
-        res.status(500).json({ message: "Server error, please try again later." });
-    });
+        return res.status(200).json(chatroom.messages);
+    } catch(err) {
+        next(err);
+    }
+});
+
+// Get a specific chatroom
+router.get('/chatrooms/:id', async (req, res, next) => {
+
+    try {
+        const chatroomId = req.params.id;
+
+        const chatroom = await Chatroom.findById(chatroomId).populate('messages');
+
+        if(!chatroom){
+            return res.status(400).json({ error: "Chatroom not found" });
+        }
+
+        res.status(200).json(chatroom);
+    } catch(err){
+        next(err);
+    }
 });
 
 //Delete endpoint to delete a specific chatroom for a specific user

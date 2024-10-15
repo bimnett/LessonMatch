@@ -1,36 +1,35 @@
 <template>
   <div>
     <b-container fluid>
-      <h1 class="display-5 fw-bold">DIT342 Frontend</h1>
-      <p class="fs-4">Welcome to your DIT342 Frontend Vue.js App</p>
-      <b-button class="btn_message" variant="primary" v-on:click="getMessage()" >Get Message from Server</b-button>
-      <p class="col-xl-9">Message from the server:<br/>
-      {{ message }}</p>
+      <h1 class="display-5 fw-bold">LessonMatch</h1>
     </b-container>
+    <div v-if="!userId">
+      <SignUpButton/>
+      <SignIn/>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+
 import { Api } from '@/Api'
+import SignUpButton from '@/components/SignUp/SignUpButton.vue'
+import SignIn from '@/components/SignIn/SignInButton.vue';
 
 export default {
   name: 'home',
   data() {
     return {
-      message: 'none'
+      message: 'none',
+      userId: localStorage.getItem('userId')
     }
   },
   methods: {
-    getMessage() {
-      Api.get('/')
-        .then(response => {
-          this.message = response.data.message
-        })
-        .catch(error => {
-          this.message = error
-        })
-    }
+
+  },
+  components: {
+    SignUpButton,
+    SignIn
   }
 }
 </script>

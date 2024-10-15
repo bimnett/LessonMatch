@@ -1,13 +1,24 @@
 const express = require('express')
 const router = express.Router()
 const Message = require('../../models/message');
+const Chatroom = require('../../models/chatroom');
 
 
 // POST endpoint - Creates a new message
 router.post('/messages', async (req, res, next) => {
     try {
+
+        const chatroomID = req.body.chatroomID;
+
         const message = new Message(req.body);
         await message.save();
+        
+        // Update messages attribute in the chatroom document
+        await Chatroom.findByIdAndUpdate(
+            chatroomID,
+            { $push: { messages: message._id } }
+        );
+
         res.status(201).json(message);
     } catch (error) {
         next(error);
@@ -46,9 +57,7 @@ router.delete('/messages/:id', async (req, res, next) => {
 router.delete('/messages', async (req, res, next) => {
     try {
         const messagesCount = await Message.countDocuments();
-        if (messagesCount === 0){
-            return res.status(404).json({error: "No messages left to delete"});
-        };
+        
         const deletedMessages = await Message.deleteMany({});
         res.status(200).json("All " + deletedMessages.deletedCount + " messages successfully deleted");
     } catch (err) {

@@ -2,11 +2,31 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link>
+      <router-link to="/search">Search</router-link>
+
+      <router-link :to="`/profile/${userId}`">Profile</router-link>
+      <router-link :to="`/chatrooms/${userId}`">Chatroom</router-link>
+      <router-link :to="`/admin`" v-if="admin">Admin</router-link>
+
     </div>
     <!-- Render the content of the current page view -->
     <router-view/>
   </div>
 </template>
+
+<script>
+
+export default {
+  name: 'App',
+
+  data() {
+    return {
+      userId: localStorage.getItem('userId'),
+      admin: localStorage.getItem('admin')
+    }
+  }
+}
+</script>
 
 <style>
 #app {
@@ -15,5 +35,16 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+#nav {
+  margin: 10px;
+  display: flex; /* Aligns links in a row */
+  justify-content: center; /* Centers links horizontally */
+  gap: 25px; /* Adds space between each link */
+}
+
+#nav a {
+  text-decoration: none; /* Removes underline from links */
 }
 </style>

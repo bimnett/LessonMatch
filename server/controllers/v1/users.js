@@ -4,6 +4,27 @@ const router = express.Router();
 const User = require('../../models/user');
 const Skill = require('../../models/skill');
 const Message = require('../../models/message');
+const Chatroom = require('../../models/chatroom');
+
+// POST endpoint - Logs in an already existing user
+router.post('/login', async (req, res, next) => {
+    try {
+        const {username, password} = req.body;
+        const user = await User.findOne({username: username});
+
+        if (!user) {
+            return res.status(404).json("There is no user with that username.");
+        };
+        if (password !== user.password){
+            return res.status(401).json("Incorrect credentials, try again.")
+        };
+
+        res.status(200).json(user._id);
+
+    } catch (error){
+        next(error);
+    };
+});
 
 // GET endpoint to retrieve all users
 router.get('/users', (req, res) => {
@@ -19,6 +40,35 @@ router.get('/users', (req, res) => {
             res.status(500).json({ message: 'Internal Server Error' }); // Respond with an error message
         });
 });
+
+
+// Get all users who have any skill within a given category
+router.get('/users/skills', async (req, res, next) => {
+
+    try {
+
+        const { categoryName, sortOrder = 1 } = req.query;
+
+        if(!categoryName){
+            return res.status(400).json({ error: "Category name is required." });
+        }
+
+        const categorySkills = await Skill.find({ category: categoryName })
+                                        .sort({ name: sortOrder })
+                                        .populate('user');
+
+        const users = categorySkills.map(skill => skill.user);
+
+        // Remove duplicates
+        const uniqueUsers = Array.from(new Set(users));
+
+        res.status(200).json(uniqueUsers);
+
+    } catch(err) {
+        next(err);
+    }
+});
+
 
 // Get specific message from a specific user
 router.get('/users/:userId/messages/:messageId', async (req, res, next) => {
@@ -202,13 +252,12 @@ router.post('/users', async (req, res, next) => {
         const user = new User(req.body);
         await user.save();
         res.status(201).json({user,
-            links: [
+            hyperlink:
             {
-                rel: "update",
-                href: '/api/v1/users/' + user._id,
-                method: "PUT"
+                rel: "read",
+                href: '/users/' + user._id,
+                method: "GET"
             }
-            ]
         });
     } catch (error) {
         next(error);
@@ -231,6 +280,35 @@ router.get('/users/:id', async (req, res, next) => {
     } catch (error) {
         next(error);
     };
+});
+
+
+// GET endpoint to retrieve all chatrooms for a specific user
+router.get('/users/:id/chatrooms/', (req, res, next) => {
+    const userId  = req.params.id; 
+
+    if (!userId) {
+        return res.status(400).json({ message: "User ID is required." });
+    }
+
+    Chatroom.find({
+        $or: [
+            { user1: userId },
+            { user2: userId }
+        ]
+    })
+    .populate('user1', 'username location skills interests') 
+    .populate('user2', 'username location skills interests') 
+    .then(chatrooms => {
+        if (chatrooms.length === 0) {
+            return res.status(404).json({ message: "No chatrooms found for this user." });
+        }
+
+        res.status(200).json({ chatrooms: chatrooms });
+    })
+    .catch(error => {
+        next(error);
+    });
 });
 
 
@@ -293,6 +371,18 @@ router.put('/users/:userId', async(req,res,next)=>{
 
   } catch (error){
         next(error);
+    }
+});
+
+
+// Delete all users
+router.delete('/users', async (req, res, next) => {
+
+    try{
+        await User.deleteMany({});
+        res.status(200).json({ message: "All users deleted successfully" });
+    } catch(err){
+        next(err);
     }
 });
 
