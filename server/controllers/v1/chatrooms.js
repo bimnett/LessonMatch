@@ -38,6 +38,26 @@ router.delete('/chatrooms/:id/messages', async (req, res, next) => {
     }
 });
 
+// Get all messages for a specific chatroom, sorted in chronological order
+router.get('/chatrooms/:id/messages', async (req, res, next) => {
+
+    try {
+        const chatroomId = req.params.id;
+
+        const chatroom = await Chatroom.findById(chatroomId).populate({
+            path: 'messages',
+            options: { sort: { sentAt: 1 } } 
+        });
+
+        if(!chatroom){
+            return res.status(400).json({ error: "Chatroom not found" });
+        }
+
+        return res.status(200).json(chatroom.messages);
+    } catch(err) {
+        next(err);
+    }
+});
 
 // Get a specific chatroom
 router.get('/chatrooms/:id', async (req, res, next) => {
