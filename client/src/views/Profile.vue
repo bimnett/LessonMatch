@@ -121,7 +121,7 @@ export default {
           message: 'Profile deleted successfully!',
           variant: 'success'
         })
-
+        localStorage.removeItem('userId')
         this.$router.push({ name: 'Home' })
       } catch (error) {
         console.error('Error deleting profile:', error)
@@ -154,7 +154,6 @@ export default {
     }
   },
   async mounted() {
-    const userId = localStorage.getItem('userId')
     try {
       if (this.hyperlink) {
         const response = await getUserProfileHyperlink(this.hyperlink)
@@ -162,12 +161,11 @@ export default {
         localStorage.removeItem('hyperlink')
         console.log('Successful GET request via hyperlink')
       } else if (this.userId) {
-        const userId = localStorage.getItem('userId')
-        const response = await getUserProfile(userId)
+        const response = await getUserProfile(this.userId)
         this.form = response// Set the form data with the response data
         console.log('Successful GET request')
       }
-      await this.fetchSkillsAndInterests(userId)
+      await this.fetchSkillsAndInterests(this.userId)
     } catch (error) {
       console.error('Error fetching user data:', error)
       this.$refs.toast.showToast({
