@@ -35,6 +35,10 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
+//Create HTTP server
+const httpServer = createServer(app);
+//Attach socket.io to HTTP server
+const io = new Server(httpServer);
 
 // Override request method with method in X-HTTP-Method-Override header
 app.use(methodOverride('X-HTTP-Method-Override'));
@@ -87,7 +91,7 @@ app.get('/api', (req, res) => {
     res.json({ 'message': 'Welcome to your DIT342 backend ExpressJS project!'} );
 });
 
-app.listen(port, function(err) {
+httpServer.listen(port, function(err) {
     if (err) throw err;
     console.log(`Express server listening on port ${port}, in ${env} mode`);
     console.log(`Backend: http://localhost:${port}/api/`);
