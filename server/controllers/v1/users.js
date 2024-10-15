@@ -226,7 +226,7 @@ router.post('/users', async (req, res, next) => {
             hyperlink:
             {
                 rel: "read",
-                href: '/v1/users/' + user._id,
+                href: '/users/' + user._id,
                 method: "GET"
             }
         });
