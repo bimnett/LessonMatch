@@ -1,7 +1,7 @@
 <template>
  <div v-if="userId">
     <h1>Your Profile</h1>
-
+    <Toast ref="toast" />
     <div v-if="!editMode">
       <p><strong>Username:</strong> {{ form.username }}</p>
       <p><strong>Password:</strong> {{ form.password }}</p>
@@ -55,12 +55,13 @@
 import { getUserProfile, updateUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
-import eventBus from '@/eventBus'
+import Toast from '@/components/toast.vue'
 
 export default {
   components: {
     UpdateProfileForm,
-    SignIn
+    SignIn,
+    Toast
   },
   data() {
     return {
@@ -93,18 +94,18 @@ export default {
         await updateUserProfile(userId, updatedData)
 
         this.form = updatedData
-        eventBus.toast.toast('Profile updated successfully!', {
+        this.$refs.toast.showToast({
           title: 'Success',
-          variant: 'success',
-          solid: true
+          message: 'Your profile has been updated successfully!',
+          variant: 'success'
         })
         this.editMode = false
       } catch (error) {
         console.error('Error updating profile:', error)
-        this.$bvToast.toast('Error updating profile', {
+        this.$refs.toast.showToast({
           title: 'Error',
-          variant: 'danger',
-          solid: true
+          message: 'Error updating profile',
+          variant: 'danger'
         })
       }
     },
@@ -115,18 +116,19 @@ export default {
 
         await deleteUserProfile(userId)
 
-        eventBus.toast.toast('Profile deleted successfully!', {
+        this.$refs.toast.showToast({
           title: 'Success',
-          variant: 'success',
-          solid: true
+          message: 'Profile deleted successfully!',
+          variant: 'success'
         })
+
         this.$router.push({ name: 'Home' })
       } catch (error) {
         console.error('Error deleting profile:', error)
-        this.$bvToast.toast('Error deleting Profile', {
+        this.$refs.toast.showToast({
           title: 'Error',
-          variant: 'danger',
-          solid: true
+          message: 'Error deleting profile',
+          variant: 'danger'
         })
       }
     },
@@ -143,17 +145,16 @@ export default {
         this.interests = interestsResponse
       } catch (error) {
         console.error('Error fetching skills or interests:', error)
-        eventBus.toast.toast('Error fetching skills or interests', {
+        this.$refs.toast.showToast({
           title: 'Error',
-          variant: 'danger',
-          solid: true
+          message: 'Error fetching skills or interests',
+          variant: 'danger'
         })
       }
     }
   },
   async mounted() {
     const userId = localStorage.getItem('userId')
-    eventBus.toast = this.$bvToast
     try {
       if (this.hyperlink) {
         const response = await getUserProfileHyperlink(this.hyperlink)
@@ -169,10 +170,10 @@ export default {
       await this.fetchSkillsAndInterests(userId)
     } catch (error) {
       console.error('Error fetching user data:', error)
-      this.$bvToast.toast('Error fetching user data', {
+      this.$refs.toast.showToast({
         title: 'Error',
-        variant: 'danger',
-        solid: true
+        message: 'Error fetching user data',
+        variant: 'danger'
       })
     }
   }
