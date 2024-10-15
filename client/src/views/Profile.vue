@@ -73,7 +73,9 @@ export default {
         interests: []
       },
       skills: [],
-      interests: []
+      interests: [],
+      showConfirmDelete: false,
+      confirmedDelete: false
     }
   },
   methods: {
