@@ -88,10 +88,9 @@ export default {
   methods: {
     async handleUpdateProfile(updatedData) {
       try {
-        const userId = localStorage.getItem('userId')
-        if (!userId) throw new Error('User not found')
+        if (!this.userId) throw new Error('User not found')
 
-        await updateUserProfile(userId, updatedData)
+        await updateUserProfile(this.userId, updatedData)
 
         this.form = updatedData
         this.$refs.toast.showToast({
@@ -111,10 +110,9 @@ export default {
     },
     async confirmDeleteProfile() {
       try {
-        const userId = localStorage.getItem('userId')
-        if (!userId) throw new Error('User not found')
+        if (!this.userId) throw new Error('User not found')
 
-        await deleteUserProfile(userId)
+        await deleteUserProfile(this.userId)
 
         this.$refs.toast.showToast({
           title: 'Success',
