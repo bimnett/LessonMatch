@@ -13,6 +13,8 @@ export const registerUser = (username, password, birth_date, location) => {
   })
     .then(response => {
       console.log(response.data)
+      const hyperlink = response.data.hyperlink.href
+      localStorage.setItem('hyperlink', hyperlink)
       return response
     })
     .catch(error => {
@@ -57,6 +59,19 @@ export const getUserProfile = (userId) => {
       throw error
     })
 }
+
+export const getUserProfileHyperlink = (hyperlink) => {
+  return Api.get(hyperlink)
+    .then(response => {
+      console.log(response.data)
+      return response.data
+    })
+    .catch(error => {
+      console.log(error)
+      throw error
+    })
+}
+
 export const getUserSkills = (userId) => {
   return Api.get(`/v1/users/${userId}/skills`)
     .then(response => {

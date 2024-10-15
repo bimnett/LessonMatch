@@ -7,6 +7,7 @@ import Search from './views/Search.vue'
 import Profile from './views/Profile.vue'
 import Admin from './views/Admin.vue'
 import SignIn from './views/SignIn.vue'
+import PopUp from './views/PopUp.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -15,7 +16,8 @@ const routes = [
   { path: '/search', name: 'Search', component: Search },
   { path: '/profile/:userId', name: 'Profile', component: Profile },
   { path: '/admin', name: 'Admin,', component: Admin},
-  { path: '/signin', name: 'Sign In', component: SignIn }
+  { path: '/signin', name: 'Sign In', component: SignIn },
+  { path: '/popup', name: 'Pop Up', component: PopUp }
 ]
 
 const router = createRouter({

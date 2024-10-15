@@ -31,22 +31,21 @@ export default {
   methods: {
     async register() {
         try {
-            await registerUser(
-                this.username,
-                this.password,
-                this.birth_date,
-                this.location
-            );
-            console.log('Registration successful');
-            await logInUser(
-                this.username,
-                this.password
-            );
-            console.log('Log-In successful');
+          await registerUser (
+              this.username,
+              this.password,
+              this.birth_date,
+              this.location
+          );
+          console.log('Registration successful');
 
-            // TODO - Implement HATEOAS
+          await logInUser(
+              this.username,
+              this.password
+          );
+          console.log('Log-In successful');
 
-            this.$router.push('/');
+          this.$router.push('/popup');
             
         } catch (error) {
             console.error(error);

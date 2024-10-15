@@ -223,13 +223,12 @@ router.post('/users', async (req, res, next) => {
         const user = new User(req.body);
         await user.save();
         res.status(201).json({user,
-            links: [
+            hyperlink:
             {
                 rel: "read",
-                href: '/api/v1/users/' + user._id,
+                href: '/v1/users/' + user._id,
                 method: "GET"
             }
-            ]
         });
     } catch (error) {
         next(error);
