@@ -55,6 +55,7 @@
 import { getUserProfile, updateUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
+import eventBus from '@/eventBus'
 
 export default {
   components: {
@@ -92,7 +93,7 @@ export default {
         await updateUserProfile(userId, updatedData)
 
         this.form = updatedData
-        this.$bvToast.toast('Profile updated successfully!', {
+        eventBus.toast.toast('Profile updated successfully!', {
           title: 'Success',
           variant: 'success',
           solid: true
@@ -114,7 +115,7 @@ export default {
 
         await deleteUserProfile(userId)
 
-        this.$bvToast.toast('Profile deleted successfully!', {
+        eventBus.toast.toast('Profile deleted successfully!', {
           title: 'Success',
           variant: 'success',
           solid: true
@@ -142,7 +143,7 @@ export default {
         this.interests = interestsResponse
       } catch (error) {
         console.error('Error fetching skills or interests:', error)
-        this.$bvToast.toast('Error fetching skills or interests', {
+        eventBus.toast.toast('Error fetching skills or interests', {
           title: 'Error',
           variant: 'danger',
           solid: true
@@ -152,6 +153,7 @@ export default {
   },
   async mounted() {
     const userId = localStorage.getItem('userId')
+    eventBus.toast = this.$bvToast
     try {
       if (this.hyperlink) {
         const response = await getUserProfileHyperlink(this.hyperlink)
