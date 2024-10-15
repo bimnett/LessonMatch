@@ -18,33 +18,6 @@ router.delete('/skills', async (req, res, next) => {
     }
 });
 
-// Get all users who have any skill within a given category
-router.get('/skills/users', async (req, res, next) => {
-
-    try {
-
-        const { categoryName, sortOrder = 1 } = req.query;
-
-        if(!categoryName){
-            return res.status(400).json({ error: "Category name is required." });
-        }
-
-        const categorySkills = await Skill.find({ category: categoryName })
-                                        .sort({ name: sortOrder })
-                                        .populate('user');
-
-        const users = categorySkills.map(skill => skill.user);
-
-        // Remove duplicates
-        const uniqueUsers = Array.from(new Set(users));
-
-        res.status(200).json(uniqueUsers);
-
-    } catch(err) {
-        next(err);
-    }
-});
-
 
 // GET endpoint to retrieve all skills
 router.get('/skills', (req, res, next) => {
