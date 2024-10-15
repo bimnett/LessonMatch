@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 export const Api = axios.create({
-  baseURL: import.meta.env.VITE_API_ENDPOINT || 'http://localhost:3000/api'
+  baseURL: import.meta.env.VITE_API_ENDPOINT || 'http://localhost:3000/api/v1'
 })
 
 export const registerUser = (username, password, birth_date, location) => {
-  return Api.post('/v1/users', {
+  return Api.post('/users', {
     username,
     password,
     birth_date,
@@ -23,7 +23,7 @@ export const registerUser = (username, password, birth_date, location) => {
 }
 
 export const logInUser = (username, password) => {
-  return Api.post('/v1/login', {
+  return Api.post('/login', {
     username,
     password
   })
@@ -38,7 +38,7 @@ export const logInUser = (username, password) => {
     })
 }
 export const updateUserProfile = (userId, formData) => {
-  return Api.put(`/v1/users/${userId}`, formData)
+  return Api.put(`/users/${userId}`, formData)
     .then(response => {
       console.log(response.data)
       return response.data
@@ -49,7 +49,7 @@ export const updateUserProfile = (userId, formData) => {
     })
 }
 export const getUserProfile = (userId) => {
-  return Api.get(`/v1/users/${userId}`)
+  return Api.get(`/users/${userId}`)
     .then(response => {
       console.log(response.data)
       return response.data
@@ -73,7 +73,7 @@ export const getUserProfileHyperlink = (hyperlink) => {
 }
 
 export const getUserSkills = (userId) => {
-  return Api.get(`/v1/users/${userId}/skills`)
+  return Api.get(`/users/${userId}/skills`)
     .then(response => {
       console.log(response.data)
       const skills = response.data.filter(skill => skill.isAnInterest === false)
@@ -85,7 +85,7 @@ export const getUserSkills = (userId) => {
     })
 }
 export const getUserInterests = (userId) => {
-  return Api.get(`/v1/users/${userId}/skills`)
+  return Api.get(`/users/${userId}/skills`)
     .then(response => {
       console.log(response.data)
       const interests = response.data.filter(skill => skill.isAnInterest === true)
@@ -98,7 +98,7 @@ export const getUserInterests = (userId) => {
 }
 
 export const deleteUserProfile = (userId) => {
-  return Api.delete(`/v1/users/${userId}`)
+  return Api.delete(`/users/${userId}`)
     .then(response => {
       console.log(response.data)
       return response.data
@@ -110,7 +110,7 @@ export const deleteUserProfile = (userId) => {
 }
 export const getChatrooms = async (userId) => {
   try {
-    const response = await Api.get('/v1/chatrooms/');
+    const response = await Api.get('/chatrooms/');
     return response.data;
   }catch(err){
     console.error("There was a problem retrieving the chatrooms.");
@@ -118,7 +118,7 @@ export const getChatrooms = async (userId) => {
 }
 export const deleteAllUsers = async () => {
   try{
-    const response = await Api.delete('/v1/users/');
+    const response = await Api.delete('/users/');
     return response.data;
   } catch(err){
     console.error("There was a problem deleting all users.");
@@ -126,9 +126,25 @@ export const deleteAllUsers = async () => {
 }
 export const deleteAllMessages = async () => {
   try {
-    const response = await Api.delete('/v1/messages/');
+    const response = await Api.delete('/messages/');
     return response.data;
   } catch(err){
     console.error("There was a problem deleting all messages.");
   }
+}
+
+export const createMessage = (chatroomID, senderID, sentAt, content) => {
+  return Api.post('/messages', {
+    chatroomID,
+    senderID,
+    sentAt,
+    content
+  })
+    .then(response => {
+      console.log(response.data)
+      return response
+    })
+    .catch(error => {
+      console.log(error)
+    })
 }
