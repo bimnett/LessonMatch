@@ -148,3 +148,20 @@ export const createMessage = (chatroomID, senderID, sentAt, content) => {
       console.log(error)
     })
 }
+
+export const createSkill = (name, level, category, user, isAnInterest) => {
+  return Api.post('/messages', {
+    name,
+    level,
+    category,
+    user,
+    isAnInterest
+  })
+    .then(response => {
+      console.log(response.data)
+      return response
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
