@@ -49,7 +49,7 @@
 <script>
 import { getUserProfile, updateUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
-import SignIn from '@/components/SignIn/SignInButton.vue';
+import SignIn from '@/components/SignIn/SignInButton.vue'
 
 export default {
   components: {
@@ -144,28 +144,28 @@ export default {
     }
   },
   async mounted() {
-      try {
-        if(this.hyperlink){
-          const response = await getUserProfileHyperlink(this.hyperlink)
-          this.form = response// Set the form data with the response data
-          localStorage.removeItem('hyperlink')
-          console.log('Successful GET request via hyperlink');
-        }
-        else if(this.userId){
+    const userId = localStorage.getItem('userId')
+    try {
+      if (this.hyperlink) {
+        const response = await getUserProfileHyperlink(this.hyperlink)
+        this.form = response// Set the form data with the response data
+        localStorage.removeItem('hyperlink')
+        console.log('Successful GET request via hyperlink')
+      } else if (this.userId) {
         const userId = localStorage.getItem('userId')
         const response = await getUserProfile(userId)
         this.form = response// Set the form data with the response data
-        console.log('Successful GET request');
-        }
-        await this.fetchSkillsAndInterests(userId)
-      } catch (error) {
-          console.error('Error fetching user data:', error)
-          this.$bvToast.toast('Error fetching user data', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
+        console.log('Successful GET request')
       }
+      await this.fetchSkillsAndInterests(userId)
+    } catch (error) {
+      console.error('Error fetching user data:', error)
+      this.$bvToast.toast('Error fetching user data', {
+        title: 'Error',
+        variant: 'danger',
+        solid: true
+      })
     }
+  }
 }
 </script>
