@@ -1,7 +1,9 @@
 <template>
- <div v-if="userId">
-    <h1>Your Profile</h1>
-    <div v-if="!editMode">
+ <div v-if="userId" class="container">
+    <h1 class="text-center"> Your Profile</h1>
+    <div class="row">
+      <div class="col-md-6 offset-md-3"></div>
+    <div v-if="!editMode" class="profile-info">
       <p><strong>Username:</strong> {{ form.username }}</p>
       <p><strong>Birth Date:</strong> {{ form.birth_date }}</p>
       <p><strong>City:</strong> {{ form.location.city }}</p>
@@ -43,6 +45,7 @@
       />
     </div>
   </div>
+ </div>
   <div v-else>
     <SignIn/>
   </div>
@@ -145,3 +148,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+@media (max-width: 768px) {
+  .profile-info p {
+    font-size: 0.9rem;
+  }
+}
+</style>
