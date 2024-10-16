@@ -90,9 +90,7 @@ export default {
       try {
         if (!this.userId) throw new Error('User not found')
 
-        await updateUserProfile(this.userId, updatedData)
-
-        this.form = updatedData
+        this.form = { ...this.form, ...updatedData }
         this.$refs.toast.showToast({
           title: 'Success',
           message: 'Your profile has been updated successfully!',
@@ -155,11 +153,14 @@ export default {
     try {
       if (this.hyperlink) {
         const response = await getUserProfileHyperlink(this.hyperlink)
-        this.form = response// Set the form data with the response data
+        this.form = { ...this.form, ...response }// Set the form data with the response data
         localStorage.removeItem('hyperlink')
       } else if (this.userId) {
         const response = await getUserProfile(this.userId)
-        this.form = response// Set the form data with the response data
+        this.form = { ...this.form, ...response }// Set the form data with the response data
+      }
+      if (!this.form.location) {
+        this.form.location = { city: '', country: '' }
       }
       await this.fetchSkillsAndInterests(this.userId)
     } catch (error) {

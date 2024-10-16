@@ -18,13 +18,13 @@
       </div>
 
       <div class="form-group">
-        <label for="city">City:</label>
-        <input v-model="form.location.city" type="text" id="city" required />
+        <label for="location.city">City:</label>
+        <input v-model="form.location.city" type="text" id="location.city" required />
       </div>
 
       <div class="form-group">
-        <label for="country">Country:</label>
-        <input v-model="form.location.country" type="text" id="country" required />
+        <label for="location.country">Country:</label>
+        <input v-model="form.location.country" type="text" id="location.country" required />
       </div>
 
       <div class="form-group">
@@ -70,6 +70,7 @@ export default {
 
         // Emit the updated data back to the parent component
         this.$emit('update-profile', response)
+        this.$router.push(`/profile/${userId}`)
       } catch (error) {
         console.error('Error updating profile:', error)
         this.$bvToast.toast('Error updating profile', {
