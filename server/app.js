@@ -11,6 +11,7 @@ const userController = require('./controllers/v1/users');
 const messageController = require('./controllers/v1/messages');
 const chatroomController = require('./controllers/v1/chatrooms');
 const skillController = require('./controllers/v1/skills');
+const socket = require('./controllers/socket');
 
 // constiables
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
@@ -35,10 +36,13 @@ app.use(morgan('dev'));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options('*', cors());
 app.use(cors());
-//Create HTTP server
+
+// Create HTTP server
 const httpServer = createServer(app);
-//Attach socket.io to HTTP server
+// Attach socket.io to HTTP server
 const io = new Server(httpServer);
+// Set up socket.io connection
+socket(io);
 
 // Override request method with method in X-HTTP-Method-Override header
 app.use(methodOverride('X-HTTP-Method-Override'));
