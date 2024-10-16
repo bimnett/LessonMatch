@@ -40,7 +40,11 @@ app.use(cors());
 // Create HTTP server
 const httpServer = createServer(app);
 // Attach socket.io to HTTP server
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+    cors: {
+        origin: "*"
+    }
+});
 // Set up socket.io connection
 socket(io);
 
