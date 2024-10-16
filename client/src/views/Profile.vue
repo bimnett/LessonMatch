@@ -4,7 +4,6 @@
     <Toast ref="toast" />
     <div v-if="!editMode">
       <p><strong>Username:</strong> {{ form.username }}</p>
-      <p><strong>Password:</strong> {{ form.password }}</p>
       <p><strong>Birth Date:</strong> {{ form.birth_date }}</p>
       <p><strong>City:</strong> {{ form.location.city }}</p>
       <p><strong>Country:</strong> {{ form.location.country }}</p>
@@ -89,7 +88,6 @@ export default {
     async handleUpdateProfile(updatedData) {
       try {
         if (!this.userId) throw new Error('User not found')
-
         this.form = { ...this.form, ...updatedData }
         this.$refs.toast.showToast({
           title: 'Success',
