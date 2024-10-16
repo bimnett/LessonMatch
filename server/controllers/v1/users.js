@@ -53,9 +53,16 @@ router.get('/users/skills', async (req, res, next) => {
             return res.status(400).json({ error: "Category name is required." });
         }
 
+        // Get all skills that belong to chosen category, and populate relevant properties
         const categorySkills = await Skill.find({ category: categoryName })
                                         .sort({ name: sortOrder })
-                                        .populate('user');
+                                        .populate({
+                                            path: 'user',
+                                            populate: [
+                                                { path: 'skills', model: 'Skill' },  // Populate skills
+                                                { path: 'interests', model: 'Skill' } // Populate interests
+                                            ]
+                                        });
 
         const users = categorySkills.map(skill => skill.user);
 

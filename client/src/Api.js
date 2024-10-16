@@ -124,6 +124,16 @@ export const deleteAllUsers = async () => {
     console.error("There was a problem deleting all users.");
   }
 }
+export const getUsersForCategory = async (category) => {
+  try {
+    const response = await Api.get('/users/skills', {
+      params: { categoryName: category }
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 export const deleteAllMessages = async () => {
   try {
     const response = await Api.delete('/messages/');
