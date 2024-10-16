@@ -1,44 +1,48 @@
 <template>
-  <div class="update-profile-form">
+  <div class="update-profile-form container">
     <h2>Update Profile</h2>
     <b-form @submit.prevent="submitUpdate">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input v-model="form.username" type="text" id="username" required />
-      </div>
+      <div class="row">
+        <div class="col-12 col-md-6 mb-3">
+          <label for="username">Username:</label>
+          <input v-model="form.username" type="text" class="form-control" id="username" required />
+        </div>
 
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input v-model="form.password" type="password" id="password" required />
-      </div>
+        <div class="col-12 col-md-6 mb-3">
+          <label for="password">Password:</label>
+          <input v-model="form.password" type="password" class="form-control" id="password" required />
+        </div>
 
-      <div class="form-group">
-        <label for="birth_date">Birth Date:</label>
-        <input v-model="form.birth_date" type="date" id="birth_date" required />
-      </div>
+        <div class="col-12 col-md-6 mb-3">
+          <label for="birth_date">Birth Date:</label>
+          <input v-model="form.birth_date" type="date" class="form-control" id="birth_date" required />
+        </div>
 
-      <div class="form-group">
-        <label for="city">City:</label>
-        <input v-model="form.location.city" type="text" id="city" required />
-      </div>
+        <div class="col-12 col-md-6 mb-3">
+          <label for="location.city">City:</label>
+          <input v-model="form.location.city" type="text" class="form-control" id="location.city" required />
+        </div>
 
-      <div class="form-group">
-        <label for="country">Country:</label>
-        <input v-model="form.location.country" type="text" id="country" required />
-      </div>
+        <div class="col-12 col-md-6 mb-3">
+          <label for="location.country">Country:</label>
+          <input v-model="form.location.country" type="text" class="form-control" id="location.country" required />
+        </div>
 
-      <div class="form-group">
-        <label for="skills">Skills:</label>
-        <input v-model="form.skills" type="text" id="skills" placeholder="Comma-separated skills" />
-      </div>
+        <div class="col-12 mb-3">
+          <label for="skills">Skills:</label>
+          <input v-model="form.skills" type="text" class="form-control" id="skills" placeholder="Comma-separated skills" />
+        </div>
 
-      <div class="form-group">
-        <label for="interests">Interests:</label>
-        <input v-model="form.interests" type="text" id="interests" placeholder="Comma-separated interests" />
-      </div>
+        <div class="col-12 mb-3">
+          <label for="interests">Interests:</label>
+          <input v-model="form.interests" type="text" class="form-control" id="interests" placeholder="Comma-separated interests" />
+        </div>
 
-      <b-button type="submit" variant="primary">Save Changes</b-button>
-      <b-button variant="secondary" @click="$emit('cancel-edit')">Cancel</b-button>
+        <div class="col-12 d-flex justify-content-between">
+          <b-button variant="secondary" @click="$emit('cancel-edit')">Cancel</b-button>
+          <b-button type="submit" variant="primary">Save Changes</b-button>
+        </div>
+      </div>
     </b-form>
   </div>
 </template>
@@ -54,7 +58,10 @@ export default {
   },
   data() {
     return {
-      form: { ...this.initialFormData }
+      form: {
+        ...this.initialFormData,
+        birth_date: this.initialFormData.birth_date ? new Date(this.initialFormData.birth_date).toISOString().split('T')[0] : ''
+      }
     }
   },
   methods: {
@@ -70,6 +77,7 @@ export default {
 
         // Emit the updated data back to the parent component
         this.$emit('update-profile', response)
+        this.$router.push(`/profile/${userId}`)
       } catch (error) {
         console.error('Error updating profile:', error)
         this.$bvToast.toast('Error updating profile', {
@@ -85,7 +93,6 @@ export default {
 
 <style scoped>
 .update-profile-form {
-  max-width: 600px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
@@ -110,7 +117,6 @@ label {
 }
 
 input {
-  width: 100%;
   padding: 10px;
   border: 1px solid #6200ea;
   border-radius: 4px;
@@ -123,7 +129,6 @@ input:focus {
 }
 
 button {
-  width: 100%;
   padding: 10px;
   background-color: #6200ea;
   color: #fff;
@@ -137,9 +142,13 @@ button:hover {
   background-color: #3700b3;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .update-profile-form {
     padding: 15px;
   }
+  h2 {
+    font-size: 1.5rem;
+  }
 }
+
 </style>
