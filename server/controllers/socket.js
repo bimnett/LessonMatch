@@ -5,7 +5,7 @@ module.exports = (io) => {
         // Event listener that handles joining a chatroom
         socket.on('joinRoom', (chatroomId) => {
             socket.join(chatroomId);
-            console.log(`User ${socket.auth} joined chatroom: ${chatroomId}`);
+            console.log('User joined a chatroom!');
         });
   
         // Event listener that handles receiving a message
