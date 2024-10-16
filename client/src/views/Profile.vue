@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { getUserProfile, updateUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
+import { getUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
 import Toast from '@/components/toast.vue'

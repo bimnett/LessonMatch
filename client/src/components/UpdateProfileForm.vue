@@ -54,7 +54,10 @@ export default {
   },
   data() {
     return {
-      form: { ...this.initialFormData }
+      form: {
+        ...this.initialFormData,
+        birth_date: this.initialFormData.birth_date ? new Date(this.initialFormData.birth_date).toISOString().split('T')[0] : ''
+      }
     }
   },
   methods: {
