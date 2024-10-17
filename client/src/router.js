@@ -8,6 +8,7 @@ import Profile from './views/Profile.vue'
 import Admin from './views/Admin.vue'
 import SignIn from './views/SignIn.vue'
 import PopUp from './views/PopUp.vue'
+import AddSkill from './views/AddSkill.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -17,7 +18,9 @@ const routes = [
   { path: '/profile/:userId', name: 'Profile', component: Profile },
   { path: '/admin', name: 'Admin,', component: Admin},
   { path: '/signin', name: 'Sign In', component: SignIn },
-  { path: '/popup', name: 'Pop Up', component: PopUp }
+  { path: '/popup', name: 'Pop Up', component: PopUp },
+  { path: '/addskill', name: 'Add Skill', component: AddSkill },
+
 ]
 
 const router = createRouter({

@@ -10,6 +10,9 @@
       <p><strong>Country:</strong> {{ form.location.country }}</p>
       <p><strong>Skills:</strong> <ul> <li v-for= "skill in skills" :key="skill._id">{{ skill.name }} (Level: {{ skill.level }}, Category: {{ skill.category }})</li></ul></p>
       <p><strong>Interests:</strong> <ul> <li v-for= "interest in interests" :key="interest._id">{{ interest.name }} (Level: {{ interest.level }}, Category: {{ interest.category }})</li></ul></p>
+      <div id="add-skill-button">
+        <AddSkillButton/>
+      </div>
 
       <b-button @click="editMode = true" variant="link">Edit Profile</b-button>
       <div>
@@ -56,11 +59,13 @@
 import { getUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
+import AddSkillButton from '@/components/Profile/AddSkillButton.vue'
 
 export default {
   components: {
     UpdateProfileForm,
-    SignIn
+    SignIn,
+    AddSkillButton
   },
   data() {
     return {
