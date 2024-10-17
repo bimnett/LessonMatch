@@ -1,15 +1,22 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <div class="nav">
       <router-link to="/">Home</router-link>
       <router-link to="/search">Search</router-link>
 
-      <router-link :to="`/profile/${userId}`">Profile</router-link>
-      <router-link :to="`/chatrooms/${userId}`">Chatroom</router-link>
-      <router-link :to="`/admin`" v-if="admin">Admin</router-link>
+      <div v-if="userId" class="nav-group">
+        <router-link :to="`/profile/${userId}`">Profile</router-link>
+        <router-link class="chatroom-link" :to="`/chatrooms/${userId}`">Chatroom</router-link>
+        <router-link :to="`/admin`" v-if="admin">Admin</router-link>
+      </div>
 
+      <div v-else class="nav-group">
+        <router-link to="/signin">Profile</router-link>
+        <router-link to="/signin">Chatroom</router-link>
+      </div>
+      
+      <router-link to="/signin">Sign in</router-link>
     </div>
-    <!-- Render the content of the current page view -->
     <router-view/>
   </div>
 </template>
@@ -37,14 +44,19 @@ export default {
   color: #2c3e50;
 }
 
-#nav {
+.nav {
   margin: 10px;
-  display: flex; /* Aligns links in a row */
-  justify-content: center; /* Centers links horizontally */
-  gap: 25px; /* Adds space between each link */
+  display: flex;
+  justify-content: center;
+  gap: 25px;
 }
 
-#nav a {
-  text-decoration: none; /* Removes underline from links */
+.nav-group {
+  display: flex;
+  gap: 25px; /* This ensures consistent spacing within the group */
+}
+
+.nav a {
+  text-decoration: none;
 }
 </style>
