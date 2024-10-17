@@ -8,6 +8,7 @@ import Profile from './views/Profile.vue'
 import Admin from './views/Admin.vue'
 import SignIn from './views/SignIn.vue'
 import PopUp from './views/PopUp.vue'
+import PrivetChat from './views/PrivetChat.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -15,9 +16,10 @@ const routes = [
   { path: '/chatrooms/:userId', name: 'Chatroom', component: Chatroom },
   { path: '/search', name: 'Search', component: Search },
   { path: '/profile/:userId', name: 'Profile', component: Profile },
-  { path: '/admin', name: 'Admin,', component: Admin},
+  { path: '/admin', name: 'Admin,', component: Admin },
   { path: '/signin', name: 'Sign In', component: SignIn },
-  { path: '/popup', name: 'Pop Up', component: PopUp }
+  { path: '/popup', name: 'Pop Up', component: PopUp },
+  { path: '/privetchat', name: 'Privet Chat', component: PrivetChat }
 ]
 
 const router = createRouter({
