@@ -36,6 +36,7 @@
 
         </div>
       </div>
+      <SignOutButton/>
 
     </div>
     </div>
@@ -60,12 +61,14 @@ import { getUserProfile, deleteUserProfile, getUserSkills, getUserInterests, get
 import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
 import AddSkillButton from '@/components/Profile/AddSkillButton.vue'
+import SignOutButton from '@/components/Profile/SignOutButton.vue'
 
 export default {
   components: {
     UpdateProfileForm,
     SignIn,
-    AddSkillButton
+    AddSkillButton,
+    SignOutButton
   },
   data() {
     return {
@@ -138,6 +141,7 @@ export default {
         const response = await getUserProfileHyperlink(this.hyperlink)
         this.form = { ...this.form, ...response }// Set the form data with the response data
         localStorage.removeItem('hyperlink')
+        console.log('Got user info via hyperlink')
       } else if (this.userId) {
         const response = await getUserProfile(this.userId)
         this.form = { ...this.form, ...response }// Set the form data with the response data
