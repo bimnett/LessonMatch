@@ -148,7 +148,14 @@ export const createMessage = (chatroomID, senderID, sentAt, content) => {
       console.log(error)
     })
 }
-
+export const getMessages = async (chatroomId) => {
+  try {
+    const response = await Api.get(`/chatrooms/${chatroomId}/messages`)
+    return response.data
+  } catch (err) {
+    console.error('There was a problem retrieving the messages.')
+  }
+}
 export const createSkill = (name, level, category, user, isAnInterest) => {
   return Api.post('/messages', {
     name,
