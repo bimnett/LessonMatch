@@ -50,7 +50,7 @@ export default {
         this.messages.push(message)
       })
     },
-    async creatMessage(messageData) {
+    async sendMessage(messageData) {
       try {
         await creatMessage(messageData)
       } catch (error) {
