@@ -42,28 +42,6 @@ export default {
       } catch (error) {
         console.error('Error fetching chatrooms:', error)
       }
-    },
-    connectSocket() {
-      socket.auth = { userId: this.userId }
-      socket.connect()// Listen for incoming messages
-
-      socket.on('connect_error', () => {
-        console.log('There was an error connecting with the socket.')
-      })// You can also listen to other events like 'connect' and 'disconnect'
-      socket.on('connect', () => {
-        console.log('Connected to the chat server')
-      })
-    }
-  },
-  beforeDestroy() {
-    if (this.userId) {
-    // Clean up socket listeners
-      socket.off('new-chatrooms')
-      socket.off('message')
-      socket.off('connect')
-      socket.off('connect_error')
-
-      socket.disconnect()
     }
   }
 }
