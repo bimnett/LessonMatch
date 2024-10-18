@@ -3,7 +3,9 @@
         <h1 v-if="!chatrooms.length">No chats</h1>
         <div v-else>
             <div v-for="(chat, index) in chatrooms" :key="index">
-                {{ chat }}
+                <router-link :to="{ name: 'PrivateChatroom', params: { id: chat._id } }">
+                    {{ chat.name }}
+                </router-link>
             </div>
         </div>
     </div>
@@ -15,6 +17,7 @@
 <script>
 import SignIn from '@/components/SignIn/SignInButton.vue';
 import socket from "@/socket";
+import { getChatrooms } from '@/Api'
 
 export default {
     name: "Chatroom",
@@ -28,13 +31,22 @@ export default {
             userId: localStorage.getItem('userId')
         }
     },
-    async mounted(){
-        if(this.userId){
-            this.connectSocket();
-        }
+  async mounted() {
+    if (this.userId) {
+      this.connectSocket()
+      await this.getChatrooms()
+    }
     },
-    methods: {
-        connectSocket() {
+  methods: {
+    async getChatrooms() {
+      try {
+        const response = await getChatrooms(this.userId)
+        this.chatrooms = response.data
+      } catch (error) {
+        console.error('Error fetching chatrooms:', error)
+      }
+    },
+    connectSocket() {
 
             socket.auth = { userId: this.userId }
             socket.connect();
@@ -43,6 +55,10 @@ export default {
             socket.on('message', (chatMessage) => {
                 this.chatrooms.push(chatMessage); // Update the chat messages array
             });
+            // listen for new chatrooms or updates
+      socket.on('new-chatroom', (newChatroom) => {
+        this.chatrooms.push(newChatroom)
+      })
 
             socket.on('connect_error', () => {
                 console.log("There was an error connecting with the socket.")
@@ -58,6 +74,7 @@ export default {
         if (this.userId) {
 
             // Clean up socket listeners
+            socket.off('new-chatrooms')
             socket.off('message');
             socket.off('connect');
             socket.off('connect_error');
