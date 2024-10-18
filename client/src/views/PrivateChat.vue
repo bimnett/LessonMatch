@@ -92,7 +92,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  max-height: 80vh;
+  max-height: 70vh;
   overflow-y: auto;
 }
 
@@ -101,16 +101,17 @@ export default {
   margin: 5px 0;
   border-radius: 10px;
   max-width: 60%;
+  word-wrap: break-word;
 }
 
 .sent {
   align-self: flex-end;
-  background-color: #dcf8c6;
+  background-color: #eabff3;
 }
 
 .received {
   align-self: flex-start;
-  background-color: #f1f0f0;
+  background-color: #b7e7ef;
 }
 
 .message-content {
@@ -121,5 +122,26 @@ export default {
   font-size: 0.8em;
   text-align: right;
   color: #666;
+}
+.chat-input {
+  position: sticky;
+  bottom: 0;
+  width:100%;
+}
+@media (max-width:768px) {
+  .message-box{
+    max-width: 80%;
+  }
+  .messages-container {
+    padding: 5px;
+  }
+}
+@media (max-width:480px){
+  .message-box {
+    max-width: 90%;
+  }
+  .message-timestamp{
+    font-size: 0.7em;
+  }
 }
 </style>
