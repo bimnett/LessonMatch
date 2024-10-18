@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import SignIn from '@/components/SignIn/SignInButton.vue';
+import SignIn from '@/components/SignIn/SignInButton.vue'
 import socket from "@/socket";
 import { getChatrooms } from '@/Api'
 
