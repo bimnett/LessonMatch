@@ -5,7 +5,7 @@
     </div>
       <div class="message-container">
       <div v-for="message in messages" :key="message._id" :class="messageClass(message)">
-        <p class="message-content">{{ message.sender.name }}: {{ message.content }}</p>
+        <p class="message-content">{{ message.senderId.name }}: {{ message.content }}</p>
      <p class="message-timestamp">{{ formatTimestamp(message.sentAt) }}</p>
       </div>
       </div>
