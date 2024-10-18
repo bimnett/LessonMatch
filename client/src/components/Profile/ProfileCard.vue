@@ -34,7 +34,13 @@
                     {{ userData.location.city }}, {{ userData.location.country }}
                 </div>
                 <div>
-                    <b-button variant="outline-primary" id="msg-btn">Message Me</b-button>
+                    <b-button 
+                    v-if="!isOwnProfile" 
+                    variant="outline-primary" 
+                    id="msg-btn" 
+                    @click="handleChatBtn">
+                    Chat with me!
+                    </b-button>
                 </div>           
             </b-list-group-item>
             <b-list-group-item>
@@ -53,7 +59,6 @@
                 </b-badge>
               </b-col>
             </b-row>
-            <AddSkillButton v-if="isOwnProfile"/>
           </b-card-text>
   
           <b-card-text class="mt-4">
@@ -70,6 +75,8 @@
             </b-row>
           </b-card-text>
   
+          <AddSkillButton v-if="isOwnProfile"/>
+
           <div v-if="isOwnProfile" class="mt-4">
             <b-button-group>
               <b-button variant="outline-primary" @click="$emit('edit')">
@@ -87,12 +94,19 @@
   
 <script>
   import "./AddSkillButton.vue"
-import AddSkillButton from "./AddSkillButton.vue";
+  import AddSkillButton from "./AddSkillButton.vue";
+  import { createNewChat } from "@/Api";
 
   export default {
     name: 'ProfileCard',
     components: {
         AddSkillButton
+    },
+    data() {
+        return {
+            loggedInUser: localStorage.getItem('userId'),
+            user: this.$route.params.userId,
+        }
     },
     props: {
       userData: {
@@ -126,8 +140,18 @@ import AddSkillButton from "./AddSkillButton.vue";
                 localStorage.removeItem('userId')
                 this.$router.push('/')
             } catch (error) {
+                console.log('There was an error signing out.');
               }
-        } 
+        },
+        async handleChatBtn() {
+            try {
+                const newChat = await createNewChat(this.loggedInUser, this.user);
+                const chatroomId = newChat._id;
+                this.$router.push(`/chatrooms/${this.loggedInUser}/${chatroomId}`);
+            } catch(err) {
+                console.error('There was an error going to the chat.');
+            }
+        }
     }
   }
 </script>

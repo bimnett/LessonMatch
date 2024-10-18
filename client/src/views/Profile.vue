@@ -63,8 +63,7 @@ import { getUserProfile, deleteUserProfile, getUserSkills, getUserInterests, get
 import UpdateProfileForm from '@/components/Profile/UpdateProfileForm.vue'
 import ProfileCard from '@/components/Profile/ProfileCard.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
-import AddSkillButton from '@/components/Profile/AddSkillButton.vue'
-import SignOutButton from '@/components/Profile/SignOutButton.vue'
+
 
 export default {
   name: 'Profile',
@@ -76,8 +75,8 @@ export default {
   data() {
     return {
       editMode: false,
-      userId: this.$route.params.userId,  // Extract userId from the URL
-      loggedInUser: localStorage.getItem('userId'),  // Get logged in user ID from localStorage
+      userId: this.$route.params.userId,
+      loggedInUser: localStorage.getItem('userId'),
       hyperlink: localStorage.getItem('hyperlink'),
       form: {
         username: '',
