@@ -7,7 +7,8 @@
     v-if="isOwnProfile" 
     variant="danger" 
     class="position-absolute" 
-    style="top: 10px; right: 10px;">
+    style="top: 10px; right: 10px;"
+    @click="signOut">
     Sign Out
   </b-button>
 
@@ -111,6 +112,15 @@
         type: Boolean,
         default: false
       }
+    },
+    methods: {
+        async signOut() {
+            try {
+                localStorage.removeItem('userId')
+                this.$router.push('/')
+            } catch (error) {
+            }
+        } 
     }
   }
 </script>
