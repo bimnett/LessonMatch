@@ -3,27 +3,27 @@
     <h2>Update Profile</h2>
     <b-form @submit.prevent="submitUpdate">
       <div class="row">
-        <div class="col-12 col-md-6 mb-3">
+        <div class="col-12 mb-3">
           <label for="username">Username:</label>
           <input v-model="form.username" type="text" class="form-control" id="username" required />
         </div>
 
-        <div class="col-12 col-md-6 mb-3">
+        <div class="col-12 mb-3">
           <label for="password">Password:</label>
           <input v-model="form.password" type="password" class="form-control" id="password" required />
         </div>
 
-        <div class="col-12 col-md-6 mb-3">
+        <div class="col-12 mb-3">
           <label for="birth_date">Birth Date:</label>
           <input v-model="form.birth_date" type="date" class="form-control" id="birth_date" required />
         </div>
 
-        <div class="col-12 col-md-6 mb-3">
+        <div class="col-12 mb-3">
           <label for="location.city">City:</label>
           <input v-model="form.location.city" type="text" class="form-control" id="location.city" required />
         </div>
 
-        <div class="col-12 col-md-6 mb-3">
+        <div class="col-12 mb-3">
           <label for="location.country">Country:</label>
           <input v-model="form.location.country" type="text" class="form-control" id="location.country" required />
         </div>
@@ -106,12 +106,7 @@ h2 {
   text-align: center;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
-
 label {
-  display: block;
   margin-bottom: 5px;
   color: #6200ea;
 }
