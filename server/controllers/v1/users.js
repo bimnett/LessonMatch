@@ -290,6 +290,33 @@ router.get('/users/:id', async (req, res, next) => {
 });
 
 
+// POST endpoint - Create a chatroom for the given user
+router.post('/users/:id/chatrooms', async (req, res, next) => {
+    try { 
+        const user1_id = req.params.id;
+        const user2_id = req.body.user2;
+
+        // Check if a chat already exists
+        let chatroom = await Chatroom.findOne({
+            $or: [
+                { user1: user1_id, user2: user2_id },
+                { user1: user2_id, user2: user1_id }
+            ]
+        });
+
+        if(chatroom){
+            return res.status(200).json(chatroom);
+        }
+
+        chatroom = new Chatroom({user1: user1_id, user2: user2_id});
+        await chatroom.save();
+        res.status(201).json(chatroom);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
 // GET endpoint to retrieve all chatrooms for a specific user
 router.get('/users/:id/chatrooms/', (req, res, next) => {
     const userId  = req.params.id; 

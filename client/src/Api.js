@@ -39,7 +39,6 @@ export const logInUser = (username, password) => {
 export const updateUserProfile = (userId, formData) => {
   return Api.put(`/users/${userId}`, formData)
     .then(response => {
-      console.log(response.data)
       return response.data
     })
     .catch(error => {
@@ -50,11 +49,9 @@ export const updateUserProfile = (userId, formData) => {
 export const getUserProfile = (userId) => {
   return Api.get(`/users/${userId}`)
     .then(response => {
-      console.log(response.data)
       return response.data
     })
     .catch(error => {
-      console.log(error)
       throw error
     })
 }
@@ -65,7 +62,6 @@ export const getUserProfileHyperlink = (hyperlink) => {
       return response.data
     })
     .catch(error => {
-      console.log(error)
       throw error
     })
 }
@@ -73,24 +69,20 @@ export const getUserProfileHyperlink = (hyperlink) => {
 export const getUserSkills = (userId) => {
   return Api.get(`/users/${userId}/skills`)
     .then(response => {
-      console.log(response.data)
       const skills = response.data.filter(skill => skill.isAnInterest === false)
       return skills
     })
     .catch(error => {
-      console.log(error)
       throw error
     })
 }
 export const getUserInterests = (userId) => {
   return Api.get(`/users/${userId}/skills`)
     .then(response => {
-      console.log(response.data)
       const interests = response.data.filter(skill => skill.isAnInterest === true)
       return interests
     })
     .catch(error => {
-      console.log(error)
       throw error
     })
 }
@@ -98,11 +90,9 @@ export const getUserInterests = (userId) => {
 export const deleteUserProfile = (userId) => {
   return Api.delete(`/users/${userId}`)
     .then(response => {
-      console.log(response.data)
       return response.data
     })
     .catch(error => {
-      console.log(error)
       throw error
     })
 }
@@ -140,6 +130,17 @@ export const deleteAllMessages = async () => {
     console.error("There was a problem deleting all messages.");
   }
 }
+
+export const createNewChat = async (thisUser, otherUser) => {
+  try {
+    const response = await Api.post(`/users/${thisUser}/chatrooms`, {
+      user2: otherUser 
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const createMessage = (chatroomID, senderID, sentAt, content) => {
   return Api.post('/messages', {

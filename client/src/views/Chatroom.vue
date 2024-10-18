@@ -1,14 +1,11 @@
 <template>
-    <div v-if="userId">
+    <div>
         <h1 v-if="!chatrooms.length">No chats</h1>
         <div v-else>
             <div v-for="(chat, index) in chatrooms" :key="index">
                 {{ chat }}
             </div>
         </div>
-    </div>
-    <div v-else>
-        <SignIn/>
     </div>
 </template>
 
