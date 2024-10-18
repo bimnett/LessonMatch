@@ -7,15 +7,13 @@
 
 <script>
 export default {
-  props: {
-    chatroomId: {
-      type: String,
-      required: true
-    }
-  },
+
   data() {
     return {
-      message: ''
+      message: '',
+      sentAt: Date.now,
+      senderId: localStorage.getItem('userId'),
+      chatroomId: this.$route.params.chatroomId
     }
   },
   methods: {

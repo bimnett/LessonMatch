@@ -47,11 +47,6 @@ export default {
       socket.auth = { userId: this.userId }
       socket.connect()// Listen for incoming messages
 
-      // listen for new chatrooms or updates
-      socket.on('new-chatroom', (newChatroom) => {
-        this.chatrooms.push(newChatroom)
-      })
-
       socket.on('connect_error', () => {
         console.log('There was an error connecting with the socket.')
       })// You can also listen to other events like 'connect' and 'disconnect'

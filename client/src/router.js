@@ -9,7 +9,7 @@ import Admin from './views/Admin.vue'
 import SignIn from './views/SignIn.vue'
 import PopUp from './views/PopUp.vue'
 import AddSkill from './views/AddSkill.vue'
-import PrivetChat from './views/PrivetChat.vue'
+import PrivateChat from './views/PrivateChat.vue'
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
@@ -21,7 +21,7 @@ const routes = [
   { path: '/signin', name: 'Sign In', component: SignIn },
   { path: '/popup', name: 'Pop Up', component: PopUp },
   { path: '/addskill', name: 'Add Skill', component: AddSkill },
-  { path: '/privetchat', name: 'Privet Chat', component: PrivetChat }
+  { path: '/chatrooms/:userId/:chatroomId', name: 'Private Chat', component: PrivateChat }
 ]
 
 const router = createRouter({
