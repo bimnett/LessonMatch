@@ -120,6 +120,26 @@ export default {
         })
       }
     },
+    async loadProfileData(userId) {
+    try {
+      const response = await getUserProfile(userId);
+      this.form = { ...this.form, ...response };
+      this.form.birth_date = this.form.birth_date.slice(0, 10);
+
+      if (!this.form.location) {
+        this.form.location = { city: '', country: '' };
+      }
+
+      await this.fetchSkillsAndInterests(userId);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      this.$bvToast.toast('Error fetching user data', {
+        title: 'Error',
+        variant: 'danger',
+        solid: true
+      });
+    }
+  },
     async confirmDeleteProfile() {
       try {
         if (!this.userId) throw new Error('User not found')
@@ -160,32 +180,34 @@ export default {
           solid: true
         })
       }
-    }
+    },
   },
   async mounted() {
     try {
       if (this.hyperlink) {
-        const response = await getUserProfileHyperlink(this.hyperlink)
-        this.form = { ...this.form, ...response }
-        localStorage.removeItem('hyperlink')
-      } else {
-        const response = await getUserProfile(this.userId)
-        this.form = { ...this.form, ...response }
-        this.form.birth_date = this.form.birth_date.slice(0, 10);
+        // If the profile is being loaded via a hyperlink
+        const response = await getUserProfileHyperlink(this.hyperlink);
+        this.form = { ...this.form, ...response };
+        localStorage.removeItem('hyperlink');
+    } else {
+        await this.loadProfileData(this.userId);
       }
-
-      if (!this.form.location) {
-        this.form.location = { city: '', country: '' }
-      }
-
-      await this.fetchSkillsAndInterests(this.userId)
     } catch (error) {
-      console.error('Error fetching user data:', error)
-      this.$bvToast.toast('Error fetching user data', {
-        title: 'Error',
-        variant: 'danger',
-        solid: true
-      })
+        console.error('Error fetching user data:', error);
+        this.$bvToast.toast('Error fetching user data', {
+          title: 'Error',
+          variant: 'danger',
+          solid: true
+        });
+      }
+  },
+  watch: {
+    '$route.params.userId': {
+      immediate: true,
+      handler(newUserId) {
+        this.userId = newUserId;
+        this.loadProfileData(newUserId);
+      }
     }
   }
 }

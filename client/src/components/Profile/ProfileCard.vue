@@ -53,6 +53,7 @@
                 </b-badge>
               </b-col>
             </b-row>
+            <AddSkillButton v-if="isOwnProfile"/>
           </b-card-text>
   
           <b-card-text class="mt-4">
@@ -85,8 +86,14 @@
 </template>
   
 <script>
+  import "./AddSkillButton.vue"
+import AddSkillButton from "./AddSkillButton.vue";
+
   export default {
     name: 'ProfileCard',
+    components: {
+        AddSkillButton
+    },
     props: {
       userData: {
         type: Object,
@@ -119,7 +126,7 @@
                 localStorage.removeItem('userId')
                 this.$router.push('/')
             } catch (error) {
-            }
+              }
         } 
     }
   }
