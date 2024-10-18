@@ -46,6 +46,7 @@
           </div>
         </b-modal>
       </div>
+      <SignOutButton/>
 
         <!-- Edit Profile form if in edit mode -->
         <div v-else>
@@ -65,6 +66,7 @@ import UpdateProfileForm from '@/components/Profile/UpdateProfileForm.vue'
 import ProfileCard from '@/components/Profile/ProfileCard.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
 import AddSkillButton from '@/components/Profile/AddSkillButton.vue'
+import SignOutButton from '@/components/Profile/SignOutButton.vue'
 
 export default {
   name: 'Profile',
