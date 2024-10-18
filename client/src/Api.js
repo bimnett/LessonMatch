@@ -132,6 +132,17 @@ export const deleteAllMessages = async () => {
   }
 }
 
+export const createNewChat = async (thisUser, otherUser) => {
+  try {
+    const response = await Api.post(`/users/${thisUser}/chatrooms`, {
+      user2: otherUser 
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const createMessage = (chatroomID, senderID, sentAt, content) => {
   return Api.post('/messages', {
     chatroomID,
