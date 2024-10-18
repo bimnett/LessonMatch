@@ -6,19 +6,6 @@ const Chatroom = require('../../models/chatroom');
 const Message = require('../../models/message');
 
 
-// POST endpoint - Create a chatroom for the given user
-router.post('/users/:id/chatrooms', async (req, res, next) => {
-    try { 
-        const user1_id = req.params.id;
-        const user2_id = req.body.user2;
-        const chatroom = new Chatroom({user1: user1_id, user2: user2_id});
-        await chatroom.save();
-        res.status(201).json(chatroom);
-    } catch (error) {
-        next(error);
-    }
-});
-
 // Delete all messages from a chatroom
 router.delete('/chatrooms/:id/messages', async (req, res, next) => {
 
