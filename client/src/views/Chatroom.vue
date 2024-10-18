@@ -16,27 +16,27 @@
 
 <script>
 import SignIn from '@/components/SignIn/SignInButton.vue'
-import socket from "@/socket";
+import socket from '@/socket'
 import { getChatrooms } from '@/Api'
 
 export default {
-    name: "Chatroom",
-    components: {
-        SignIn
-    },
+  name: 'Chatroom',
+  components: {
+    SignIn
+  },
 
-    data() {
-        return {
-            chatrooms: [],
-            userId: localStorage.getItem('userId')
-        }
-    },
+  data() {
+    return {
+      chatrooms: [],
+      userId: localStorage.getItem('userId')
+    }
+  },
   async mounted() {
     if (this.userId) {
       this.connectSocket()
       await this.getChatrooms()
     }
-    },
+  },
   methods: {
     async getChatrooms() {
       try {
@@ -47,41 +47,35 @@ export default {
       }
     },
     connectSocket() {
-
-            socket.auth = { userId: this.userId }
-            socket.connect();
-
-            // Listen for incoming messages
-            socket.on('message', (chatMessage) => {
-                this.chatrooms.push(chatMessage); // Update the chat messages array
-            });
-            // listen for new chatrooms or updates
+      socket.auth = { userId: this.userId }
+      socket.connect()// Listen for incoming messages
+      socket.on('message', (chatMessage) => {
+        this.chatrooms.push(chatMessage) // Update the chat messages array
+      })
+      // listen for new chatrooms or updates
       socket.on('new-chatroom', (newChatroom) => {
         this.chatrooms.push(newChatroom)
       })
 
-            socket.on('connect_error', () => {
-                console.log("There was an error connecting with the socket.")
-            });
-
-            // You can also listen to other events like 'connect' and 'disconnect'
-            socket.on('connect', () => {
-                console.log('Connected to the chat server');
-            });
-        }
-    },
-    beforeDestroy() {
-        if (this.userId) {
-
-            // Clean up socket listeners
-            socket.off('new-chatrooms')
-            socket.off('message');
-            socket.off('connect');
-            socket.off('connect_error');
-
-            socket.disconnect();
-        }
+      socket.on('connect_error', () => {
+        console.log('There was an error connecting with the socket.')
+      })// You can also listen to other events like 'connect' and 'disconnect'
+      socket.on('connect', () => {
+        console.log('Connected to the chat server')
+      })
     }
+  },
+  beforeDestroy() {
+    if (this.userId) {
+    // Clean up socket listeners
+      socket.off('new-chatrooms')
+      socket.off('message')
+      socket.off('connect')
+      socket.off('connect_error')
+
+      socket.disconnect()
+    }
+  }
 }
 </script>
 
