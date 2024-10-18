@@ -14,7 +14,7 @@
 <script>
 import ChatInput from '@/components/ChatInput.vue'
 import socket from '@/socket'
-import { getMessages, creatMessage } from '@/Api'
+import { getMessages, createMessage } from '@/Api'
 
 export default {
   components: {
@@ -58,7 +58,7 @@ export default {
     },
     async sendMessage(messageData) {
       try {
-        await creatMessage(messageData)
+        await createMessage(messageData)
       } catch (error) {
         console.error('Error sending message:', error)
       }

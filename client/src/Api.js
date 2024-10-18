@@ -133,10 +133,10 @@ export const deleteAllMessages = async () => {
   }
 }
 
-export const createMessage = (chatroomID, senderID, sentAt, content) => {
+export const createMessage = (chatroomId, senderId, sentAt, content) => {
   return Api.post('/messages', {
-    chatroomID,
-    senderID,
+    chatroomId,
+    senderId,
     sentAt,
     content
   })
