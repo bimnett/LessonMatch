@@ -1,76 +1,86 @@
 <template>
- <div v-if="userId">
-    <h1>Your Profile</h1>
-    <Toast ref="toast" />
-    <div v-if="!editMode">
-      <p><strong>Username:</strong> {{ form.username }}</p>
-      <p><strong>Password:</strong> {{ form.password }}</p>
-      <p><strong>Birth Date:</strong> {{ form.birth_date }}</p>
-      <p><strong>City:</strong> {{ form.location.city }}</p>
-      <p><strong>Country:</strong> {{ form.location.country }}</p>
-      <p><strong>Skills:</strong> <ul> <li v-for= "skill in skills" :key="skill._id">{{ skill.name }} (Level: {{ skill.level }}, Category: {{ skill.category }})</li></ul></p>
-      <p><strong>Interests:</strong> <ul> <li v-for= "interest in interests" :key="interest._id">{{ interest.name }} (Level: {{ interest.level }}, Category: {{ interest.category }})</li></ul></p>
-
-      <b-button @click="editMode = true" variant="link">Edit Profile</b-button>
-      <div>
-        <b-button @click="showConfirmDelete = !showConfirmDelete" variant="danger">Delete Profile</b-button>
-
-           <div v-show="showConfirmDelete" class="mt-2">
-          <p>Are you sure you want to delete your profile? This action cannot be undone.</p>
-          <div class="checkbox-bar">
-        <b-form-checkbox v-model="confirmedDelete">
-          I understand the consequences.
-        </b-form-checkbox>
-        </div>
-      <div class="button-group mt-2">
-          <b-button
-            @click="confirmDeleteProfile"
-            variant="danger"
-            :disabled="!confirmedDelete"
-          >Yes, Delete My Profile</b-button>
-
-          <b-button @click="cancelDelete" variant="secondary">Cancel</b-button>
-
+  <div class="container">
+    <div class="col-12">
+      <div v-if="!editMode">
+        <!-- Display User Profile -->
+        <ProfileCard
+          :userData="form"
+          :skills="skills"
+          :interests="interests"
+          :isOwnProfile="isOwnProfile"
+          @edit="editMode = true"
+          @delete="showConfirmDelete = !showConfirmDelete"
+        />
+        <!-- Delete Profile Confirmation -->
+        <b-modal
+          v-model="showConfirmDelete"
+          title="Delete Profile"
+          header-bg-variant="danger"
+          header-text-variant="light"
+          hide-footer
+        >
+          <div class="text-center">
+            <p class="mb-4">Are you sure you want to delete your profile? This action cannot be undone.</p>
+            <b-form-checkbox
+              v-model="confirmedDelete"
+              class="mb-4"
+            >
+              I understand the consequences.
+            </b-form-checkbox>
+            <div class="d-flex justify-content-center">
+              <b-button
+                variant="danger"
+                :disabled="!confirmedDelete"
+                @click="confirmDeleteProfile"
+                class="mr-2"
+              >
+                Yes, Delete My Profile
+              </b-button>
+              <b-button
+                variant="secondary"
+                @click="cancelDelete"
+              >
+                Cancel
+              </b-button>
+            </div>
+          </div>
+        </b-modal>
+      </div>
+        <!-- Edit Profile form if in edit mode -->
+        <div v-else>
+          <UpdateProfileForm
+            :initialFormData="form"
+            @update-profile="handleUpdateProfile"
+            @cancel-edit="editMode = false"
+          />
         </div>
       </div>
-
-    </div>
-    </div>
-
-    <div v-else>
-      <UpdateProfileForm
-        :initialFormData="form"
-        @update-profile="handleUpdateProfile"
-        @cancel-edit="editMode = false"
-      />
-    </div>
   </div>
-  <div v-else>
-    <SignIn/>
-  </div>
-
 </template>
 
 <script>
-import { getUserProfile, updateUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
-import UpdateProfileForm from '@/components/UpdateProfileForm.vue'
+import { getUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
+import UpdateProfileForm from '@/components/Profile/UpdateProfileForm.vue'
+import ProfileCard from '@/components/Profile/ProfileCard.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
-import Toast from '@/components/toast.vue'
+import AddSkillButton from '@/components/Profile/AddSkillButton.vue'
+import SignOutButton from '@/components/Profile/SignOutButton.vue'
 
 export default {
+  name: 'Profile',
   components: {
     UpdateProfileForm,
-    SignIn,
-    Toast
+    ProfileCard,
+    SignIn
   },
   data() {
     return {
       editMode: false,
-      userId: localStorage.getItem('userId'),
+      userId: this.$route.params.userId,  // Extract userId from the URL
+      loggedInUser: localStorage.getItem('userId'),  // Get logged in user ID from localStorage
       hyperlink: localStorage.getItem('hyperlink'),
       form: {
         username: '',
-        password: '',
         birth_date: '',
         location: {
           city: '',
@@ -85,48 +95,68 @@ export default {
       confirmedDelete: false
     }
   },
+  computed: {
+    isOwnProfile() {
+      return this.userId === this.loggedInUser
+    }
+  },
   methods: {
     async handleUpdateProfile(updatedData) {
       try {
         if (!this.userId) throw new Error('User not found')
-
-        await updateUserProfile(this.userId, updatedData)
-
-        this.form = updatedData
-        this.$refs.toast.showToast({
+        this.form = { ...this.form, ...updatedData }
+        this.$bvToast.toast('Your profile has been updated successfully!', {
           title: 'Success',
-          message: 'Your profile has been updated successfully!',
-          variant: 'success'
+          variant: 'success',
+          solid: true
         })
         this.editMode = false
       } catch (error) {
         console.error('Error updating profile:', error)
-        this.$refs.toast.showToast({
+        this.$bvToast.toast('Error updating profile!', {
           title: 'Error',
-          message: 'Error updating profile',
-          variant: 'danger'
+          variant: 'danger',
+          solid: true
         })
       }
     },
+    async loadProfileData(userId) {
+    try {
+      const response = await getUserProfile(userId);
+      this.form = { ...this.form, ...response };
+      this.form.birth_date = this.form.birth_date.slice(0, 10);
+
+      if (!this.form.location) {
+        this.form.location = { city: '', country: '' };
+      }
+
+      await this.fetchSkillsAndInterests(userId);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      this.$bvToast.toast('Error fetching user data', {
+        title: 'Error',
+        variant: 'danger',
+        solid: true
+      });
+    }
+  },
     async confirmDeleteProfile() {
       try {
         if (!this.userId) throw new Error('User not found')
-
         await deleteUserProfile(this.userId)
-
-        this.$refs.toast.showToast({
+        this.$bvToast.toast('Profile deleted successfully!', {
           title: 'Success',
-          message: 'Profile deleted successfully!',
-          variant: 'success'
+          variant: 'success',
+          solid: true
         })
         localStorage.removeItem('userId')
         this.$router.push({ name: 'Home' })
       } catch (error) {
         console.error('Error deleting profile:', error)
-        this.$refs.toast.showToast({
+        this.$bvToast.toast('Error deleting profile', {
           title: 'Error',
-          message: 'Error deleting profile',
-          variant: 'danger'
+          variant: 'danger',
+          solid: true
         })
       }
     },
@@ -136,42 +166,53 @@ export default {
     },
     async fetchSkillsAndInterests(userId) {
       try {
-        const skillsResponse = await getUserSkills(userId)
+        const [skillsResponse, interestsResponse] = await Promise.all([
+          getUserSkills(userId),
+          getUserInterests(userId)
+        ])
         this.skills = skillsResponse
-
-        const interestsResponse = await getUserInterests(userId)
         this.interests = interestsResponse
       } catch (error) {
         console.error('Error fetching skills or interests:', error)
-        this.$refs.toast.showToast({
+        this.$bvToast.toast('Error fetching skills or interests', {
           title: 'Error',
-          message: 'Error fetching skills or interests',
-          variant: 'danger'
+          variant: 'danger',
+          solid: true
         })
       }
-    }
+    },
   },
   async mounted() {
     try {
       if (this.hyperlink) {
-        const response = await getUserProfileHyperlink(this.hyperlink)
-        this.form = response// Set the form data with the response data
-        localStorage.removeItem('hyperlink')
-        console.log('Successful GET request via hyperlink')
-      } else if (this.userId) {
-        const response = await getUserProfile(this.userId)
-        this.form = response// Set the form data with the response data
-        console.log('Successful GET request')
+        // If the profile is being loaded via a hyperlink
+        const response = await getUserProfileHyperlink(this.hyperlink);
+        this.form = { ...this.form, ...response };
+        localStorage.removeItem('hyperlink');
+    } else {
+        await this.loadProfileData(this.userId);
       }
-      await this.fetchSkillsAndInterests(this.userId)
     } catch (error) {
-      console.error('Error fetching user data:', error)
-      this.$refs.toast.showToast({
-        title: 'Error',
-        message: 'Error fetching user data',
-        variant: 'danger'
-      })
+        console.error('Error fetching user data:', error);
+        this.$bvToast.toast('Error fetching user data', {
+          title: 'Error',
+          variant: 'danger',
+          solid: true
+        });
+      }
+  },
+  watch: {
+    '$route.params.userId': {
+      immediate: true,
+      handler(newUserId) {
+        this.userId = newUserId;
+        this.loadProfileData(newUserId);
+      }
     }
   }
 }
 </script>
+
+<style scoped>
+
+</style>

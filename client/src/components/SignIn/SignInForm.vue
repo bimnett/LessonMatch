@@ -22,14 +22,20 @@ export default {
   methods: {
     async signIn() {
         try {
-            await logInUser(
+            const loggedInUser = await logInUser(
                 this.username,
                 this.password
             );
-            console.log('Log-In successful');
 
-            this.$router.push('/');
-            
+            if (!loggedInUser){
+              window.alert('Invalid username or password. Please try again.')
+              this.username = ''
+              this.password = ''
+            } else {
+              console.log('Log-In successful');
+              this.$router.push('/');
+            }
+                        
         } catch (error) {
             console.error(error);
         }
