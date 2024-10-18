@@ -45,17 +45,18 @@ export default {
       }
     },
     connectSocket() {
-      socket.auth = { userId: this.userId }
       socket.connect()
+
+      socket.on('connect', () => {
+        console.log('Connected to the chat server')
+      })
+
+      socket.on('connect_error', () => {
+        console.log('There was an error connecting with the socket.')
+      })
 
       socket.on('message', (message) => {
         this.messages.push(message)
-      })
-      socket.on('connect_error', () => {
-        console.log('There was an error connecting with the socket.')
-      })// You can also listen to other events like 'connect' and 'disconnect'
-      socket.on('connect', () => {
-        console.log('Connected to the chat server')
       })
     },
     async sendMessage(messageData) {
@@ -76,12 +77,13 @@ export default {
     formatTimestamp(timestamp) {
       const date = new Date(timestamp)
       return date.toLocaleString()
-    }
-  },
-
-  beforeDestroy() {
-    if (this.userId) {
+    },
+    beforeDestroy() {
+      // Clean up socket listeners
       socket.off('message')
+      socket.off('connect')
+      socket.off('connect_error')
+
       socket.disconnect()
     }
   }
