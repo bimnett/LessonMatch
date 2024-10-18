@@ -110,17 +110,17 @@ export const deleteUserProfile = (userId) => {
 }
 export const getChatrooms = async (userId) => {
   try {
-    const response = await Api.get('/chatrooms/');
-    return response.data;
-  }catch(err){
-    console.error("There was a problem retrieving the chatrooms.");
+    const response = await Api.get('/chatrooms/')
+    return response.data
+  } catch (err) {
+    console.error('There was a problem retrieving the chatrooms.')
   }
 }
 export const deleteAllUsers = async () => {
-  try{
-    const response = await Api.delete('/users/');
-    return response.data;
-  } catch(err){
+  try {
+    const response = await Api.delete('/users/')
+    return response.data
+  } catch (err) {
     console.error("There was a problem deleting all users.");
   }
 }

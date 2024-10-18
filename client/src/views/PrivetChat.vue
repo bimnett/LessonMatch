@@ -49,6 +49,12 @@ export default {
       socket.on('message', (message) => {
         this.messages.push(message)
       })
+      socket.on('connect_error', () => {
+        console.log('There was an error connecting with the socket.')
+      })// You can also listen to other events like 'connect' and 'disconnect'
+      socket.on('connect', () => {
+        console.log('Connected to the chat server')
+      })
     },
     async sendMessage(messageData) {
       try {

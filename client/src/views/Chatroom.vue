@@ -49,9 +49,7 @@ export default {
     connectSocket() {
       socket.auth = { userId: this.userId }
       socket.connect()// Listen for incoming messages
-      socket.on('message', (chatMessage) => {
-        this.chatrooms.push(chatMessage) // Update the chat messages array
-      })
+
       // listen for new chatrooms or updates
       socket.on('new-chatroom', (newChatroom) => {
         this.chatrooms.push(newChatroom)
