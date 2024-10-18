@@ -1,7 +1,7 @@
 <template>
     <div>
         <router-link :to="`/`">
-        <b-button @click="removeHyperlink" class="btn_message" variant="primary">Got to home page</b-button>
+        <b-button @click="removeHyperlink" class="btn_message" variant="primary">Home Page</b-button>
         </router-link>
     </div>
 </template>

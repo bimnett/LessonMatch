@@ -64,6 +64,7 @@ import { getUserProfile, deleteUserProfile, getUserSkills, getUserInterests, get
 import UpdateProfileForm from '@/components/Profile/UpdateProfileForm.vue'
 import ProfileCard from '@/components/Profile/ProfileCard.vue'
 import SignIn from '@/components/SignIn/SignInButton.vue'
+import AddSkillButton from '@/components/Profile/AddSkillButton.vue'
 
 export default {
   name: 'Profile',

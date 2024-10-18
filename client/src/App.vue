@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="nav">
+    <div class="nav" v-if="showNav">
       <router-link to="/">Home</router-link>
       <router-link to="/search">Search</router-link>
 
@@ -30,6 +30,12 @@ export default {
     return {
       userId: localStorage.getItem('userId'),
       admin: localStorage.getItem('admin')
+    }
+  },
+  computed: {
+    showNav () {
+      const hideNavBarOnPaths = ['/popup']
+      return !hideNavBarOnPaths.includes(this.$route.path)
     }
   }
 }
