@@ -12,7 +12,6 @@ export const registerUser = (username, password, birth_date, location) => {
     location
   })
     .then(response => {
-      console.log(response.data)
       const hyperlink = response.data.hyperlink.href
       localStorage.setItem('hyperlink', hyperlink)
       return response
@@ -28,9 +27,9 @@ export const logInUser = (username, password) => {
     password
   })
     .then(response => {
-      console.log('User ID created')
       const userId = response.data
       localStorage.setItem('userId', userId)
+      console.log('User ID created')
       return response
     })
     .catch(error => {
@@ -63,7 +62,6 @@ export const getUserProfile = (userId) => {
 export const getUserProfileHyperlink = (hyperlink) => {
   return Api.get(hyperlink)
     .then(response => {
-      console.log(response.data)
       return response.data
     })
     .catch(error => {
@@ -151,7 +149,6 @@ export const createMessage = (chatroomID, senderID, sentAt, content) => {
     content
   })
     .then(response => {
-      console.log(response.data)
       return response
     })
     .catch(error => {
