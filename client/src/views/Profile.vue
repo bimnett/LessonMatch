@@ -46,8 +46,6 @@
           </div>
         </b-modal>
       </div>
-      <SignOutButton/>
-
         <!-- Edit Profile form if in edit mode -->
         <div v-else>
           <UpdateProfileForm
