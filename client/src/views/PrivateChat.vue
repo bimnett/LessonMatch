@@ -1,5 +1,8 @@
 <template>
     <div v-if="userId">
+      <div class="chat-header" @click="goToUserProfile">
+      <h3>{{ recipientUserName }}</h3>
+    </div>
       <div class="message-container">
       <div v-for="message in messages" :key="message._id" :class="messageClass(message)">
         <p class="message-content">{{ message.sender.name }}: {{ message.content }}</p>
@@ -16,7 +19,7 @@
 <script>
 import ChatInput from '@/components/ChatInput.vue'
 import socket from '@/socket'
-import { getMessages, createMessage } from '@/Api'
+import { getMessages, createMessage, getChatroomById, getUserProfile } from '@/Api'
 
 export default {
   components: {
@@ -26,16 +29,36 @@ export default {
     return {
       messages: [],
       userId: localStorage.getItem('userId'),
-      chatroomId: this.$route.params.chatroomId
+      chatroomId: this.$route.params.chatroomId,
+      recipientId: '',
+      recepientUserName: ''
     }
   },
   async mounted() {
     if (this.userId) {
+      await this.getChatroomData()
       this.connectSocket()
       await this.getMessages()
     }
   },
   methods: {
+    async getChatroomData() {
+      try {
+        const response = await getChatroomById(this.chatroomId)
+        const chatroom = response.data
+
+        if (chatroom.user1._id !== this.userId) {
+          this.recipientId = chatroom.user1._id
+        } else {
+          this.recipientId = chatroom.user2._id
+        }
+
+        const recipientProfile = await getUserProfile(this.recipientId)
+        this.recepientName = recipientProfile.username
+      } catch (error) {
+        console.error('Error getting chatroom data or user profile:', error)
+      }
+    },
     async getMessages() {
       try {
         const response = await getMessages(this.chatroomId)
@@ -45,7 +68,12 @@ export default {
       }
     },
     connectSocket() {
+      socket.auth = { userId: this.userId }
       socket.connect()
+
+      socket.on('message', (message) => {
+        this.messages.push(message)
+      })
 
       socket.on('connect', () => {
         console.log('Connected to the chat server')
@@ -53,10 +81,6 @@ export default {
 
       socket.on('connect_error', () => {
         console.log('There was an error connecting with the socket.')
-      })
-
-      socket.on('message', (message) => {
-        this.messages.push(message)
       })
     },
     async sendMessage(messageData) {
@@ -78,17 +102,20 @@ export default {
       const date = new Date(timestamp)
       return date.toLocaleString()
     },
-    beforeDestroy() {
-      // Clean up socket listeners
-      socket.off('message')
-      socket.off('connect')
-      socket.off('connect_error')
+    goToUserProfile() {
+      this.$router.push(`/profile/${this.recipientId}`)
+    }
+  },
 
+  beforeDestroy() {
+    if (this.userId) {
+      socket.off('message')
       socket.disconnect()
     }
   }
 }
 </script>
+
 <style scoped>
 .messages-container {
   display: flex;
@@ -97,7 +124,19 @@ export default {
   max-height: 70vh;
   overflow-y: auto;
 }
-
+.chat-header {
+  background-color: #6200ea;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+.chat-header:hover {
+  background-color: #3700b3;
+}
 .message-box {
   padding: 10px;
   margin: 5px 0;
