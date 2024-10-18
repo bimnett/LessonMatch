@@ -105,6 +105,14 @@ export const getChatrooms = async (userId) => {
     console.error('There was a problem retrieving the chatrooms.')
   }
 }
+export const getChatroomById = async (chatroomId) => {
+  try {
+    const response = await Api.get('/chatrooms/:id')
+    return response.data
+  } catch (err) {
+    console.error('There was a problem retrieving this chatroom.')
+  }
+}
 export const deleteAllUsers = async () => {
   try {
     const response = await Api.delete('/users/')
