@@ -1,22 +1,22 @@
 <template>
   <div id="app">
     <div class="nav" v-if="showNav">
-      <router-link to="/">Home</router-link>
-
+      <img src="../Logo.png" class="logo">
+      <router-link class="nav-link" to="/">Home</router-link>
       <div v-if="userId" class="nav-group">
-        <router-link to="/search">Search</router-link>
-        <router-link :to="`/profile/${userId}`">Profile</router-link>
-        <router-link class="chatroom-link" :to="`/chatrooms/${userId}`">Chatroom</router-link>
-        <router-link :to="`/admin`" v-if="admin">Admin</router-link>
+        <router-link class="nav-link" to="/search">Search</router-link>
+        <router-link class="nav-link" :to="`/profile/${userId}`">Profile</router-link>
+        <router-link class="nav-link" :to="`/chatrooms/${userId}`">Chatroom</router-link>
+        <router-link class="nav-link" :to="`/admin`" v-if="admin">Admin</router-link>
       </div>
 
       <div v-else class="nav-group">
-        <router-link to="/signin">Search</router-link>
-        <router-link to="/signin">Profile</router-link>
-        <router-link to="/signin">Chatroom</router-link>
+        <router-link class="nav-link" to="/signin">Search</router-link>
+        <router-link class="nav-link" to="/signin">Profile</router-link>
+        <router-link class="nav-link" to="/signin">Chatroom</router-link>
       </div>
       
-      <router-link to="/signin">Sign in</router-link>
+      <router-link class="nav-link" to="/signin">Sign in</router-link>
     </div>
     <router-view @signed-out="handleSignOut" />
   </div>
@@ -71,19 +71,46 @@ export default {
   color: #2c3e50;
 }
 
+.logo {
+  width: 5.2em;
+  height: 5.2em;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  left: 7rem;
+}
+
 .nav {
-  margin: 10px;
   display: flex;
   justify-content: center;
-  gap: 25px;
+  align-items: center;
+  gap: 6.5rem;
+  padding: 1.8em 0;
+  background: white;
+  position: relative; 
 }
 
 .nav-group {
   display: flex;
-  gap: 25px; /* This ensures consistent spacing within the group */
+  gap: 6rem;
 }
 
 .nav a {
   text-decoration: none;
+}
+
+.nav .nav-link {
+  color: black;
+  padding: 0.8rem 0.8rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  font-size: 1.3rem;
+}
+
+.nav .nav-link:hover {
+  background-color: #624eca;
+  color: white;
+  border-radius: 5px;
 }
 </style>
