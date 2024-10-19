@@ -178,3 +178,12 @@ export const createSkill = (name, level, category, userId, isAnInterest) => {
       console.log(error)
     })
 }
+
+export const getChatroomsOfUser = async (userId) => {
+  try {
+    const response = await Api.get(`/users/${userId}/chatrooms/`)
+    return response.data
+  } catch (err) {
+    console.error('There was a problem retrieving the chatrooms.')
+  }
+}
