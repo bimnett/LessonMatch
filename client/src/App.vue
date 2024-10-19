@@ -18,7 +18,7 @@
       
       <router-link to="/signin">Sign in</router-link>
     </div>
-    <router-view/>
+    <router-view @signed-out="handleSignOut" />
   </div>
 </template>
 
@@ -38,6 +38,26 @@ export default {
       const hideNavBarOnPaths = ['/popup']
       return !hideNavBarOnPaths.includes(this.$route.path)
     }
+  },
+  watch: {
+    userId(){
+      this.userId = localStorage.getItem('userId')
+      this.admin = localStorage.getItem('admin')
+    }
+  },
+  methods: {
+    handleSignOut(){
+      localStorage.removeItem('userId');
+      localStorage.removeItem('admin');
+
+      this.userId = null;
+      this.admin = null;
+    }
+  },
+  mounted() {
+    // Update userId and admin initially to catch the correct values
+    this.userId = localStorage.getItem('userId');
+    this.admin = localStorage.getItem('admin');
   }
 }
 </script>

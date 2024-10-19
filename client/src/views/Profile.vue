@@ -10,6 +10,7 @@
           :isOwnProfile="isOwnProfile"
           @edit="editMode = true"
           @delete="showConfirmDelete = !showConfirmDelete"
+          @signed-out="handleSignOut" 
         />
         <!-- Delete Profile Confirmation -->
         <b-modal
@@ -118,6 +119,10 @@ export default {
           solid: true
         })
       }
+    },
+    handleSignOut(){
+      this.$emit('signed-out');
+      this.$router.push('/');
     },
     async loadProfileData(userId) {
     try {

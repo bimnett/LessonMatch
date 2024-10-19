@@ -3,14 +3,10 @@
       class="profile-card shadow-sm"
     >
 
-    <b-button 
-    v-if="isOwnProfile" 
-    variant="danger" 
-    class="position-absolute" 
-    style="top: 10px; right: 10px;"
-    @click="signOut">
-    Sign Out
-  </b-button>
+    <SignOutButton 
+    :isOwnProfile="isOwnProfile" 
+    @signed-out="handleSignOut" 
+    />
 
       <b-row>
         <b-col cols="12" md="12" class="text-center mb-4">
@@ -106,6 +102,7 @@
         return {
             loggedInUser: localStorage.getItem('userId'),
             user: this.$route.params.userId,
+            admin: localStorage.getItem('admin')
         }
     },
     props: {
@@ -135,13 +132,8 @@
       }
     },
     methods: {
-        async signOut() {
-            try {
-                localStorage.removeItem('userId')
-                this.$router.push('/')
-            } catch (error) {
-                console.log('There was an error signing out.');
-              }
+        handleSignOut() {
+            this.$emit('signed-out');
         },
         async handleChatBtn() {
             try {

@@ -1,23 +1,39 @@
 <template>
-    <div>
-        <router-link :to="`/`">
-        <b-button @click="signOut" class="btn_message" variant="primary">Sign Out</b-button>
-        </router-link>
-    </div>
+    <b-button 
+      v-if="isOwnProfile" 
+      variant="danger" 
+      class="sign-out-button" 
+      @click="signOut">
+      Sign Out
+    </b-button>
 </template>
-
+  
 <script>
-export default {
+  export default {
     name: 'SignOutButton',
+    props: {
+      isOwnProfile: {
+        type: Boolean,
+        required: true,
+      }
+    },
     methods: {
-        async signOut() {
+      async signOut() {
         try {
-            localStorage.removeItem('userId')
-            console.log('User signed out successfully')
+          // Emit an event to notify parent about sign out
+          this.$emit('signed-out');
         } catch (error) {
-            console.error(error);
+          console.error(error);
         }
-        } 
+      } 
     }   
-}   
-</script>
+  }   
+  </script>
+  
+  <style scoped>
+  .sign-out-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+</style>
