@@ -3,14 +3,14 @@
       <router-link to="/" class="menu-item">
         <font-awesome-icon icon="house" />
       </router-link>
-      <router-link :to="`/chatrooms/${userId}`" class="menu-item">
-        <font-awesome-icon icon="comment" />
+      <router-link to="/search" class="menu-item">
+        <font-awesome-icon icon="magnifying-glass" />
       </router-link>
       <router-link :to="`/profile/${userId}`" class="menu-item">
         <font-awesome-icon icon="user" />
       </router-link>
-      <router-link to="/search" class="menu-item">
-        <font-awesome-icon icon="magnifying-glass" />
+      <router-link :to="`/chatrooms/${userId}`" class="menu-item">
+        <font-awesome-icon icon="comment" />
       </router-link>
     </div>
   </template>
