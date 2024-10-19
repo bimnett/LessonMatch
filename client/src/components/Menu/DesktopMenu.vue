@@ -15,7 +15,6 @@
           <router-link class="nav-link" to="/signin">Profile</router-link>
           <router-link class="nav-link" to="/signin">Chatroom</router-link>
         </div>
-        <router-link class="nav-link" to="/signin">Sign in</router-link>
       </div>
     </div>
   </template>
