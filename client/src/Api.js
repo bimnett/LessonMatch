@@ -17,7 +17,7 @@ export const registerUser = (username, password, birth_date, location) => {
       return response
     })
     .catch(error => {
-      console.log(error)
+      throw error;
     })
 }
 
@@ -33,7 +33,7 @@ export const logInUser = (username, password) => {
       return response
     })
     .catch(error => {
-      console.log(error)
+      throw error;
     })
 }
 export const updateUserProfile = (userId, formData) => {
@@ -42,7 +42,6 @@ export const updateUserProfile = (userId, formData) => {
       return response.data
     })
     .catch(error => {
-      console.log(error)
       throw error
     })
 }
@@ -101,7 +100,7 @@ export const getChatrooms = async (userId) => {
     const response = await Api.get('/chatrooms/');
     return response.data;
   }catch(err){
-    console.error("There was a problem retrieving the chatrooms.");
+    throw err;
   }
 }
 export const deleteAllUsers = async () => {
@@ -109,7 +108,7 @@ export const deleteAllUsers = async () => {
     const response = await Api.delete('/users/');
     return response.data;
   } catch(err){
-    console.error("There was a problem deleting all users.");
+    throw err;
   }
 }
 export const getUsersForCategory = async (categoryName, sortOrder = 1) => {
@@ -125,7 +124,7 @@ export const deleteAllMessages = async () => {
     const response = await Api.delete('/messages/');
     return response.data;
   } catch(err){
-    console.error("There was a problem deleting all messages.");
+    throw err;
   }
 }
 
@@ -151,7 +150,7 @@ export const createMessage = (chatroomID, senderID, sentAt, content) => {
       return response
     })
     .catch(error => {
-      console.log(error)
+      throw error;
     })
 }
 
@@ -167,6 +166,6 @@ export const createSkill = (name, level, category, userId, isAnInterest) => {
       return response
     })
     .catch(error => {
-      console.log(error)
+      throw error;
     })
 }
