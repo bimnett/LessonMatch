@@ -44,7 +44,7 @@ export default {
               this.password
           );
           console.log('Log-In successful');
-
+          this.$emit('signed-in');
           this.$router.push('/popup');
             
         } catch (error) {

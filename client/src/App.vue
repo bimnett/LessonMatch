@@ -19,7 +19,8 @@
         <router-link class="nav-link" to="/signin">Sign in</router-link>
       </div>
     </div>
-    <router-view @signed-out="handleSignOut" />
+    <router-view @signed-out="handleSignOut" @signed-in="handleSignIn"/>
+
   </div>
 </template>
 
@@ -53,6 +54,9 @@ export default {
 
       this.userId = null;
       this.admin = null;
+    },
+    handleSignIn() {
+      this.userId = localStorage.getItem('userId') 
     }
   },
   mounted() {

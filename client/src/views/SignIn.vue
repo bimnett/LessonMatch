@@ -1,7 +1,9 @@
 <template>
   <div>
       <h1>Sign In Page</h1>
-      <SignInForm/>
+      <SignInForm
+      @signed-in="handleSignIn"
+      />
   </div>
 </template>
 
@@ -16,7 +18,9 @@ export default {
     }
   },
   methods: {
-
+    handleSignIn() {
+      this.$emit('signed-in');
+    }
   },
   components: {
     SignInForm,
