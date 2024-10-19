@@ -38,11 +38,11 @@ export default {
     font-size: 1.8rem;
   }
 
-  .menu-item i {
+  .menu-item .fa-icon {
     transition: color 0.3s ease;
   }
 
-  .menu-item i:hover {
+  .menu-item:hover .fa-icon {
     color: #624eca;
   }
   </style>
