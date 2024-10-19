@@ -2,15 +2,16 @@
   <div id="app">
     <div class="nav" v-if="showNav">
       <router-link to="/">Home</router-link>
-      <router-link to="/search">Search</router-link>
 
       <div v-if="userId" class="nav-group">
+        <router-link to="/search">Search</router-link>
         <router-link :to="`/profile/${userId}`">Profile</router-link>
         <router-link class="chatroom-link" :to="`/chatrooms/${userId}`">Chatroom</router-link>
         <router-link :to="`/admin`" v-if="admin">Admin</router-link>
       </div>
 
       <div v-else class="nav-group">
+        <router-link to="/signin">Search</router-link>
         <router-link to="/signin">Profile</router-link>
         <router-link to="/signin">Chatroom</router-link>
       </div>
