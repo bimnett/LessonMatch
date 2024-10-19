@@ -49,7 +49,7 @@ router.get('/chatrooms/:id/messages', async (req, res, next) => {
             populate: {
                 path: 'senderID',   
                 select: 'name'    
-            }
+            }, 
             options: { sort: { sentAt: 1 } } 
         });
 
