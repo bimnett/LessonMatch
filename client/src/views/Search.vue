@@ -10,7 +10,7 @@
     </div>
 
     <b-row class="user-card-row">
-      <b-col v-for="user in users" :key="user._id" cols="12" md="4">
+      <b-col v-for="user in users" :key="user._id" cols="12" md="3">
         <UserCard 
           :user="user" 
           :bestSkill="getBestSkill(user.skills, selectedCategory)" 

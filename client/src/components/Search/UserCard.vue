@@ -64,7 +64,7 @@ export default {
 
 .skill-badge, .interest-badge {
   background-color: #549FC1E3 !important;
-  color: black !important;
+  color: white !important;
   padding: 0.3rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.85rem;
@@ -74,7 +74,7 @@ export default {
 
 .user-card:hover .skill-badge, 
 .user-card:hover .interest-badge {
-  color: white !important;
+  color: black !important;
 }
 
 #view-profile-btn {
