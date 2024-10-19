@@ -112,14 +112,12 @@ export const deleteAllUsers = async () => {
     console.error("There was a problem deleting all users.");
   }
 }
-export const getUsersForCategory = async (category) => {
+export const getUsersForCategory = async (categoryName, sortOrder = 1) => {
   try {
-    const response = await Api.get('/users/skills', {
-      params: { categoryName: category }
-    });
+    const response = await Api.get(`/users/skills?categoryName=${categoryName}&sortOrder=${sortOrder}`);
     return response.data;
-  } catch (err) {
-    throw err;
+  } catch (error) {
+    throw error;
   }
 };
 export const deleteAllMessages = async () => {

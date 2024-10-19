@@ -44,37 +44,42 @@ router.get('/users', (req, res) => {
 
 // Get all users who have any skill within a given category
 router.get('/users/skills', async (req, res, next) => {
-
     try {
 
-        const { categoryName, sortOrder = 1 } = req.query;
-
-        if(!categoryName){
-            return res.status(400).json({ error: "Category name is required." });
-        }
-
-        // Get all skills that belong to chosen category, and populate relevant properties
-        const categorySkills = await Skill.find({ category: categoryName })
-                                        .sort({ name: sortOrder })
-                                        .populate({
-                                            path: 'user',
-                                            populate: [
-                                                { path: 'skills', model: 'Skill' },  // Populate skills
-                                                { path: 'interests', model: 'Skill' } // Populate interests
-                                            ]
-                                        });
-
-        const users = categorySkills.map(skill => skill.user);
-
-        // Remove duplicates
-        const uniqueUsers = Array.from(new Set(users));
-
-        res.status(200).json(uniqueUsers);
-
-    } catch(err) {
-        next(err);
-    }
-});
+      const { categoryName, sortOrder = 1 } = req.query;
+  
+      if (!categoryName) {
+        return res.status(400).json({ error: "Category name is required." });
+      }
+  
+      // Find all skills that match the category and populate the user data
+      const categorySkills = await Skill.find({ category: categoryName })
+        .populate({
+          path: 'user',
+          populate: [
+            { path: 'skills', model: 'Skill' },  // Populate skills
+            { path: 'interests', model: 'Skill' } // Populate interests
+          ]
+        });
+  
+      const users = categorySkills.map(skill => skill.user);
+  
+      // Remove duplicates
+      const uniqueUsers = Array.from(new Set(users));
+  
+      // Sort users by their username after fetching
+      const sortedUsers = uniqueUsers.sort((a, b) => {
+        return sortOrder == 1 
+          ? a.username.localeCompare(b.username) 
+          : b.username.localeCompare(a.username);
+      });
+  
+      res.status(200).json(sortedUsers);
+  
+    } catch (err) {
+      next(err);
+      }
+  });
 
 
 // Get specific message from a specific user
