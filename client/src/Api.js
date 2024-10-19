@@ -163,8 +163,8 @@ export const getMessages = async (chatroomId) => {
     console.error('There was a problem retrieving the messages.')
   }
 }
-export const createSkill = (name, level, category, user, isAnInterest) => {
-  return Api.post('/messages', {
+export const createSkill = (name, level, category, userId, isAnInterest) => {
+  return Api.post('/skills', {
     name,
     level,
     category,
