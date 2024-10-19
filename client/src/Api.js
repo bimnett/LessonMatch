@@ -184,6 +184,6 @@ export const getChatroomsOfUser = async (userId) => {
     const response = await Api.get(`/users/${userId}/chatrooms/`)
     return response.data
   } catch (err) {
-    console.error('There was a problem retrieving the chatrooms.')
+    console.error('No chatrooms were found.')
   }
 }

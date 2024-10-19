@@ -1,18 +1,13 @@
 <template>
     <div>
-      <div v-if="!authenticate">
-        <router-link to="/signin"/>
-      </div>
-      <div v-else>
-        <b-col class="page-content">
-          <h3 id="title">Chatrooms</h3>
+      <b-col class="page-content">
+        <h3 id="title">Chatrooms</h3>
           <b-col v-for="chatroom in chatrooms" :key="chatroom._id">
             <ChatroomCard 
               :chatroom="chatroom"
               @click="viewPrivateChatroom(chatroom._id)"/>
           </b-col>
-        </b-col>
-      </div>
+      </b-col>
     </div>
 </template>
 
@@ -32,9 +27,7 @@ export default {
     }
   },
   async mounted() {
-    if (this.authenticate) {
-      await this.getChatroomsOfUser()
-    }
+    await this.getChatroomsOfUser()
   },
   methods: {
     authenticate() {
@@ -45,7 +38,6 @@ export default {
         const response = await getChatroomsOfUser(this.userId)
         this.chatrooms = response.chatrooms
         console.log("Chatrooms retrieved successfully")
-        console.log(this.chatrooms)
 
       } catch (error) {
         console.error('Error fetching chatrooms:', error)
