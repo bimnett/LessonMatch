@@ -1,20 +1,20 @@
 <template>
-    <div v-if="userId">
-      <div class="chat-header" @click="goToUserProfile">
+  <div v-if="userId">
+    <div class="chat-header" @click="goToUserProfile">
       <h3>{{ recipientUserName }}</h3>
     </div>
-      <div class="message-container" @scroll="onScroll">
+    <div class="message-container" ref="messageContainer" @scroll="onScroll">
       <div v-for="message in messages" :key="message._id" :class="messageClass(message)">
         <p class="message-content">{{ message.senderId.name }}: {{ message.content }}</p>
-     <p class="message-timestamp">{{ formatTimestamp(message.sentAt) }}</p>
+        <p class="message-timestamp">{{ formatTimestamp(message.sentAt) }}</p>
       </div>
-      </div>
-      <ChatInput :chatroomId="chatroomId" @send-message="sendMessage"/>
     </div>
-    <div v-else>
-      <SignIn />
-    </div>
-  </template>
+    <ChatInput @send-message="sendMessage" />
+  </div>
+  <div v-else>
+    <SignIn />
+  </div>
+</template>
 
 <script>
 import ChatInput from '@/components/ChatInput.vue'
@@ -30,11 +30,12 @@ export default {
       messages: [],
       userId: localStorage.getItem('userId'),
       chatroomId: this.$route.params.chatroomId,
-      recepientId: '',
-      recepientUserName: '',
+      recipientId: '',
+      recipientUserName: '',
       currentPage: 1,
       allMessagesLoaded: false,
-      loadingMessages: false
+      loadingMessages: false,
+      chatroomData: null
     }
   },
   async mounted() {
@@ -48,17 +49,18 @@ export default {
     async getChatroomData() {
       try {
         const response = await getChatroomById(this.chatroomId)
+        console.log('Chatroom Data Response:', response)
         if (response && response.data) {
-          const chatroom = response.data
+          this.chatroomData = response.data
 
-          if (chatroom.user1._id !== this.userId) {
-            this.recepientId = chatroom.user1._id
+          if (this.chatroomData.user1._id !== this.userId) {
+            this.recipientId = this.chatroomData.user1._id
           } else {
-            this.recepientId = chatroom.user2._id
+            this.recipientId = this.chatroomData.user2._id
           }
 
-          const recipientProfile = await getUserProfile(this.recepientId)
-          this.recepientName = recipientProfile.username
+          const recipientProfile = await getUserProfile(this.recipientId)
+          this.recepientUserName = recipientProfile.username
           socket.emit('joinRoom', this.chatroomId)
         } else {
           console.error('No chatroom data found')
@@ -73,6 +75,7 @@ export default {
 
       try {
         const response = await getMessages(this.chatroomId, { page })
+        console.log('Get Messages Response:', response)
         const newMessages = response.data.messages
 
         if (newMessages.length === 0) {
@@ -92,6 +95,7 @@ export default {
       socket.connect()
 
       socket.on('message', (message) => {
+        console.log('Received message:', message);
         this.messages.push(message)
       })
 
@@ -108,17 +112,22 @@ export default {
     },
     async sendMessage(messageData) {
       try {
-        socket.emit('sendMessage', this.chatroomId, messageData.content)
+        const response = await createMessage(this.chatroomId, this.userId, messageData.sentAt, messageData.content)
+        if (response && response.data) {
+          const savedMessage = response.data
+          this.messages.push({
+            _id: savedMessage._id,
+            content: savedMessage.content,
+            senderId: {
+              _id: this.userId,
+              name: 'You'
+            },
+            sentAt: savedMessage.sentAt
+          })
 
-        this.messages.push({
-          _id: new Date().getTime(),
-          content: messageData.content,
-          senderId: {
-            _id: this.userId,
-            name: 'You'
-          },
-          sentAt: messageData.sentAt
-        })
+          // Emit the message through the socket to other users
+          socket.emit('sendMessage', this.chatroomId, savedMessage)
+        }
       } catch (error) {
         console.error('Error sending message:', error)
       }
@@ -128,7 +137,7 @@ export default {
       return {
         messageBox: true,
         sent: message.senderId._id === this.userId,
-        recived: message.senderId._id !== this.userId
+        received: message.senderId._id !== this.userId
       }
     },
     formatTimestamp(timestamp) {
@@ -136,7 +145,7 @@ export default {
       return date.toLocaleString()
     },
     goToUserProfile() {
-      this.$router.push(`/profile/${this.recepientId}`)
+      this.$router.push(`/profile/${this.recipientId}`)
     },
     async onScroll() {
       const container = this.$refs.messageContainer

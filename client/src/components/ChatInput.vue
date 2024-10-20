@@ -10,9 +10,7 @@ export default {
 
   data() {
     return {
-      message: '',
-      senderId: localStorage.getItem('userId'),
-      chatroomId: this.$route.params.chatroomId
+      message: ''
     }
   },
   methods: {
@@ -20,10 +18,8 @@ export default {
       if (!this.message.trim()) return
 
       this.$emit('send-message', {
-        chatroomId: this.chatroomId,
-        senderId: this.senderId,
         content: this.message,
-        sentAt: new Date()
+        sentAt: new Date().toISOString()
       })
 
       this.message = ''
