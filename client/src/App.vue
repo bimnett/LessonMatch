@@ -9,7 +9,7 @@
         <div v-if="userId" class="nav-group">
           <router-link class="nav-link" to="/search">Search</router-link>
           <router-link class="nav-link" :to="`/profile/${userId}`">Profile</router-link>
-          <router-link class="nav-link" :to="`/chatrooms/${userId}`">Chatroom</router-link>
+          <router-link class="nav-link" :to="`/chatrooms/${userId}`">Chatrooms</router-link>
         </div>
         <div v-else class="nav-group">
           <router-link class="nav-link" to="/signin">Search</router-link>
@@ -18,7 +18,21 @@
         </div>
       </div>
     </div>
+
     <router-view @signed-out="handleSignOut" @signed-in="handleSignIn"/>
+
+    <footer>
+      <div id="footerbar">
+        <div class="footer-content">
+          <p>&copy; 2024 <strong>LessonMatch</strong> | All rights reserved.</p>
+          <div class="icons">
+            <img src="../public/email-icon.png" alt="Email" class="mail-icon">
+            <img src="../public/instagram-icon.png" alt="Instagram" class="instagram-icon">
+            <img src="../public/facebook-icon.png" alt="FaceBook" class="facebook-icon">
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <!-- CAUSES ISSUES -->
     <!-- <div v-if="isDesktop">
@@ -27,6 +41,7 @@
     <div v-else>
       <MobileMenu :userId="userId"/>
     </div> -->
+    
   </div>
 </template>
 
@@ -73,6 +88,7 @@ export default {
     
     handleSignIn() {
       this.userId = localStorage.getItem('userId') 
+      this.admin = localStorage.getItem('admin')
     }
   },
   mounted() {
@@ -107,6 +123,13 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+router-view {
+  flex-grow: 1;
 }
 
 .logo {
@@ -193,4 +216,43 @@ export default {
     font-size: 1.1rem;
   }
 }
+
+/* Footer */
+footer{
+    margin-top: auto;
+    display: flex;
+}
+
+#footerbar {
+    background: linear-gradient(#5C6CD1E3, #4CD1B1E3);
+    color: black;
+	  max-height: 30vh;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-content {
+    padding: 20px;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.mail-icon{
+    width: 45px;
+    height: 35px;
+}
+.instagram-icon {
+    width: 70spx;
+    height: 45px;
+}
+.facebook-icon{
+    width: 50px;
+    height: 50px;
+}
+
 </style>
