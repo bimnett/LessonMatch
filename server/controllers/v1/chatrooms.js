@@ -38,11 +38,16 @@ router.delete('/chatrooms/:id/messages', async (req, res, next) => {
     }
 });
 
-// Get all messages for a specific chatroom, sorted in chronological order
+// Get all messages for a specific chatroom, sorted in chronological order, return messages in a chunks of 20 message in time with Pagination
 router.get('/chatrooms/:id/messages', async (req, res, next) => {
 
     try {
         const chatroomId = req.params.id;
+        //default values for limit and page number
+        const limit = parseInt(req.query.limit) || 20;
+        const page = parseInt(req.quary.page) || 1;
+        
+        const skip = (page-1) * limit;
 
         const chatroom = await Chatroom.findById(chatroomId).populate({
             path: 'messages',
@@ -50,14 +55,22 @@ router.get('/chatrooms/:id/messages', async (req, res, next) => {
                 path: 'senderID',   
                 select: 'name'    
             }, 
-            options: { sort: { sentAt: 1 } } 
+            options: { 
+                sort: { sentAt: 1 }, 
+                limit: limit,
+                skip:skip
+            } 
         });
 
         if(!chatroom){
             return res.status(400).json({ error: "Chatroom not found" });
         }
 
-        return res.status(200).json(chatroom.messages);
+        return res.status(200).json({
+            message: chatroom.messages,
+            currentPage: page,
+            totalMessages: chatroom.messages.length,
+        });
     } catch(err) {
         next(err);
     }
