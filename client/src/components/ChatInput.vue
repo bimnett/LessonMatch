@@ -11,7 +11,6 @@ export default {
   data() {
     return {
       message: '',
-      sentAt: Date.now,
       senderId: localStorage.getItem('userId'),
       chatroomId: this.$route.params.chatroomId
     }
@@ -22,7 +21,9 @@ export default {
 
       this.$emit('send-message', {
         chatroomId: this.chatroomId,
-        content: this.message
+        senderId: this.senderId,
+        content: this.message,
+        sentAt: new Date()
       })
 
       this.message = ''
