@@ -1,10 +1,14 @@
 <template>
-    <div class = "sign-in-form">
-        <form v-on:submit.prevent="signIn">
-            <input v-model="username" type="text" placeholder="Username" required />
-            <input v-model="password" type="password" placeholder="Password" required />
-            <button type="submit">Sign In</button>
-        </form>
+    <div id = "sign-in-form">
+        <b-form v-on:submit.prevent="signIn">
+            <b-input v-model="username" type="text" placeholder="Username" required />
+            <b-input v-model="password" type="password" placeholder="Password" required />
+            <b-button type="submit">Sign In</b-button>
+            <p>No account?</p>
+            <router-link to="/signup">
+              <b-button id="sign-up">Sign Up</b-button>
+            </router-link>
+        </b-form>
     </div>
 </template>
 
@@ -46,7 +50,7 @@ export default {
 </script>
 
 <style scoped>
-.sign-in-form {
+  #sign-in-form {
     max-width: 400px;
     margin: 0 auto;
     margin-top: 20px;
@@ -75,5 +79,11 @@ export default {
 
   button:hover {
     background-color: #0056b3;
+  }
+
+  p {
+    margin: 12px 0;
+    font-size: 0.8rem;
+    color: #555;
   }
 </style>
