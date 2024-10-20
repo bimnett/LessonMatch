@@ -86,6 +86,8 @@ export default {
     async sendMessage(messageData) {
       try {
         await createMessage(messageData)
+        socket.emit('sendMessage', messageData);
+
       } catch (error) {
         console.error('Error sending message:', error)
       }
