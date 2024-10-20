@@ -1,13 +1,17 @@
 <template>
-    <div class = "sign-up-form">
-        <form v-on:submit.prevent="register">
-            <input v-model="username" type="text" placeholder="Username" required />
-            <input v-model="password" type="password" placeholder="Password" required />
-            <input v-model="birth_date" type="date" placeholder="Birth Date" required />
-            <input v-model="location.city" type="text" placeholder="City" required />
-            <input v-model="location.country" type="text" placeholder="Country" required />
+    <div id = "sign-up-form">
+        <b-form v-on:submit.prevent="register">
+            <b-input v-model="username" type="text" placeholder="Username" required />
+            <b-input v-model="password" type="password" placeholder="Password" required />
+            <b-input v-model="birth_date" type="date" placeholder="Birth Date" required />
+            <b-input v-model="location.city" type="text" placeholder="City" required />
+            <b-input v-model="location.country" type="text" placeholder="Country" required />
             <b-button type="submit">Sign up</b-button>
-        </form>
+            <p>Already have an account?</p>
+            <router-link to="/signin">
+              <b-button id="sign-in">Sign In</b-button>
+            </router-link>
+        </b-form>
     </div>
 </template>
 
@@ -56,7 +60,7 @@ export default {
 </script>
 
 <style scoped>
-.sign-up-form {
+  #sign-up-form {
     max-width: 400px;
     margin: 0 auto;
     margin-top: 20px;
@@ -85,5 +89,11 @@ export default {
 
   button:hover {
     background-color: #0056b3;
+  }
+
+  p {
+    margin: 12px 0;
+    font-size: 0.8rem;
+    color: #555;
   }
 </style>
