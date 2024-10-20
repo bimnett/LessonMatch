@@ -43,19 +43,16 @@ export default {
   padding: 10px;
 }
 
-.category-dropdown {
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  margin-right: 10px; /* Add some space between dropdowns */
+.category-dropdown, .sort-dropdown {
+  background-color: #624eca;
+  color: white;
+  border: 2px solid white;
+  padding: 10px;
+  border-radius: 5px;
 }
 
-.sort-dropdown {
-  padding: 8px; /* Make it slightly smaller */
-  font-size: 16px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  width: 8%;
+.category-dropdown option, .sort-dropdown option {
+  background-color: #800080; /* Ensure options in the dropdown also have purple background */
+  color: white;              /* White text color for the options */
 }
 </style>
