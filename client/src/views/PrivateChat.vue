@@ -74,9 +74,10 @@ export default {
       this.loadingMessages = true
 
       try {
-        const response = await getMessages(this.chatroomId, { page })
+        const response = await getMessages(this.chatroomId, page)
+
         console.log('Get Messages Response:', response)
-        const newMessages = response.data.messages
+        const newMessages = response.message
 
         if (newMessages.length === 0) {
           this.allMessagesLoaded = true
