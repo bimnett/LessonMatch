@@ -192,6 +192,7 @@ export default {
         // If the profile is being loaded via a hyperlink
         const response = await getUserProfileHyperlink(this.hyperlink);
         this.form = { ...this.form, ...response };
+        this.form.birth_date = this.form.birth_date.slice(0, 10);
         localStorage.removeItem('hyperlink');
     } else {
         await this.loadProfileData(this.userId);

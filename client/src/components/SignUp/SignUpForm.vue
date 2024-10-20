@@ -6,7 +6,7 @@
             <input v-model="birth_date" type="date" placeholder="Birth Date" required />
             <input v-model="location.city" type="text" placeholder="City" required />
             <input v-model="location.country" type="text" placeholder="Country" required />
-            <button type="submit">Sign up</button>
+            <b-button type="submit">Sign up</b-button>
         </form>
     </div>
 </template>
@@ -45,7 +45,7 @@ export default {
           );
           console.log('Log-In successful');
           this.$emit('signed-in');
-          this.$router.push('/popup');
+          this.$emit('show-modal');
             
         } catch (error) {
             console.error(error);
