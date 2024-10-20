@@ -101,6 +101,15 @@ export default {
     async sendMessage(messageData) {
       try {
         await createMessage(messageData)
+        this.messages.push({
+          _id: new Date().getTime(),
+          content: messageData.content,
+          sender: {
+            _id: this.userId,
+            name: 'You'
+          },
+          sentAt: messageData.sentAt
+        })
       } catch (error) {
         console.error('Error sending message:', error)
       }
