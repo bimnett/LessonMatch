@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import Home from './views/Home.vue'
 import SignUp from './views/SignUp.vue'
-import Chatroom from './views/Chatroom.vue'
+import Chatrooms from './views/Chatrooms.vue'
 import Search from './views/Search.vue'
 import Profile from './views/Profile.vue'
 import SignIn from './views/SignIn.vue'
@@ -12,7 +12,7 @@ import PrivateChat from './views/PrivateChat.vue'
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/signup', name: 'Sign Up', component: SignUp },
-  { path: '/chatrooms/:userId', name: 'Chatroom', component: Chatroom },
+  { path: '/chatrooms/:userId', name: 'Chatrooms', component: Chatrooms },
   { path: '/search', name: 'Search', component: Search },
   { path: '/profile/:userId', name: 'Profile', component: Profile },
   { path: '/signin', name: 'Sign In', component: SignIn },

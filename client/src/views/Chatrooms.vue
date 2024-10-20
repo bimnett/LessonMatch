@@ -15,7 +15,7 @@
 
 <script>
 import { getChatroomsOfUser } from '@/Api'
-import ChatroomCard from '@/components/Chatroom/ChatroomCard.vue'
+import ChatroomCard from '@/components/Chatrooms/ChatroomCard.vue'
 
 export default {
   name: 'Chatroom',
