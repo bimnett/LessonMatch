@@ -49,6 +49,8 @@ router.get('/chatrooms/:id/messages', async (req, res, next) => {
         
         const skip = (page-1) * limit;
 
+        const totalMessages = await Message.countDocuments({ chatroom: chatroomId})
+
         const chatroom = await Chatroom.findById(chatroomId).populate({
             path: 'messages',
             populate: {
@@ -69,7 +71,7 @@ router.get('/chatrooms/:id/messages', async (req, res, next) => {
         return res.status(200).json({
             message: chatroom.messages,
             currentPage: page,
-            totalMessages: chatroom.messages.length,
+            totalMessages: totalMessages,
         });
     } catch(err) {
         next(err);
