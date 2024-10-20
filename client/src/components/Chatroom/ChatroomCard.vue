@@ -6,6 +6,7 @@
           :text="getInitials()"
           size="4rem"
           variant="info"
+          id="avatar"
         ></b-avatar>
       </b-col>
       <b-col>
@@ -46,6 +47,7 @@ export default {
 </script>
 
 <style scoped>
+
 .card {
   max-width: 600px;
   margin: auto;
@@ -58,5 +60,10 @@ export default {
 #username {
   margin-top: 40%;
   margin-left: 15px;
+}
+
+#avatar {
+  background: linear-gradient(#5C6CD1E3, #4CD1B1E3);
+  margin-bottom: 1rem;
 }
 </style>

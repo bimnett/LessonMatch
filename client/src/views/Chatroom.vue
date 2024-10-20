@@ -1,13 +1,15 @@
 <template>
     <div>
-      <b-col class="page-content">
-        <h3 id="title">Chatrooms</h3>
-          <b-col v-for="chatroom in chatrooms" :key="chatroom._id">
-            <ChatroomCard 
-              :chatroom="chatroom"
-              @click="viewPrivateChatroom(chatroom._id)"/>
-          </b-col>
-      </b-col>
+      <b-container>
+        <b-col class="page-content">
+          <h3 id="title">Chatrooms</h3>
+            <b-col v-for="chatroom in chatrooms" :key="chatroom._id">
+              <ChatroomCard 
+                :chatroom="chatroom"
+                @click="viewPrivateChatroom(chatroom._id)"/>
+            </b-col>
+        </b-col>
+      </b-container>
     </div>
 </template>
 
@@ -52,6 +54,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 
 .page-content{
   margin-top: 30px;
