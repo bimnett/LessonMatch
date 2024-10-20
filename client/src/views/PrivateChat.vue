@@ -3,7 +3,7 @@
       <div class="chat-header" @click="goToUserProfile">
       <h3>{{ recipientUserName }}</h3>
     </div>
-      <div class="message-container">
+      <div class="message-container" @scroll="onScroll">
       <div v-for="message in messages" :key="message._id" :class="messageClass(message)">
         <p class="message-content">{{ message.senderID.name }}: {{ message.content }}</p>
      <p class="message-timestamp">{{ formatTimestamp(message.sentAt) }}</p>
@@ -31,7 +31,10 @@ export default {
       userId: localStorage.getItem('userId'),
       chatroomId: this.$route.params.chatroomId,
       recipientId: '',
-      recepientUserName: ''
+      recepientUserName: '',
+      currentPage: 1,
+      allMessagesLoaded: false,
+      loadingMessages: false
     }
   },
   async mounted() {
@@ -59,12 +62,24 @@ export default {
         console.error('Error getting chatroom data or user profile:', error)
       }
     },
-    async getMessages() {
+    async getMessages(page = 1) {
+      if (this.loadingMessages || this.allMessagesLoaded) return
+      this.loadingMessages = true
+
       try {
-        const response = await getMessages(this.chatroomId)
-        this.messages = response.data
+        const response = await getMessages(this.chatroomId, { page })
+        const newMessages = response.data.messages
+
+        if (newMessages.length === 0) {
+          this.allMessagesLoaded = true
+        } else {
+          this.messages = [...newMessages, ...this.messages]
+          this.currentPage = page
+        }
       } catch (error) {
         console.error('Error getting messages:', error)
+      } finally {
+        this.loadingMessages = false
       }
     },
     connectSocket() {
@@ -104,6 +119,16 @@ export default {
     },
     goToUserProfile() {
       this.$router.push(`/profile/${this.recipientId}`)
+    },
+    async onScroll() {
+      const container = this.$refs.messageContainer
+      if (container.scrollTop === 0 && !this.loadingMessages && !this.allMessagesLoaded) {
+        const nextPage = this.currentPage + 1
+        await this.getMessages(nextPage)
+        this.$nextTick(() => {
+          container.scrollTop = 10
+        })
+      }
     }
   },
 
@@ -119,7 +144,7 @@ export default {
 <style scoped>
 .messages-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   padding: 10px;
   max-height: 70vh;
   overflow-y: auto;
