@@ -30,7 +30,7 @@ export default {
       messages: [],
       userId: localStorage.getItem('userId'),
       chatroomId: this.$route.params.chatroomId,
-      recipientId: '',
+      recepientId: '',
       recepientUserName: '',
       currentPage: 1,
       allMessagesLoaded: false,
@@ -52,12 +52,12 @@ export default {
           const chatroom = response.data
 
           if (chatroom.user1._id !== this.userId) {
-            this.recipientId = chatroom.user1._id
+            this.recepientId = chatroom.user1._id
           } else {
-            this.recipientId = chatroom.user2._id
+            this.recepientId = chatroom.user2._id
           }
 
-          const recipientProfile = await getUserProfile(this.recipientId)
+          const recipientProfile = await getUserProfile(this.recepientId)
           this.recepientName = recipientProfile.username
           socket.emit('joinRoom', this.chatroomId)
         } else {
@@ -136,7 +136,7 @@ export default {
       return date.toLocaleString()
     },
     goToUserProfile() {
-      this.$router.push(`/profile/${this.recipientId}`)
+      this.$router.push(`/profile/${this.recepientId}`)
     },
     async onScroll() {
       const container = this.$refs.messageContainer
