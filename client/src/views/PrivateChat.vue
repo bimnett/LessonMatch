@@ -71,16 +71,17 @@ export default {
       socket.auth = { userId: this.userId }
       socket.connect()
 
-      socket.on('message', (message) => {
-        this.messages.push(message)
-      })
-
       socket.on('connect', () => {
-        console.log('Connected to the chat server')
+        console.log('Connected to the chat server');
+        socket.emit('joinRoom', this.chatroomId);
       })
 
       socket.on('connect_error', () => {
         console.log('There was an error connecting with the socket.')
+      })
+
+      socket.on('message', (message) => {
+        this.messages.push(message)
       })
     },
     async sendMessage(messageData) {
@@ -112,6 +113,8 @@ export default {
   beforeDestroy() {
     if (this.userId) {
       socket.off('message')
+      socket.off('connect')
+      socket.off('connect-error')
       socket.disconnect()
     }
   }
