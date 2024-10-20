@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div class="nav" v-if="showNav">
-      <div class="logo-container">
-        <img src="../Logo.png" class="logo">
-      </div>
       <div class="nav-links-container">
+        <div class="logo-container">
+        <img src="../Logo.png" class="logo">
+        </div>
         <router-link class="nav-link" to="/">Home</router-link>
         <div v-if="userId" class="nav-group">
           <router-link class="nav-link" to="/search">Search</router-link>
@@ -131,9 +131,9 @@ export default {
 }
 
 .logo-container {
-  width: 7rem;  
   display: flex;
   justify-content: center;
+  margin-right: 4rem;
 }
 
 .nav-links-container {
@@ -142,6 +142,7 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 6.5rem;
+  margin-right: 4rem;
 }
 
 .nav-group {
