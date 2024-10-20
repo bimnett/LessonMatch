@@ -5,7 +5,7 @@
     </div>
       <div class="message-container" @scroll="onScroll">
       <div v-for="message in messages" :key="message._id" :class="messageClass(message)">
-        <p class="message-content">{{ message.senderID.name }}: {{ message.content }}</p>
+        <p class="message-content">{{ message.senderId.name }}: {{ message.content }}</p>
      <p class="message-timestamp">{{ formatTimestamp(message.sentAt) }}</p>
       </div>
       </div>
@@ -104,7 +104,7 @@ export default {
         this.messages.push({
           _id: new Date().getTime(),
           content: messageData.content,
-          sender: {
+          senderId: {
             _id: this.userId,
             name: 'You'
           },
@@ -118,8 +118,8 @@ export default {
     messageClass(message) {
       return {
         messageBox: true,
-        sent: message.sender._id === this.userId,
-        recived: message.sender._id !== this.userId
+        sent: message.senderId._id === this.userId,
+        recived: message.senderId._id !== this.userId
       }
     },
     formatTimestamp(timestamp) {
