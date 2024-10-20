@@ -48,16 +48,21 @@ export default {
     async getChatroomData() {
       try {
         const response = await getChatroomById(this.chatroomId)
-        const chatroom = response.data
+        if (response && response.data) {
+          const chatroom = response.data
 
-        if (chatroom.user1._id !== this.userId) {
-          this.recipientId = chatroom.user1._id
+          if (chatroom.user1._id !== this.userId) {
+            this.recipientId = chatroom.user1._id
+          } else {
+            this.recipientId = chatroom.user2._id
+          }
+
+          const recipientProfile = await getUserProfile(this.recipientId)
+          this.recepientName = recipientProfile.username
+          socket.emit('joinRoom', this.chatroomId)
         } else {
-          this.recipientId = chatroom.user2._id
+          console.error('No chatroom data found')
         }
-
-        const recipientProfile = await getUserProfile(this.recipientId)
-        this.recepientName = recipientProfile.username
       } catch (error) {
         console.error('Error getting chatroom data or user profile:', error)
       }
@@ -97,10 +102,14 @@ export default {
       socket.on('connect_error', () => {
         console.log('There was an error connecting with the socket.')
       })
+      socket.on('disconnect', () => {
+        console.log('Disconnected from chat server')
+      })
     },
     async sendMessage(messageData) {
       try {
-        await createMessage(messageData)
+        socket.emit('sendMessage', this.chatroomId, messageData.content)
+
         this.messages.push({
           _id: new Date().getTime(),
           content: messageData.content,
