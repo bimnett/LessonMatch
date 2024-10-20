@@ -97,18 +97,26 @@ export const deleteUserProfile = (userId) => {
 }
 export const getChatrooms = async (userId) => {
   try {
-    const response = await Api.get('/chatrooms/');
-    return response.data;
-  }catch(err){
-    throw err;
+    const response = await Api.get('/chatrooms/')
+    return response.data
+  } catch (err) {
+    console.error('There was a problem retrieving the chatrooms.')
+  }
+}
+export const getChatroomById = async (chatroomId) => {
+  try {
+    const response = await Api.get('/chatrooms/:id')
+    return response.data
+  } catch (err) {
+    console.error('There was a problem retrieving this chatroom.')
   }
 }
 export const deleteAllUsers = async () => {
-  try{
-    const response = await Api.delete('/users/');
-    return response.data;
-  } catch(err){
-    throw err;
+  try {
+    const response = await Api.delete('/users/')
+    return response.data
+  } catch (err) {
+    console.error("There was a problem deleting all users.");
   }
 }
 export const getUsersForCategory = async (categoryName, sortOrder = 1) => {
@@ -139,10 +147,10 @@ export const createNewChat = async (thisUser, otherUser) => {
   }
 };
 
-export const createMessage = (chatroomID, senderID, sentAt, content) => {
+export const createMessage = (chatroomId, senderId, sentAt, content) => {
   return Api.post('/messages', {
-    chatroomID,
-    senderID,
+    chatroomId,
+    senderId,
     sentAt,
     content
   })
@@ -153,7 +161,14 @@ export const createMessage = (chatroomID, senderID, sentAt, content) => {
       throw error;
     })
 }
-
+export const getMessages = async (chatroomId) => {
+  try {
+    const response = await Api.get(`/chatrooms/${chatroomId}/messages`)
+    return response.data
+  } catch (err) {
+    console.error('There was a problem retrieving the messages.')
+  }
+}
 export const createSkill = (name, level, category, userId, isAnInterest) => {
   return Api.post('/skills', {
     name,
@@ -168,4 +183,13 @@ export const createSkill = (name, level, category, userId, isAnInterest) => {
     .catch(error => {
       throw error;
     })
+}
+
+export const getChatroomsOfUser = async (userId) => {
+  try {
+    const response = await Api.get(`/users/${userId}/chatrooms/`)
+    return response.data
+  } catch (error) {
+      throw error
+  }
 }

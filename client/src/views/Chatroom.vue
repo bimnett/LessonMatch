@@ -1,69 +1,63 @@
 <template>
     <div>
-        <h1 v-if="!chatrooms.length">No chats</h1>
-        <div v-else>
-            <div v-for="(chat, index) in chatrooms" :key="index">
-                {{ chat }}
-            </div>
-        </div>
+      <b-col class="page-content">
+        <h3 id="title">Chatrooms</h3>
+          <b-col v-for="chatroom in chatrooms" :key="chatroom._id">
+            <ChatroomCard 
+              :chatroom="chatroom"
+              @click="viewPrivateChatroom(chatroom._id)"/>
+          </b-col>
+      </b-col>
     </div>
 </template>
 
 <script>
-import SignIn from '@/components/SignIn/SignInButton.vue';
-import socket from "@/socket";
+import { getChatroomsOfUser } from '@/Api'
+import ChatroomCard from '@/components/Chatroom/ChatroomCard.vue'
 
 export default {
-    name: "Chatroom",
-    components: {
-        SignIn
-    },
-
-    data() {
-        return {
-            chatrooms: [],
-            userId: localStorage.getItem('userId')
-        }
-    },
-    async mounted(){
-        if(this.userId){
-            this.connectSocket();
-        }
-    },
-    methods: {
-        connectSocket() {
-
-            socket.auth = { userId: this.userId }
-            socket.connect();
-
-            // Listen for incoming messages
-            socket.on('message', (chatMessage) => {
-                this.chatrooms.push(chatMessage); // Update the chat messages array
-            });
-
-            socket.on('connect_error', () => {
-                console.log("There was an error connecting with the socket.")
-            });
-
-            // You can also listen to other events like 'connect' and 'disconnect'
-            socket.on('connect', () => {
-                console.log('Connected to the chat server');
-            });
-        }
-    },
-    beforeDestroy() {
-        if (this.userId) {
-
-            // Clean up socket listeners
-            socket.off('message');
-            socket.off('connect');
-            socket.off('connect_error');
-
-            socket.disconnect();
-        }
+  name: 'Chatroom',
+  components: {
+    ChatroomCard
+  },
+  data() {
+    return {
+      chatrooms: [],
+      userId: localStorage.getItem('userId'),
     }
+  },
+  async mounted() {
+    await this.getChatroomsOfUser()
+  },
+  methods: {
+    async getChatroomsOfUser() {
+      try {
+        const response = await getChatroomsOfUser(this.userId)
+        this.chatrooms = response.chatrooms
+        console.log("Chatrooms retrieved successfully")
+
+      } catch (error) {
+          if (error.response.status === 404) {
+            console.log('No chatrooms were found.')
+          } else {
+            console.log("Error retrieving chatrooms");
+          }
+      }
+    },
+    viewPrivateChatroom(chatroomId) {
+      this.$router.push(`/chatrooms/${this.userId}/${chatroomId}`)
+    }
+  }
 }
 </script>
 
 <style scoped>
+
+.page-content{
+  margin-top: 30px;
+}
+
+#title {
+  margin-bottom: 30px;
+}
 </style>

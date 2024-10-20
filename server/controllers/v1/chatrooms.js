@@ -33,6 +33,10 @@ router.get('/chatrooms/:id/messages', async (req, res, next) => {
 
         const chatroom = await Chatroom.findById(chatroomId).populate({
             path: 'messages',
+            populate: {
+                path: 'senderID',   
+                select: 'name'    
+            }, 
             options: { sort: { sentAt: 1 } } 
         });
 
