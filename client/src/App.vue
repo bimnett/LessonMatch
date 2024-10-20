@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="nav" v-if="showNav">
+    <div class="nav">
       <div class="nav-links-container">
         <div class="logo-container">
         <img src="../Logo.png" class="logo">
@@ -48,12 +48,6 @@ export default {
       isDesktop: true, // Determines whether it's a desktop or mobile layout
       userId: localStorage.getItem('userId'),
       admin: localStorage.getItem('admin')
-    }
-  },
-  computed: {
-    showNav() {
-      const hideNavBarOnPaths = ['/popup']
-      return !hideNavBarOnPaths.includes(this.$route.path)
     }
   },
   watch: {
