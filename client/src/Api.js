@@ -155,9 +155,9 @@ export const createMessage = (chatroomId, senderId, sentAt, content) => {
       console.log(error)
     })
 }
-export const getMessages = async (chatroomId) => {
+export const getMessages = async (chatroomId, page = 1, limit = 20) => {
   try {
-    const response = await Api.get(`/chatrooms/${chatroomId}/messages`)
+    const response = await Api.get(`/chatrooms/${chatroomId}/messages`, { params: { page, limit } })
     return response.data
   } catch (err) {
     console.error('There was a problem retrieving the messages.')
