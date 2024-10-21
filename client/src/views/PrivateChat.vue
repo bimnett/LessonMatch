@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import ChatInput from '@/components/Chatroom/ChatInput.vue'
+import ChatInput from '@/components/Chatrooms/ChatInput.vue';
 import socket from '@/socket'
 import { getMessages, createMessage, getChatroomById, getUserProfile, editMessage } from '@/Api'
-import Message from '@/components/Chatroom/Message.vue';
+import Message from '@/components/Chatrooms/Message.vue';
 
 export default {
   components: {
