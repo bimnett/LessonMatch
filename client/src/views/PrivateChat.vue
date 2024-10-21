@@ -47,17 +47,18 @@ export default {
       try {
         const response = await getChatroomById(this.chatroomId)
         console.log('Chatroom Data Response:', response)
-        if (response && response.data) {
-          this.chatroomData = response.data
+        if (response) {
+          this.chatroomData = response
 
-          if (this.chatroomData.user1._id !== this.userId) {
-            this.recipientId = this.chatroomData.user1._id
+          if (this.chatroomData.user1 !== this.userId) {
+            this.recipientId = this.chatroomData.user1
           } else {
-            this.recipientId = this.chatroomData.user2._id
+            this.recipientId = this.chatroomData.user2
           }
 
           const recipientProfile = await getUserProfile(this.recipientId)
-          this.recepientUserName = recipientProfile.username
+          console.log(recipientProfile)
+          this.recipientUserName = recipientProfile.username
           socket.emit('joinRoom', this.chatroomId)
         }
       } catch (error) {
