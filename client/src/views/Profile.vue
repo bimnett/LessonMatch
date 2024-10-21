@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div id="title">
-      <h4>Your Profile</h4>
+      <h4>Profile</h4>
     </div>
     <div class="col-12">
       <div v-if="!editMode">
