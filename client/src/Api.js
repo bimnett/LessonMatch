@@ -105,7 +105,7 @@ export const getChatrooms = async (userId) => {
 }
 export const getChatroomById = async (chatroomId) => {
   try {
-    const response = await Api.get('/chatrooms/:id')
+    const response = await Api.get(`/chatrooms/${chatroomId}`)
     return response.data
   } catch (err) {
     console.error('There was a problem retrieving this chatroom.')
@@ -147,10 +147,10 @@ export const createNewChat = async (thisUser, otherUser) => {
   }
 };
 
-export const createMessage = (chatroomId, senderId, sentAt, content) => {
+export const createMessage = (chatroomID, senderID, sentAt, content) => {
   return Api.post('/messages', {
-    chatroomId,
-    senderId,
+    chatroomID,
+    senderID,
     sentAt,
     content
   })
@@ -161,9 +161,9 @@ export const createMessage = (chatroomId, senderId, sentAt, content) => {
       throw error;
     })
 }
-export const getMessages = async (chatroomId) => {
+export const getMessages = async (chatroomId, page = 1, limit = 20) => {
   try {
-    const response = await Api.get(`/chatrooms/${chatroomId}/messages`)
+    const response = await Api.get(`/chatrooms/${chatroomId}/messages`, { params: { page, limit } })
     return response.data
   } catch (err) {
     console.error('There was a problem retrieving the messages.')
@@ -184,7 +184,14 @@ export const createSkill = (name, level, category, userId, isAnInterest) => {
       throw error;
     })
 }
-
+export const editMessage = async (messageId, newContent) => {
+  try {
+    const response = await Api.patch(`messages/${messageId}`, {newContent});
+    return response.data;
+  } catch(err){
+    throw err;
+  }
+}
 export const getChatroomsOfUser = async (userId) => {
   try {
     const response = await Api.get(`/users/${userId}/chatrooms/`)

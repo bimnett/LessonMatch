@@ -69,7 +69,7 @@ router.delete('/messages', async (req, res, next) => {
 router.patch('/messages/:id', async(req, res, next) =>{
   
     const id = req.params.id; 
-    const  { newContent } = req.body;
+    const { newContent } = req.body;
     try{
        
         const message = await Message.findById(id);
