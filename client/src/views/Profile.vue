@@ -113,6 +113,7 @@ export default {
     },
     handleSignOut(){
       this.$emit('signed-out');
+      this.userId = null;
       this.$router.push('/');
     },
     async loadProfileData(userId) {
@@ -134,7 +135,9 @@ export default {
       try {
         if (!this.userId) throw new Error('User not found')
         await deleteUserProfile(this.userId)
-        localStorage.removeItem('userId')
+        this.userId = null;
+        localStorage.clear()
+        this.$emit('signed-out')
         this.$router.push({ name: 'Home' })
       } catch (error) {
         console.error('Error deleting profile:', error)

@@ -20,7 +20,8 @@
   </template>
 <script>
 export default {
-  props: ['userId']
+  props: ['userId'],
+  
 }
 </script>
 

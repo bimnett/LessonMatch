@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <DesktopMenu :userId="userId" />
-    <router-view @signed-out="handleSignOut" @signed-in="handleSignIn"/>
+    <router-view @signed-out="handleSignOut" @users-deleted="handleSignOut" @signed-in="handleSignIn"/>
     <MobileMenu :userId="userId" />
 
     <footer>
@@ -44,6 +44,10 @@ export default {
     userId() {
       this.userId = localStorage.getItem('userId')
       this.admin = localStorage.getItem('admin')
+    },
+    admin(){
+      this.userId = localStorage.getItem('userId')
+      this.admin = localStorage.getItem('admin')
     }
   },
   methods: {
@@ -53,12 +57,15 @@ export default {
       this.isDesktop = window.innerWidth >= 768
     },
 
-    handleSignOut() {
-      localStorage.removeItem('userId')
-      localStorage.removeItem('admin')
+    clearLocalStorage() {
+      localStorage.clear();  // Clear all items in localStorage
+      this.userId = null;
+      this.admin = null;
+    },
 
-      this.userId = null
-      this.admin = null
+    handleSignOut() {
+      this.clearLocalStorage();
+      this.$router.push('/signin');
     },
 
     handleSignIn() {

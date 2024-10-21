@@ -14,7 +14,7 @@
               <SignIn class="button"/>
             </div>
           <div v-else-if="admin" class="admin-card">
-            <Dangerzone class="button"/>
+            <Dangerzone @users-deleted="handleUsersDeleted" class="button"/>
           </div>
         </b-row>
 			</div>
@@ -71,6 +71,12 @@ export default {
   methods: {
     showSearch() {
       this.$router.push('/search');
+    },
+    handleUsersDeleted() {
+      this.$emit('users-deleted')
+      localStorage.clear()
+      this.userId = null;
+      this.$router.push('/signin');
     }
   },
   components: {

@@ -5,7 +5,7 @@
         Warning: This section allows you to perform destructive actions. Please proceed with caution.
       </p>
       <div class="danger-zone-buttons">
-        <DeleteUsers />
+        <DeleteUsers @users-deleted="handleUsersDeleted"/>
         <DeleteMessages />
       </div>
     </div>
@@ -20,6 +20,18 @@ import DeleteMessages from './DeleteMessages.vue';
     components: {
         DeleteUsers,
         DeleteMessages
+    },
+    methods: {
+      handleUsersDeleted() {
+        this.$emit('users-deleted');  // Emit the signed-out event to App.vue
+        this.handleSignOut();  // Call the local handleSignOut method
+      },
+      handleSignOut() {
+        localStorage.clear();
+        this.userId = null;
+        this.admin = null;
+        this.$router.push('/signin');
+      }
     }
   }
 </script>
