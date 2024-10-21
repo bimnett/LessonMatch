@@ -217,13 +217,12 @@ export default {
 }
 
 .chat-header {
-  background: linear-gradient(to right, rgba(116, 91, 240, 0.9), rgba(93, 73, 192, 0.9));
-  color: white;
+  background: linear-gradient(to right, #5C6CD1E3, #4CD1B1E3);
   padding: 15px 25px;
   border-radius: 16px;
   margin-bottom: 20px;
   cursor: pointer;
-  box-shadow: 0 3px 15px rgba(116, 91, 240, 0.15);
+  box-shadow: 0 3px 15px rgba(92, 108, 209, 0.15);
   transition: all 0.3s ease;
 }
 
