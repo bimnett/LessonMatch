@@ -3,10 +3,9 @@
     <div class="chat-header" @click="goToUserProfile">
       <h3>{{ recipientUserName }}</h3>
     </div>
-    <div class="message-container" ref="messageContainer" @scroll="onScroll">
-      <div v-for="message in messages" :key="message._id" :class="messageClass(message)">
-        <p class="message-content">{{ message.name }}: {{ message.content }}</p>
-        <p class="message-timestamp">{{ formatTimestamp(message.sentAt) }}</p>
+    <div class="message-container" @scroll="onScroll">
+      <div v-for="message in messages" :key="message._id">
+        <Message :messageData="message" :currentUserId="userId" @edit-message="handleEditMessage"/>
       </div>
     </div>
     <ChatInput @send-message="sendMessage" />
@@ -16,11 +15,13 @@
 <script>
 import ChatInput from '@/components/Chatroom/ChatInput.vue'
 import socket from '@/socket'
-import { getMessages, createMessage, getChatroomById, getUserProfile } from '@/Api'
+import { getMessages, createMessage, getChatroomById, getUserProfile, editMessage } from '@/Api'
+import Message from '@/components/Chatroom/Message.vue';
 
 export default {
   components: {
-    ChatInput
+    ChatInput,
+    Message
   },
   data() {
     return {
@@ -57,7 +58,7 @@ export default {
           }
 
           const recipientProfile = await getUserProfile(this.recipientId)
-          this.recepientUserName = recipientProfile.username
+          this.recipientUserName = recipientProfile.username
           socket.emit('joinRoom', this.chatroomId)
         }
       } catch (error) {
@@ -96,7 +97,12 @@ export default {
       })
 
       socket.on('connect', () => {
+        socket.emit('joinRoom', this.chatroomId);
         console.log('Connected to the chat server')
+      })
+      
+      socket.on('emitEditMessage', (editedMessage) => {
+        
       })
 
       socket.on('connect_error', () => {
@@ -106,39 +112,39 @@ export default {
         console.log('Disconnected from chat server')
       })
     },
+    async handleEditMessage({ id, content }) {
+      try {
+        
+        const updatedMessage = await editMessage(id, content);
+      
+        const index = this.messages.findIndex(msg => msg._id === id);
+        if (index !== -1) {
+          this.messages[index].content = updatedMessage.content;
+        }
+
+        socket.emit('onEditMessage', updatedMessage)
+      } catch (error) {
+        console.error('Error editing message:', error);
+      }
+    },
     async sendMessage(messageData) {
       try {
         const response = await createMessage(this.chatroomId, this.userId, messageData.sentAt, messageData.content)
         if (response && response.data) {
-          const savedMessage = response.data
-          this.messages.push({
-            _id: savedMessage._id,
-            content: savedMessage.content,
-            senderId: {
-              _id: this.userId,
-              name: 'You'
-            },
-            sentAt: savedMessage.sentAt
-          })
+          
+          const savedMessage = {
+            ...response.data,
+            senderID: {
+              _id: this.userId 
+            }
+          }
+          console.log('Saved message:', savedMessage)
 
-          // Emit the message through the socket to other users
           socket.emit('sendMessage', this.chatroomId, savedMessage)
         }
       } catch (error) {
         console.error('Error sending message:', error)
       }
-    },
-
-    messageClass(message) {
-      return {
-        messageBox: true,
-        sent: message._id === this.userId,
-        received: message._id !== this.userId
-      }
-    },
-    formatTimestamp(timestamp) {
-      const date = new Date(timestamp)
-      return date.toLocaleString()
     },
     goToUserProfile() {
       this.$router.push(`/profile/${this.recipientId}`)
@@ -154,7 +160,6 @@ export default {
       }
     }
   },
-
   beforeDestroy() {
     if (this.userId) {
       socket.off('message')

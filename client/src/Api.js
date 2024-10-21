@@ -140,15 +140,15 @@ export const deleteAllMessages = async () => {
   }
 }
 
-export const createMessage = (chatroomID, senderId, sentAt, content) => {
+export const createMessage = (chatroomID, senderID, sentAt, content) => {
   return Api.post('/messages', {
     chatroomID,
-    senderId,
+    senderID,
     sentAt,
     content
   })
     .then(response => {
-      console.log(response.data)
+      console.log("message response: ", response.data)
       return response
     })
     .catch(error => {
@@ -178,7 +178,14 @@ export const createSkill = (name, level, category, userId, isAnInterest) => {
       console.log(error)
     })
 }
-
+export const editMessage = async (messageId, newContent) => {
+  try {
+    const response = await Api.patch(`messages/${messageId}`, {newContent});
+    return response.data;
+  } catch(err){
+    throw err;
+  }
+}
 export const getChatroomsOfUser = async (userId) => {
   try {
     const response = await Api.get(`/users/${userId}/chatrooms/`)
