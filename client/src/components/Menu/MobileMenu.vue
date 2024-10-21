@@ -31,12 +31,20 @@ export default {
     background-color: #fff;
     border-top: 1px solid #ddd;
     padding: 0.5rem 0;
+    z-index: 1000;
   }
 
   .menu-item {
     color: #333;
     font-size: 1.8rem;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.3s ease;
   }
+  .menu-item:hover {
+  color: #624eca;
+}
 
   .menu-item .fa-icon {
     transition: color 0.3s ease;
@@ -45,4 +53,9 @@ export default {
   .menu-item:hover .fa-icon {
     color: #624eca;
   }
+  @media (min-width: 769px) {
+  .mobile-menu {
+    display: none;
+  }
+}
   </style>

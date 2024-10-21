@@ -97,5 +97,11 @@ export default {
     .nav .nav-link {
       font-size: 1.1rem;
     }
+    
   }
+  @media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+}
   </style>
