@@ -80,11 +80,6 @@ export default {
         this.$router.push(`/profile/${userId}`)
       } catch (error) {
         console.error('Error updating profile:', error)
-        this.$bvToast.toast('Error updating profile', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
       }
     }
   }
