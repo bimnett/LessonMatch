@@ -78,6 +78,8 @@ export default {
     border: 1px solid #ccc;
     border-radius: 10px;
     margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
   }
 
   input, select {
@@ -86,6 +88,7 @@ export default {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    height: 3rem;
   }
 
   button {
