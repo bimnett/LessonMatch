@@ -7,20 +7,15 @@ const Chatroom = require('../../models/chatroom');
 // POST endpoint - Creates a new message
 router.post('/messages', async (req, res, next) => {
     try {
-        const { chatroomId, senderID, content } = req.body;
 
-        console.log('Request body:', req.body);
-        if (!chatroomId || !senderID || !content) {
-             console.log('Missing fields:', { chatroomId, senderID, content });
-            return res.status(400).json({ error: 'Missing required fields: chatroomId, senderID, or content' });
-        }
+        const chatroomID = req.body.chatroomID;
 
-        const message = new Message({ chatroomId, senderID, content, sentAt: new Date() });
+        const message = new Message(req.body);
         await message.save();
         
-       
+        // Update messages attribute in the chatroom document
         await Chatroom.findByIdAndUpdate(
-            chatroomId,
+            chatroomID,
             { $push: { messages: message._id } }
         );
 
@@ -29,7 +24,6 @@ router.post('/messages', async (req, res, next) => {
         next(error);
     }
 });
-
 
 //GET endpoint - Returns message with given id
 router.get('/messages/:id', async (req, res, next) => {

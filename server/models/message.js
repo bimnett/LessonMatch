@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 // Define Mongoose message schema
 var messageSchema = new Schema ({
-    chatroomId: {
+    chatroomID: {
         type: Schema.Types.ObjectId,
         ref: 'Chatroom',
         required: true

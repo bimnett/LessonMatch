@@ -5,7 +5,7 @@
     </div>
     <div class="message-container" ref="messageContainer" @scroll="onScroll">
       <div v-for="message in messages" :key="message._id" :class="messageClass(message)">
-        <p class="message-content">{{ message.senderID.name }}: {{ message.content }}</p>
+        <p class="message-content">{{ message.senderId.name }}: {{ message.content }}</p>
         <p class="message-timestamp">{{ formatTimestamp(message.sentAt) }}</p>
       </div>
     </div>
@@ -113,13 +113,13 @@ export default {
     },
     async sendMessage(messageData) {
       try {
-        const response = await createMessage(this.chatroomId, this.userId, messageData.content)
+        const response = await createMessage(this.chatroomId, this.userId, messageData.sentAt, messageData.content)
         if (response && response.data) {
           const savedMessage = response.data
           this.messages.push({
             _id: savedMessage._id,
             content: savedMessage.content,
-            senderID: {
+            senderId: {
               _id: this.userId,
               name: 'You'
             },
@@ -137,8 +137,8 @@ export default {
     messageClass(message) {
       return {
         messageBox: true,
-        sent: message.senderID._id === this.userId,
-        received: message.senderID._id !== this.userId
+        sent: message.senderId._id === this.userId,
+        received: message.senderId._id !== this.userId
       }
     },
     formatTimestamp(timestamp) {

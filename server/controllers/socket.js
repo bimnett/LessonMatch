@@ -14,7 +14,7 @@ module.exports = (io) => {
                 content,
                 chatroomId,
                 sentAt: new Date(),
-                senderID: socket.auth.userId 
+                senderId: socket.auth.userId 
               };
   
             // Emit message to other users in the same chatroom
@@ -24,7 +24,7 @@ module.exports = (io) => {
                 await createMessage({
                   content: message.content,
                   chatroomId: message.chatroomId,
-                  senderID: message.senderID,
+                  senderId: message.senderId,
                   sentAt: message.sentAt
                 });
               } catch (error) {
