@@ -36,11 +36,6 @@ export default {
       chatroomData: null,
     }
   },
-  computed: {
-    orderedMessages() {
-      return this.messages.slice().reverse();
-    }
-  },
   async mounted() {
     if (this.userId) {
       await this.getChatroomData();
@@ -81,8 +76,8 @@ export default {
         if (newMessages.length === 0) {
           this.allMessagesLoaded = true;
         } else {
-          // Add new messages to the beginning of the array
-          this.messages = [...newMessages, ...this.messages];
+          // Add new messages to the end of the array (older messages first)
+          this.messages = [...this.messages, ...newMessages];
           this.currentPage = page;
           
           // Scroll to bottom only on initial load (page 1)
@@ -92,7 +87,7 @@ export default {
             // Maintain scroll position when loading older messages
             this.$nextTick(() => {
               const container = this.$refs.messageContainer;
-              container.scrollTop = newMessages.length * 20; // Approximate height of a message
+              container.scrollTop = container.scrollHeight - container.clientHeight - (newMessages.length * 20); // Approximate height of a message
             });
           }
         }
@@ -119,7 +114,7 @@ export default {
 
       socket.on('message', (message) => {
         console.log('Received message:', message);
-        this.messages.push(message);
+        this.messages.unshift(message);
         this.scrollToBottom();
       });
 
@@ -130,6 +125,10 @@ export default {
 
       socket.on('emitEditMessage', (editedMessage) => {
         // Handle message edit event
+        const index = this.messages.findIndex(msg => msg._id === editedMessage._id);
+        if (index !== -1) {
+          this.messages[index] = editedMessage;
+        }
       });
 
       socket.on('connect_error', () => {
@@ -172,7 +171,7 @@ export default {
             }
           };
           console.log('Saved message:', savedMessage);
-          
+
           // Emit to socket
           socket.emit('sendMessage', this.chatroomId, savedMessage);
           
@@ -190,6 +189,10 @@ export default {
   beforeDestroy() {
     if (this.userId) {
       socket.off('message');
+      socket.off('connect');
+      socket.off('emitEditMessage');
+      socket.off('connect_error');
+      socket.off('disconnect');
       socket.disconnect();
     }
   }
@@ -199,7 +202,7 @@ export default {
 <style scoped>
 .messages-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   padding: 10px;
   max-height: 70vh;
   overflow-y: auto;
