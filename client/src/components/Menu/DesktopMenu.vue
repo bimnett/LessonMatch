@@ -8,12 +8,12 @@
         <div v-if="userId" class="nav-group">
           <router-link class="nav-link" to="/search">Search</router-link>
           <router-link class="nav-link" :to="`/profile/${userId}`">Profile</router-link>
-          <router-link class="nav-link" :to="`/chatrooms/${userId}`">Chatroom</router-link>
+          <router-link class="nav-link" :to="`/chatrooms/${userId}`">Chatrooms</router-link>
         </div>
         <div v-else class="nav-group">
           <router-link class="nav-link" to="/signin">Search</router-link>
           <router-link class="nav-link" to="/signin">Profile</router-link>
-          <router-link class="nav-link" to="/signin">Chatroom</router-link>
+          <router-link class="nav-link" to="/signin">Chatrooms</router-link>
         </div>
       </div>
     </div>
