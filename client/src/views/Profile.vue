@@ -66,15 +66,13 @@
 import { getUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
 import UpdateProfileForm from '@/components/Profile/UpdateProfileForm.vue'
 import ProfileCard from '@/components/Profile/ProfileCard.vue'
-import SignIn from '@/components/SignIn/SignInButton.vue'
 
 
 export default {
   name: 'Profile',
   components: {
     UpdateProfileForm,
-    ProfileCard,
-    SignIn
+    ProfileCard
   },
   data() {
     return {
@@ -108,19 +106,9 @@ export default {
       try {
         if (!this.userId) throw new Error('User not found')
         this.form = { ...this.form, ...updatedData }
-        this.$bvToast.toast('Your profile has been updated successfully!', {
-          title: 'Success',
-          variant: 'success',
-          solid: true
-        })
         this.editMode = false
       } catch (error) {
         console.error('Error updating profile:', error)
-        this.$bvToast.toast('Error updating profile!', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
       }
     },
     handleSignOut(){
@@ -140,31 +128,16 @@ export default {
       await this.fetchSkillsAndInterests(userId);
     } catch (error) {
       console.error('Error fetching user data:', error);
-      this.$bvToast.toast('Error fetching user data', {
-        title: 'Error',
-        variant: 'danger',
-        solid: true
-      });
     }
   },
     async confirmDeleteProfile() {
       try {
         if (!this.userId) throw new Error('User not found')
         await deleteUserProfile(this.userId)
-        this.$bvToast.toast('Profile deleted successfully!', {
-          title: 'Success',
-          variant: 'success',
-          solid: true
-        })
         localStorage.removeItem('userId')
         this.$router.push({ name: 'Home' })
       } catch (error) {
         console.error('Error deleting profile:', error)
-        this.$bvToast.toast('Error deleting profile', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
       }
     },
     cancelDelete() {
@@ -181,11 +154,6 @@ export default {
         this.interests = interestsResponse
       } catch (error) {
         console.error('Error fetching skills or interests:', error)
-        this.$bvToast.toast('Error fetching skills or interests', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
       }
     },
   },
@@ -202,11 +170,6 @@ export default {
       }
     } catch (error) {
         console.error('Error fetching user data:', error);
-        this.$bvToast.toast('Error fetching user data', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        });
       }
   },
   watch: {

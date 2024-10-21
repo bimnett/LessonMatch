@@ -58,7 +58,6 @@ export default {
               console.log('Error creating a new skill')
             } else {
               this.$router.push(`/profile/${this.userId}`);
-              window.alert('A new skill has been created!')
               console.log('A new skill has been created!')
             }
             
