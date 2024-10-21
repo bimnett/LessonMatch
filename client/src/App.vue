@@ -1,25 +1,8 @@
 <template>
   <div id="app">
-    <div class="nav">
-      <div class="nav-links-container">
-        <div class="logo-container">
-        <img src="../Logo.png" class="logo">
-        </div>
-        <router-link class="nav-link" to="/">Home</router-link>
-        <div v-if="userId" class="nav-group">
-          <router-link class="nav-link" to="/search">Search</router-link>
-          <router-link class="nav-link" :to="`/profile/${userId}`">Profile</router-link>
-          <router-link class="nav-link" :to="`/chatrooms/${userId}`">Chatrooms</router-link>
-        </div>
-        <div v-else class="nav-group">
-          <router-link class="nav-link" to="/signin">Search</router-link>
-          <router-link class="nav-link" to="/signin">Profile</router-link>
-          <router-link class="nav-link" to="/signin">Chatrooms</router-link>
-        </div>
-      </div>
-    </div>
-
+    <DesktopMenu :userId="userId" />
     <router-view @signed-out="handleSignOut" @signed-in="handleSignIn"/>
+    <MobileMenu :userId="userId" />
 
     <footer>
       <div id="footer">
@@ -34,14 +17,6 @@
       </div>
     </footer>
 
-    <!-- CAUSES ISSUES -->
-    <!-- <div v-if="isDesktop">
-      <DesktopMenu :userId="userId"/>
-    </div>
-    <div v-else>
-      <MobileMenu :userId="userId"/>
-    </div> -->
-    
   </div>
 </template>
 
@@ -66,54 +41,47 @@ export default {
     }
   },
   watch: {
-    userId(){
+    userId() {
       this.userId = localStorage.getItem('userId')
       this.admin = localStorage.getItem('admin')
     }
   },
   methods: {
-     // Method to check the screen size and toggle the menus
+    // Method to check the screen size and toggle the menus
     checkScreenSize() {
       // Here, 768px is the breakpoint for switching between mobile and desktop
       this.isDesktop = window.innerWidth >= 768
     },
 
-    handleSignOut(){
-      localStorage.removeItem('userId');
-      localStorage.removeItem('admin');
+    handleSignOut() {
+      localStorage.removeItem('userId')
+      localStorage.removeItem('admin')
 
-      this.userId = null;
-      this.admin = null;
+      this.userId = null
+      this.admin = null
     },
-    
+
     handleSignIn() {
-      this.userId = localStorage.getItem('userId') 
+      this.userId = localStorage.getItem('userId')
       this.admin = localStorage.getItem('admin')
     }
   },
   mounted() {
-    // CAUSES ISSUES
-    /*userId() {
-      this.userId = localStorage.getItem('userId')
-    }
-    */ 
-
     // Call the function to set the menu based on initial screen size
     this.checkScreenSize()
 
     // Add event listener to update layout when screen is resized
     window.addEventListener('resize', this.checkScreenSize)
-
     // Update userId and admin initially to catch the correct values
     this.userId = localStorage.getItem('userId')
     this.admin = localStorage.getItem('admin')
   },
-
   beforeDestroy() {
     // Remove the event listener when component is destroyed
     window.removeEventListener('resize', this.checkScreenSize)
   }
 }
+
 </script>
 
 <style>
@@ -125,14 +93,14 @@ export default {
   color: #2c3e50;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; 
+  min-height: 100vh;
 }
 
 router-view {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  padding-bottom: 5rem;
 }
 
 .logo {
@@ -171,20 +139,6 @@ router-view {
   gap: 6rem;
 }
 
-/* Mobile menu should be hidden on desktop */
-@media (min-width: 769px) {
-  .mobile-menu {
-    display: none;
-  }
-}
-
-/* Desktop menu should be hidden on mobile */
-@media (max-width: 768px) {
-  .nav {
-    display: none;
-  }
-}
-
 .nav .nav-link {
   color: black;
   padding: 0.8rem 0.8rem;
@@ -200,12 +154,18 @@ router-view {
   border-radius: 5px;
 }
 
+@media (max-width: 768px) {
+ footer {
+  margin-bottom: 2.4rem;
+ }
+}
+
 /* Responsive adjustments */
 @media (max-width: 1200px) {
   .nav-links-container, .nav-group {
     gap: 4rem;
   }
-  
+
   .logo-container {
     width: 5rem;
   }
@@ -215,7 +175,7 @@ router-view {
   .nav-links-container, .nav-group {
     gap: 3rem;
   }
-  
+
   .nav .nav-link {
     font-size: 1.1rem;
   }
