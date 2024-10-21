@@ -47,14 +47,13 @@ export default {
     async getChatroomData() {
       try {
         const response = await getChatroomById(this.chatroomId)
-        console.log('Chatroom Data Response:', response)
-        if (response && response.data) {
-          this.chatroomData = response.data
+        if (response) {
+          this.chatroomData = response
 
-          if (this.chatroomData.user1._id !== this.userId) {
-            this.recipientId = this.chatroomData.user1._id
+          if (this.chatroomData.user1 !== this.userId) {
+            this.recipientId = this.chatroomData.user1
           } else {
-            this.recipientId = this.chatroomData.user2._id
+            this.recipientId = this.chatroomData.user2
           }
 
           const recipientProfile = await getUserProfile(this.recipientId)
@@ -92,7 +91,7 @@ export default {
       socket.connect()
 
       socket.on('message', (message) => {
-        console.log('Received message:', message);
+        console.log('Received message:', message)
         this.messages.push(message)
       })
 
@@ -130,6 +129,7 @@ export default {
     async sendMessage(messageData) {
       try {
         const response = await createMessage(this.chatroomId, this.userId, messageData.sentAt, messageData.content)
+        console.log(response)
         if (response && response.data) {
           
           const savedMessage = {
