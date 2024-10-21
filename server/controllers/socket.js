@@ -14,7 +14,7 @@ module.exports = (io) => {
                 content,
                 chatroomId,
                 sentAt: new Date(),
-                senderId: socket.auth.userId 
+                senderId: socket.auth
               };
   
             // Emit message to other users in the same chatroom

@@ -1,23 +1,20 @@
 <template>
-  <div v-if="userId">
+  <div>
     <div class="chat-header" @click="goToUserProfile">
       <h3>{{ recipientUserName }}</h3>
     </div>
     <div class="message-container" ref="messageContainer" @scroll="onScroll">
       <div v-for="message in messages" :key="message._id" :class="messageClass(message)">
-        <p class="message-content">{{ message.senderId.name }}: {{ message.content }}</p>
+        <p class="message-content">{{ message.name }}: {{ message.content }}</p>
         <p class="message-timestamp">{{ formatTimestamp(message.sentAt) }}</p>
       </div>
     </div>
     <ChatInput @send-message="sendMessage" />
   </div>
-  <div v-else>
-    <SignIn />
-  </div>
 </template>
 
 <script>
-import ChatInput from '@/components/ChatInput.vue'
+import ChatInput from '@/components/Chatroom/ChatInput.vue'
 import socket from '@/socket'
 import { getMessages, createMessage, getChatroomById, getUserProfile } from '@/Api'
 
@@ -62,8 +59,6 @@ export default {
           const recipientProfile = await getUserProfile(this.recipientId)
           this.recepientUserName = recipientProfile.username
           socket.emit('joinRoom', this.chatroomId)
-        } else {
-          console.error('No chatroom data found')
         }
       } catch (error) {
         console.error('Error getting chatroom data or user profile:', error)
@@ -137,8 +132,8 @@ export default {
     messageClass(message) {
       return {
         messageBox: true,
-        sent: message.senderId._id === this.userId,
-        received: message.senderId._id !== this.userId
+        sent: message._id === this.userId,
+        received: message._id !== this.userId
       }
     },
     formatTimestamp(timestamp) {
