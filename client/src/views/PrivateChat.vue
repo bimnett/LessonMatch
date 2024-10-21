@@ -293,7 +293,14 @@ export default {
   }
   
   .messages-container {
+    display:  flex;
+flex-direction: column;
     padding: 15px;
   }
+  .messages-container > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 }
 </style>
