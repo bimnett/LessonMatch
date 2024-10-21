@@ -26,9 +26,9 @@
         <div class="footer-body">
           <p>&copy; 2024 <strong>LessonMatch</strong> | All rights reserved.</p>
           <div class="icons">
-            <img src="../public/email-icon.png" alt="Email" class="mail-icon">
-            <img src="../public/instagram-icon.png" alt="Instagram" class="instagram-icon">
-            <img src="../public/facebook-icon.png" alt="FaceBook" class="facebook-icon">
+            <img src="/email-icon.png" alt="Email" class="mail-icon">
+            <img src="/instagram-icon.png" alt="Instagram" class="instagram-icon">
+            <img src="/facebook-icon.png" alt="FaceBook" class="facebook-icon">
           </div>
         </div>
       </div>
@@ -132,6 +132,7 @@ router-view {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .logo {
@@ -147,6 +148,7 @@ router-view {
   padding: 1.8em 2rem;
   background: white;
   position: relative;
+  border-bottom: 2px solid rgba(102, 62, 165, 0.89);
 }
 
 .logo-container {

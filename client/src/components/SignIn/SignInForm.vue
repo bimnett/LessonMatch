@@ -57,6 +57,7 @@ export default {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    margin-bottom: 30px;
   }
 
   input {
@@ -85,5 +86,11 @@ export default {
     margin: 12px 0;
     font-size: 0.8rem;
     color: #555;
+  }
+
+  @media only screen and (max-width: 768px) {
+    #sign-in-form {
+    width: 100%;
+    }
   }
 </style>

@@ -1,4 +1,5 @@
 <template>
+  <div class="container">
     <div id = "sign-up-form">
         <b-form v-on:submit.prevent="register">
             <b-input v-model="username" type="text" placeholder="Username" required />
@@ -13,6 +14,7 @@
             </router-link>
         </b-form>
     </div>
+  </div>
 </template>
 
 <script>
@@ -67,6 +69,7 @@ export default {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    margin-bottom: 30px;
   }
 
   input {
@@ -95,5 +98,11 @@ export default {
     margin: 12px 0;
     font-size: 0.8rem;
     color: #555;
+  }
+
+  @media only screen and (max-width: 768px) {
+    #sign-up-form {
+    width: 100%;
+    }
   }
 </style>

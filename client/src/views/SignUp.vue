@@ -1,6 +1,8 @@
 <template>
-  <div>
+  <div id="container">
+    <div id="title">
       <h1>Sign Up Page</h1>
+    </div>
       <div v-if="!showModal">
         <OriginalSignUpForm
         @signed-in="handleSignIn"
@@ -60,6 +62,10 @@ export default {
 
 <style>
 
+#container {
+  margin-top: 30px;
+}
+
 .modal-body {
   padding: 20px;
 }
@@ -72,6 +78,13 @@ export default {
 
 #modal-h4 {
   margin-bottom: 25px;
+}
+
+#title {
+  padding: 10px 20px;
+  border: 2px solid;
+  display: inline-block; 
+  border-image: linear-gradient(to right, #5C6CD1E3, #4CD1B1E3) 1; 
 }
 
 

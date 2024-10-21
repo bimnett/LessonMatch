@@ -138,7 +138,7 @@
 .profile-card {
  position: relative;
  max-width: 100%;
- margin: 1rem auto;
+ margin: 30px auto;
  background-color: #624eca;
  transition: all 0.3s ease;
 }

@@ -2,7 +2,7 @@
   <div class="search-container">
     <div id="title">
           <h4>Search for users</h4>
-    </div>
+  </div>
     <CategoryDropdownBar 
       @category-selected="searchCategory"
       @sort-order-selected="updateSortOrder"
@@ -91,7 +91,8 @@ export default {
 
 <style scoped>
 .search-container {
-  padding: 20px;
+  padding: 0 20px;
+  margin: 30px 0;
 }
 
 .results-header {

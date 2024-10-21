@@ -78,6 +78,7 @@ export default {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    margin-bottom: 30px;
   }
 
   input, select {
@@ -100,5 +101,11 @@ export default {
 
   button:hover {
     background-color:#5d49c0;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .create-skill-form {
+    width: 100%;
+    }
   }
 </style>

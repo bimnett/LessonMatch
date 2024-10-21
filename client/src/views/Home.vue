@@ -129,9 +129,8 @@ export default {
     justify-content: center;
     align-items: center;
     height: 500px;
-    /*background: linear-gradient(#5C6CD1E3, #624ECA, #5C6CD1, #558AD7, #4EA8DE, #4EAFD7, #4EBAD5, #4DC3C0, #4CD1B1, #4BDEA2);*/
     background: linear-gradient(#5C6CD1E3, #4CD1B1E3);
-    /*border-bottom: 2px solid #44ac93e3;*/
+    border-bottom: 2px solid #44ac93e3;
     box-sizing: border-box;
 }
 
@@ -149,8 +148,7 @@ export default {
     margin: 0 auto; 
     padding-bottom: 10px; 
     box-sizing: border-box; 
-    /*border-bottom: 2px solid #44ac93e3;*/
-    /*background: #4CD1B1E3;*/
+    border-bottom: 2px solid #44ac93e3;
 }
 
 .information-content {

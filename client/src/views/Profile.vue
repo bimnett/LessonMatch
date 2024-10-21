@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div id="title">
+          <h4>Your Profile</h4>
+  </div>
     <div class="col-12">
       <div v-if="!editMode">
         <!-- Display User Profile -->
@@ -219,5 +222,17 @@ export default {
 </script>
 
 <style scoped>
+
+.container {
+  margin-top: 30px;
+}
+
+#title {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid;
+  display: inline-block; 
+  border-image: linear-gradient(to right, #5C6CD1E3, #4CD1B1E3) 1; 
+}
 
 </style>

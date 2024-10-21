@@ -1,6 +1,6 @@
 <template>
     <div>
-      <b-container>
+      <b-container id="container">
         <div id="title">
           <h4>Your Chatrooms</h4>
         </div>
@@ -56,6 +56,10 @@ export default {
 </script>
 
 <style scoped>
+
+.container {
+  margin: 30px auto;
+}
 
 .page-content{
   margin-top: 30px;
