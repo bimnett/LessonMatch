@@ -109,17 +109,11 @@ export default {
     async sendMessage(messageData) {
       try {
         const response = await createMessage(this.chatroomId, this.userId, messageData.sentAt, messageData.content)
+        console.log(response)
         if (response && response.data) {
           const savedMessage = response.data
-          this.messages.push({
-            _id: savedMessage._id,
-            content: savedMessage.content,
-            senderId: {
-              _id: this.userId,
-              name: 'You'
-            },
-            sentAt: savedMessage.sentAt
-          })
+          this.messages.push(savedMessage
+          )
 
           // Emit the message through the socket to other users
           socket.emit('sendMessage', this.chatroomId, savedMessage)
@@ -132,8 +126,8 @@ export default {
     messageClass(message) {
       return {
         messageBox: true,
-        sent: this.recipientId !== this.userId,
-        received: this.recipientId === this.userId
+        sent: message.senderID !== this.userId,
+        received: message.senderID === this.userId
       }
     },
     formatTimestamp(timestamp) {
