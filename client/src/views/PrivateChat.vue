@@ -46,7 +46,6 @@ export default {
     async getChatroomData() {
       try {
         const response = await getChatroomById(this.chatroomId)
-        console.log('Chatroom Data Response:', response)
         if (response) {
           this.chatroomData = response
 
@@ -92,7 +91,7 @@ export default {
       socket.connect()
 
       socket.on('message', (message) => {
-        console.log('Received message:', message);
+        console.log('Received message:', message)
         this.messages.push(message)
       })
 
@@ -133,8 +132,8 @@ export default {
     messageClass(message) {
       return {
         messageBox: true,
-        sent: message._id === this.userId,
-        received: message._id !== this.userId
+        sent: this.recipientId !== this.userId,
+        received: this.recipientId === this.userId
       }
     },
     formatTimestamp(timestamp) {
