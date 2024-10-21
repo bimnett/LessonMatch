@@ -56,7 +56,9 @@ export default {
 
 .page-content{
   margin-top: 30px;
+  margin-bottom: 50px;
 }
+
 
 
 </style>
