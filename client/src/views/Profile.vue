@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div id="title">
-          <h4>Your Profile</h4>
-  </div>
+      <h4>Your Profile</h4>
+    </div>
     <div class="col-12">
       <div v-if="!editMode">
         <!-- Display User Profile -->

@@ -1,6 +1,5 @@
 <template>
   <div class="update-profile-form container">
-    <h2>Update Profile</h2>
     <b-form @submit.prevent="submitUpdate">
       <div class="row">
         <div class="col-12 mb-3">
@@ -26,16 +25,6 @@
         <div class="col-12 mb-3">
           <label for="location.country">Country:</label>
           <input v-model="form.location.country" type="text" class="form-control" id="location.country" required />
-        </div>
-
-        <div class="col-12 mb-3">
-          <label for="skills">Skills:</label>
-          <input v-model="form.skills" type="text" class="form-control" id="skills" placeholder="Comma-separated skills" />
-        </div>
-
-        <div class="col-12 mb-3">
-          <label for="interests">Interests:</label>
-          <input v-model="form.interests" type="text" class="form-control" id="interests" placeholder="Comma-separated interests" />
         </div>
 
         <div class="col-12 d-flex justify-content-between">
@@ -88,29 +77,24 @@ export default {
 
 <style scoped>
 .update-profile-form {
-  margin: 0 auto;
+  max-width: 400px;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  background: linear-gradient(to bottom right, #e0f7fa, #bbdefb);
+  margin-bottom: 30px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-h2 {
-  color: #6200ea;
-  text-align: center;
 }
 
 label {
   margin-bottom: 5px;
-  color: #6200ea;
 }
 
 input {
   padding: 10px;
-  border: 1px solid #6200ea;
   border-radius: 4px;
   transition: border 0.3s ease;
+  border: 1px solid #ccc;
+  height: 3rem;
 }
 
 input:focus {
@@ -120,16 +104,16 @@ input:focus {
 
 button {
   padding: 10px;
-  background-color: #6200ea;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  background-color: #745bf0;
+  cursor: pointer;
 }
 
 button:hover {
-  background-color: #3700b3;
+  background-color:#5d49c0;
 }
 
 @media (max-width: 768px) {
