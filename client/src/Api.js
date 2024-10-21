@@ -140,19 +140,20 @@ export const deleteAllMessages = async () => {
   }
 }
 
-export const createMessage = async (chatroomId, senderID, content) => {
+export const createMessage = async (chatroomId, senderID, sentAt, content) => {
   try {
-      const response = await Api.post('/messages', {
-          chatroomId: chatroomId,
-          senderID: senderID,
-          content: content,
-      });
-      return response.data;
+    const response = await Api.post('/messages', {
+      chatroomId,
+      senderID,
+      sentAt,
+      content
+    })
+    return response.data
   } catch (error) {
-      console.error('Error sending message:', error);
-      throw error; 
+    console.error('Error sending message:', error)
+    throw error
   }
-};
+}
 
 export const getMessages = async (chatroomId, page = 1, limit = 20) => {
   try {
