@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chat-container">
     <div class="chat-header" @click="goToUserProfile">
       <h3>{{ recipientUserName }}</h3>
     </div>
@@ -8,7 +8,18 @@
         <Message :messageData="message" :currentUserId="userId" @edit-message="handleEditMessage"/>
       </div>
     </div>
-    <ChatInput @send-message="sendMessage" />
+    <div class="input-container">
+      <ChatInput @send-message="sendMessage" class="chat-input">
+        <template #send-button>
+          <button class="send-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 2L11 13"></path>
+              <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+            </svg>
+          </button>
+        </template>
+      </ChatInput>
+    </div>
   </div>
 </template>
 
@@ -197,78 +208,92 @@ export default {
 </script>
 
 <style scoped>
-.messages-container {
+.chat-container {
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  max-height: 70vh;
+  height: 100vh;
+  background: linear-gradient(145deg, rgba(92, 108, 209, 0.05), rgba(76, 209, 177, 0.05));
+  padding: 20px;
+}
+
+.chat-header {
+  background: linear-gradient(to right, rgba(116, 91, 240, 0.9), rgba(93, 73, 192, 0.9));
+  color: white;
+  padding: 15px 25px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 3px 15px rgba(116, 91, 240, 0.15);
+  transition: all 0.3s ease;
+}
+
+.chat-header:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(116, 91, 240, 0.2);
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.messages-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+  border-radius: 20px;
+  margin-bottom: 20px;
   overflow-y: auto;
   scroll-behavior: smooth;
-}
-.message-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-.chat-header {
-  background-color: #6200ea;
-  color: #fff;
-  padding: 15px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  transition: background-color 0.3s;
-}
-.chat-header:hover {
-  background-color: #3700b3;
-}
-.message-box {
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 10px;
-  max-width: 60%;
-  word-wrap: break-word;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.05);
 }
 
-.sent {
-  align-self: flex-end;
-  background-color: #eabff3;
-}
-
-.received {
-  align-self: flex-start;
-  background-color: #b7e7ef;
-}
-
-.message-content {
-  margin: 0;
-}
-
-.message-timestamp {
-  font-size: 0.8em;
-  text-align: right;
-  color: #666;
-}
-.chat-input {
+.input-container {
   position: sticky;
   bottom: 0;
   width: 100%;
+  background: white;
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.05);
 }
-@media (max-width:768px) {
-  .message-box {
-    max-width: 80%;
+
+.send-button {
+  background: linear-gradient(135deg, #745bf0, #5d49c0);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(116, 91, 240, 0.2);
+}
+
+.send-button:hover {
+  transform: scale(1.05) rotate(-10deg);
+  box-shadow: 0 5px 15px rgba(116, 91, 240, 0.3);
+}
+
+.send-button svg {
+  width: 20px;
+  height: 20px;
+  transform: translateX(1px);
+}
+
+@media (max-width: 768px) {
+  .chat-container {
+    padding: 10px;
   }
+  
   .messages-container {
-    padding: 5px;
-  }
-}
-@media (max-width:480px) {
-  .message-box {
-    max-width: 90%;
-  }
-  .message-timestamp {
-    font-size: 0.7em;
+    padding: 15px;
   }
 }
 </style>
