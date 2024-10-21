@@ -58,7 +58,7 @@ export default {
 }
 
 #username {
-  margin-top: 40%;
+  margin-top: 20px;
   margin-left: 15px;
 }
 
