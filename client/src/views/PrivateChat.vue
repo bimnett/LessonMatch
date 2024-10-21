@@ -48,6 +48,7 @@ export default {
     }
   },
   async mounted() {
+    // When component is mounted, load chatroom data and connect to the socket
     if (this.userId) {
       await this.getChatroomData();
       this.connectSocket();
@@ -56,19 +57,22 @@ export default {
   },
   methods: {
     async getChatroomData() {
+       // Fetch chatroom data and recipient profile
       try {
         const response = await getChatroomById(this.chatroomId);
         if (response) {
           this.chatroomData = response;
 
+          // Determine the recipient based on user IDs
           if (this.chatroomData.user1 !== this.userId) {
             this.recipientId = this.chatroomData.user1;
           } else {
             this.recipientId = this.chatroomData.user2;
           }
-
+          // Fetch the recipient's profile
           const recipientProfile = await getUserProfile(this.recipientId);
           this.recipientUserName = recipientProfile.username;
+           // Join the chatroom through the socket
           socket.emit('joinRoom', this.chatroomId);
         }
       } catch (error) {
@@ -76,6 +80,7 @@ export default {
       }
     },
     async getMessages(page = 1) {
+       // Fetch messages for the chatroom
       if (this.loadingMessages || this.allMessagesLoaded) return;
       this.loadingMessages = true;
 
@@ -83,7 +88,7 @@ export default {
         const response = await getMessages(this.chatroomId, page, 10);
         console.log('Get Messages Response:', response);
         const newMessages = response.message.reverse();
-
+        // Check if there are new messages
         if (newMessages.length === 0) {
           this.allMessagesLoaded = true;
         } else {
@@ -109,29 +114,32 @@ export default {
       }
     },
     onScroll() {
+      // Handle scroll event to load more messages
       const container = this.$refs.messageContainer;
       if (container.scrollTop <= 100 && !this.loadingMessages && !this.allMessagesLoaded) {
-        console.log('Loading more messages...');
         this.loadMoreMessages();
       }
     },
     loadMoreMessages() {
+      // Load more messages from the next page
       const nextPage = this.currentPage + 1;
       this.getMessages(nextPage);
     },
     connectSocket() {
+       // Connect to socket and set up event listeners
       socket.auth = { userId: this.userId };
       socket.connect();
 
       socket.on('message', (message) => {
-        console.log('Received message:', message);
+         // Add received message to messages array
+       
         this.messages.push(message);
         this.scrollToBottom();
       });
 
       socket.on('connect', () => {
+        // Join the chatroom upon successful connection
         socket.emit('joinRoom', this.chatroomId);
-        console.log('Connected to the chat server');
       });
 
       socket.on('emitEditMessage', (editedMessage) => {
@@ -141,7 +149,7 @@ export default {
           this.messages[index] = editedMessage;
         }
       });
-
+      // Handle socket connection errors
       socket.on('connect_error', () => {
         console.log('There was an error connecting with the socket.');
       });
@@ -150,6 +158,7 @@ export default {
       });
     },
     async handleEditMessage({ id, content }) {
+      // Handle message editing
       try {
         const updatedMessage = await editMessage(id, content);
 
@@ -158,12 +167,14 @@ export default {
           this.messages[index].content = updatedMessage.content;
         }
 
+        // Emit the edited message through socket
         socket.emit('onEditMessage', updatedMessage);
       } catch (error) {
         console.error('Error editing message:', error);
       }
     },
     scrollToBottom() {
+       // Scroll the message container to the bottom
       this.$nextTick(() => {
         const container = this.$refs.messageContainer;
         if (container) {
@@ -180,8 +191,7 @@ export default {
             senderID: {
               _id: this.userId 
             }
-          };
-          console.log('Saved message:', savedMessage);
+          }
 
           // Emit to socket
           socket.emit('sendMessage', this.chatroomId, savedMessage);
@@ -194,10 +204,12 @@ export default {
       }
     },
     goToUserProfile() {
+      // Navigate to the recipient's profile
       this.$router.push(`/profile/${this.recipientId}`);
     }
   },
   beforeDestroy() {
+    // Clean up socket listeners before component is destroyed
     if (this.userId) {
       socket.off('message');
       socket.off('connect');
