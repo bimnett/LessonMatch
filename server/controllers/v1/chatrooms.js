@@ -44,7 +44,7 @@ router.get('/chatrooms/:id/messages', async (req, res, next) => {
     try {
         const chatroomId = req.params.id;
         //default values for limit and page number
-        const limit = parseInt(req.query.limit) || 50;
+        const limit = parseInt(req.query.limit) || 200;
         const page = parseInt(req.query.page) || 1;
         
         const skip = (page-1) * limit;

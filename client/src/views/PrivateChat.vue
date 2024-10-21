@@ -3,7 +3,7 @@
     <div class="chat-header" @click="goToUserProfile">
       <h3>{{ recipientUserName }}</h3>
     </div>
-    <div class="message-container" @scroll="onScroll">
+    <div ref="messageContainer" class="messages-container" @scroll="onScroll">
       <div v-for="message in messages" :key="message._id">
         <Message :messageData="message" :currentUserId="userId" @edit-message="handleEditMessage"/>
       </div>
@@ -33,149 +33,182 @@ export default {
       currentPage: 1,
       allMessagesLoaded: false,
       loadingMessages: false,
-      chatroomData: null
+      chatroomData: null,
+    }
+  },
+  computed: {
+    orderedMessages() {
+      return this.messages.slice().reverse();
     }
   },
   async mounted() {
     if (this.userId) {
-      await this.getChatroomData()
-      this.connectSocket()
-      await this.getMessages()
+      await this.getChatroomData();
+      this.connectSocket();
+      await this.getMessages(); // Load initial messages
     }
   },
   methods: {
     async getChatroomData() {
       try {
-        const response = await getChatroomById(this.chatroomId)
+        const response = await getChatroomById(this.chatroomId);
         if (response) {
-          this.chatroomData = response
+          this.chatroomData = response;
 
           if (this.chatroomData.user1 !== this.userId) {
-            this.recipientId = this.chatroomData.user1
+            this.recipientId = this.chatroomData.user1;
           } else {
-            this.recipientId = this.chatroomData.user2
+            this.recipientId = this.chatroomData.user2;
           }
 
-          const recipientProfile = await getUserProfile(this.recipientId)
-          this.recipientUserName = recipientProfile.username
-          socket.emit('joinRoom', this.chatroomId)
+          const recipientProfile = await getUserProfile(this.recipientId);
+          this.recipientUserName = recipientProfile.username;
+          socket.emit('joinRoom', this.chatroomId);
         }
       } catch (error) {
-        console.error('Error getting chatroom data or user profile:', error)
+        console.error('Error getting chatroom data or user profile:', error);
       }
     },
     async getMessages(page = 1) {
-      if (this.loadingMessages || this.allMessagesLoaded) return
-      this.loadingMessages = true
+      if (this.loadingMessages || this.allMessagesLoaded) return;
+      this.loadingMessages = true;
 
       try {
-        const response = await getMessages(this.chatroomId, page)
-
-        console.log('Get Messages Response:', response)
-        const newMessages = response.message
+        const response = await getMessages(this.chatroomId, page, 10);
+        console.log('Get Messages Response:', response);
+        const newMessages = response.message;
 
         if (newMessages.length === 0) {
-          this.allMessagesLoaded = true
+          this.allMessagesLoaded = true;
         } else {
-          this.messages = [...newMessages, ...this.messages]
-          this.currentPage = page
+          // Add new messages to the beginning of the array
+          this.messages = [...newMessages, ...this.messages];
+          this.currentPage = page;
+          
+          // Scroll to bottom only on initial load (page 1)
+          if (page === 1) {
+            this.scrollToBottom();
+          } else {
+            // Maintain scroll position when loading older messages
+            this.$nextTick(() => {
+              const container = this.$refs.messageContainer;
+              container.scrollTop = newMessages.length * 20; // Approximate height of a message
+            });
+          }
         }
       } catch (error) {
-        console.error('Error getting messages:', error)
+        console.error('Error getting messages:', error);
       } finally {
-        this.loadingMessages = false
+        this.loadingMessages = false;
       }
     },
+    onScroll() {
+      const container = this.$refs.messageContainer;
+      if (container.scrollTop <= 100 && !this.loadingMessages && !this.allMessagesLoaded) {
+        console.log('Loading more messages...');
+        this.loadMoreMessages();
+      }
+    },
+    loadMoreMessages() {
+      const nextPage = this.currentPage + 1;
+      this.getMessages(nextPage);
+    },
     connectSocket() {
-      socket.auth = { userId: this.userId }
-      socket.connect()
+      socket.auth = { userId: this.userId };
+      socket.connect();
 
       socket.on('message', (message) => {
-        console.log('Received message:', message)
-        this.messages.push(message)
-      })
+        console.log('Received message:', message);
+        this.messages.push(message);
+        this.scrollToBottom();
+      });
 
       socket.on('connect', () => {
         socket.emit('joinRoom', this.chatroomId);
-        console.log('Connected to the chat server')
-      })
-      
+        console.log('Connected to the chat server');
+      });
+
       socket.on('emitEditMessage', (editedMessage) => {
-        
-      })
+        // Handle message edit event
+      });
 
       socket.on('connect_error', () => {
-        console.log('There was an error connecting with the socket.')
-      })
+        console.log('There was an error connecting with the socket.');
+      });
       socket.on('disconnect', () => {
-        console.log('Disconnected from chat server')
-      })
+        console.log('Disconnected from chat server');
+      });
     },
     async handleEditMessage({ id, content }) {
       try {
-        
         const updatedMessage = await editMessage(id, content);
-      
+
         const index = this.messages.findIndex(msg => msg._id === id);
         if (index !== -1) {
           this.messages[index].content = updatedMessage.content;
         }
 
-        socket.emit('onEditMessage', updatedMessage)
+        socket.emit('onEditMessage', updatedMessage);
       } catch (error) {
         console.error('Error editing message:', error);
       }
     },
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const container = this.$refs.messageContainer;
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+        }
+      });
+    },
     async sendMessage(messageData) {
       try {
-        const response = await createMessage(this.chatroomId, this.userId, messageData.sentAt, messageData.content)
-        console.log(response)
+        const response = await createMessage(this.chatroomId, this.userId, messageData.sentAt, messageData.content);
         if (response && response.data) {
-          
           const savedMessage = {
             ...response.data,
             senderID: {
               _id: this.userId 
             }
-          }
-          console.log('Saved message:', savedMessage)
-
-          socket.emit('sendMessage', this.chatroomId, savedMessage)
+          };
+          console.log('Saved message:', savedMessage);
+          
+          // Emit to socket
+          socket.emit('sendMessage', this.chatroomId, savedMessage);
+          
+          // Scroll to bottom after message is added
+          this.scrollToBottom();
         }
       } catch (error) {
-        console.error('Error sending message:', error)
+        console.error('Error sending message:', error);
       }
     },
     goToUserProfile() {
-      this.$router.push(`/profile/${this.recipientId}`)
-    },
-    async onScroll() {
-      const container = this.$refs.messageContainer
-      if (container.scrollTop === 0 && !this.loadingMessages && !this.allMessagesLoaded) {
-        const nextPage = this.currentPage + 1
-        await this.getMessages(nextPage)
-        this.$nextTick(() => {
-          container.scrollTop = 10
-        })
-      }
+      this.$router.push(`/profile/${this.recipientId}`);
     }
   },
   beforeDestroy() {
     if (this.userId) {
-      socket.off('message')
-      socket.disconnect()
+      socket.off('message');
+      socket.disconnect();
     }
   }
-}
+};
 </script>
 
 <style scoped>
 .messages-container {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   padding: 10px;
   max-height: 70vh;
   overflow-y: auto;
+  scroll-behavior: smooth;
+}
+.message-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .chat-header {
   background-color: #6200ea;
@@ -220,21 +253,21 @@ export default {
 .chat-input {
   position: sticky;
   bottom: 0;
-  width:100%;
+  width: 100%;
 }
 @media (max-width:768px) {
-  .message-box{
+  .message-box {
     max-width: 80%;
   }
   .messages-container {
     padding: 5px;
   }
 }
-@media (max-width:480px){
+@media (max-width:480px) {
   .message-box {
     max-width: 90%;
   }
-  .message-timestamp{
+  .message-timestamp {
     font-size: 0.7em;
   }
 }
