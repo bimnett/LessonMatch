@@ -101,7 +101,7 @@
 
 .sent {
   align-self: flex-end;
-  margin-left: auto;
+  margin-right: auto;
   background: linear-gradient(135deg, rgba(116, 91, 240, 0.1), rgba(93, 73, 192, 0.15));
   border-bottom-right-radius: 8px;
 }
@@ -112,7 +112,7 @@
 
 .received {
   align-self: flex-start;
-  margin-right: auto;
+  margin-left: auto;
   background: linear-gradient(135deg, rgba(76, 209, 177, 0.1), rgba(68, 172, 147, 0.15));
   border-bottom-left-radius: 8px;
 }
