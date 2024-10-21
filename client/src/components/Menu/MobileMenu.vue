@@ -28,8 +28,8 @@ export default {
     width: 100%;
     display: flex;
     justify-content: space-around;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
+    background-color: rgba(107, 206, 189, 0.89);
+    border-top: 1px solid #4a9191;
     padding: 0.5rem 0;
     z-index: 1000;
   }
@@ -52,6 +52,11 @@ export default {
 
   .menu-item:hover .fa-icon {
     color: #624eca;
+  }
+  @media (max-width: 480px){
+    .menu-item {
+      font-size: 1.5rem
+    }
   }
   @media (min-width: 769px) {
   .mobile-menu {
