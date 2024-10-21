@@ -9,26 +9,24 @@ module.exports = (io) => {
         });
   
         // Event listener that handles receiving a message
-        socket.on('sendMessage', async (chatroomId, message) => {
-          console.log('Message received on server:', message);
-            const newMessage = {
-                content: message.content,
+        socket.on('sendMessage', async (chatroomId, content) => {
+            const message = {
+                content,
                 chatroomId,
                 sentAt: new Date(),
                 senderID: socket.auth.userId 
               };
   
             // Emit message to other users in the same chatroom
-            io.to(chatroomId).emit('message', newMessage);
+            io.to(chatroomId).emit('message', message);
             
             try {
                 await createMessage({
-                  content: newMessage.content,
-                  chatroomId: newMessage.chatroomId,
-                  senderID: newMessage.senderID,
-                  sentAt: newMessage.sentAt
+                  content: message.content,
+                  chatroomId: message.chatroomId,
+                  senderID: message.senderID,
+                  sentAt: message.sentAt
                 });
-                console.log('Message saved to database');
               } catch (error) {
                 console.error('Error saving message to the database:', error);
               }

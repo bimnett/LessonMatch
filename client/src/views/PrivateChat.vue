@@ -20,12 +20,10 @@
 import ChatInput from '@/components/ChatInput.vue'
 import socket from '@/socket'
 import { getMessages, createMessage, getChatroomById, getUserProfile } from '@/Api'
-import SignIn from '@/views/SignIn.vue'
 
 export default {
   components: {
-    ChatInput,
-    SignIn
+    ChatInput
   },
   data() {
     return {
@@ -51,7 +49,7 @@ export default {
     async getChatroomData() {
       try {
         const response = await getChatroomById(this.chatroomId)
-        console.log('Chatroom Data API Response:', response)
+        console.log('Chatroom Data Response:', response)
         if (response && response.data) {
           this.chatroomData = response.data
 
@@ -62,10 +60,8 @@ export default {
           }
 
           const recipientProfile = await getUserProfile(this.recipientId)
-          this.recipientUserName = recipientProfile.username
-          console.log('Emitting joinRoom event for chatroom:', this.chatroomId)
+          this.recepientUserName = recipientProfile.username
           socket.emit('joinRoom', this.chatroomId)
-          console.log(`Joined chatroom: ${this.chatroomId}`)
         } else {
           console.error('No chatroom data found')
         }
@@ -100,9 +96,8 @@ export default {
       socket.connect()
 
       socket.on('message', (message) => {
-        console.log('Message saved to database')
+        console.log('Received message:', message);
         this.messages.push(message)
-        this.scrollToBottom()
       })
 
       socket.on('connect', () => {
@@ -118,10 +113,9 @@ export default {
     },
     async sendMessage(messageData) {
       try {
-        const response = await createMessage(this.chatroomId, this.userId, messageData.sentAt, messageData.content)
+        const response = await createMessage(this.chatroomId, this.userId, messageData.content)
         if (response && response.data) {
           const savedMessage = response.data
-          socket.emit('sendMessage', this.chatroomId, savedMessage)
           this.messages.push({
             _id: savedMessage._id,
             content: savedMessage.content,
@@ -132,17 +126,12 @@ export default {
             sentAt: savedMessage.sentAt
           })
 
-          this.scrollToBottom()
+          // Emit the message through the socket to other users
+          socket.emit('sendMessage', this.chatroomId, savedMessage)
         }
       } catch (error) {
         console.error('Error sending message:', error)
       }
-    },
-    scrollToBottom() {
-      const container = this.$refs.messageContainer
-      this.$nextTick(() => {
-        container.scrollTop = container.scrollHeight
-      })
     },
 
     messageClass(message) {
