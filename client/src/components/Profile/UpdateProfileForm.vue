@@ -1,49 +1,94 @@
 <template>
-  <div class="update-profile-form container">
-    <h2>Update Profile</h2>
-    <b-form @submit.prevent="submitUpdate">
-      <div class="row">
-        <div class="col-12 mb-3">
-          <label for="username">Username:</label>
-          <input v-model="form.username" type="text" class="form-control" id="username" required />
-        </div>
-
-        <div class="col-12 mb-3">
-          <label for="password">Password:</label>
-          <input v-model="form.password" type="password" class="form-control" id="password" required />
-        </div>
-
-        <div class="col-12 mb-3">
-          <label for="birth_date">Birth Date:</label>
-          <input v-model="form.birth_date" type="date" class="form-control" id="birth_date" required />
-        </div>
-
-        <div class="col-12 mb-3">
-          <label for="location.city">City:</label>
-          <input v-model="form.location.city" type="text" class="form-control" id="location.city" required />
-        </div>
-
-        <div class="col-12 mb-3">
-          <label for="location.country">Country:</label>
-          <input v-model="form.location.country" type="text" class="form-control" id="location.country" required />
-        </div>
-
-        <div class="col-12 mb-3">
-          <label for="skills">Skills:</label>
-          <input v-model="form.skills" type="text" class="form-control" id="skills" placeholder="Comma-separated skills" />
-        </div>
-
-        <div class="col-12 mb-3">
-          <label for="interests">Interests:</label>
-          <input v-model="form.interests" type="text" class="form-control" id="interests" placeholder="Comma-separated interests" />
-        </div>
-
-        <div class="col-12 d-flex justify-content-between">
-          <b-button variant="secondary" @click="$emit('cancel-edit')">Cancel</b-button>
-          <b-button type="submit" variant="primary">Save Changes</b-button>
-        </div>
+  <div class="update-profile-container">
+    <div class="update-profile-form">
+      <div class="form-header">
+        <h2>Update Profile</h2>
       </div>
-    </b-form>
+      
+      <b-form @submit.prevent="submitUpdate">
+        <div class="form-fields">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <div class="input-wrapper">
+              <input 
+                v-model="form.username" 
+                type="text" 
+                id="username" 
+                required 
+                placeholder="Enter username"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrapper">
+              <input 
+                v-model="form.password" 
+                type="password" 
+                id="password" 
+                required 
+                placeholder="Enter password"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="birth_date">Birth Date</label>
+            <div class="input-wrapper">
+              <input 
+                v-model="form.birth_date" 
+                type="date" 
+                id="birth_date" 
+                required 
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="location.city">City</label>
+            <div class="input-wrapper">
+              <input 
+                v-model="form.location.city" 
+                type="text" 
+                id="location.city" 
+                required 
+                placeholder="Enter city"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="location.country">Country</label>
+            <div class="input-wrapper">
+              <input 
+                v-model="form.location.country" 
+                type="text" 
+                id="location.country" 
+                required 
+                placeholder="Enter country"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button 
+            type="button" 
+            class="cancel-button" 
+            @click="$emit('cancel-edit')"
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            class="submit-button"
+          >
+            Save Changes
+          </button>
+        </div>
+      </b-form>
+    </div>
   </div>
 </template>
 
@@ -80,11 +125,6 @@ export default {
         this.$router.push(`/profile/${userId}`)
       } catch (error) {
         console.error('Error updating profile:', error)
-        this.$bvToast.toast('Error updating profile', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
       }
     }
   }
@@ -92,58 +132,161 @@ export default {
 </script>
 
 <style scoped>
-.update-profile-form {
-  margin: 0 auto;
+.update-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(145deg, rgba(92, 108, 209, 0.05), rgba(76, 209, 177, 0.05));
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background: linear-gradient(to bottom right, #e0f7fa, #bbdefb);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-h2 {
-  color: #6200ea;
-  text-align: center;
+.update-profile-form {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.form-header {
+  background: linear-gradient(to right, #5C6CD1E3, #4CD1B1E3);
+  padding: 20px 30px;
+  margin-bottom: 30px;
+}
+
+.form-header h2 {
+  color: white;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-fields {
+  padding: 0 30px;
+}
+
+.form-group {
+  margin-bottom: 24px;
 }
 
 label {
-  margin-bottom: 5px;
-  color: #6200ea;
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.input-wrapper {
+  position: relative;
+  background: linear-gradient(145deg, rgba(92, 108, 209, 0.05), rgba(76, 209, 177, 0.05));
+  border-radius: 12px;
+  padding: 3px;
 }
 
 input {
-  padding: 10px;
-  border: 1px solid #6200ea;
-  border-radius: 4px;
-  transition: border 0.3s ease;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #444;
+  background: white;
+  transition: all 0.3s ease;
 }
 
 input:focus {
-  border-color: #03a9f4;
   outline: none;
+  border-color: #5C6CD1;
+  box-shadow: 0 0 0 3px rgba(92, 108, 209, 0.1);
 }
 
-button {
-  padding: 10px;
-  background-color: #6200ea;
-  color: #fff;
+input::placeholder {
+  color: #999;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  background: rgba(92, 108, 209, 0.05);
+  margin-top: 30px;
+  gap: 15px;
+}
+
+.submit-button, .cancel-button {
+  padding: 12px 24px;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  min-width: 120px;
 }
 
-button:hover {
-  background-color: #3700b3;
+.submit-button {
+  background: linear-gradient(135deg, #5C6CD1E3, #4CD1B1E3);
+  color: white;
+  box-shadow: 0 4px 15px rgba(92, 108, 209, 0.2);
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(92, 108, 209, 0.3);
+}
+
+.cancel-button {
+  background: white;
+  color: #5C6CD1;
+  border: 2px solid rgba(92, 108, 209, 0.2);
+}
+
+.cancel-button:hover {
+  background: rgba(92, 108, 209, 0.1);
 }
 
 @media (max-width: 768px) {
-  .update-profile-form {
+  .update-profile-container {
     padding: 15px;
   }
-  h2 {
+  
+  .update-profile-form {
+    border-radius: 15px;
+  }
+  
+  .form-header {
+    padding: 15px 20px;
+  }
+  
+  .form-header h2 {
     font-size: 1.5rem;
+  }
+  
+  .form-fields {
+    padding: 0 20px;
+  }
+  
+  .button-group {
+    padding: 20px;
+  }
+  
+  .submit-button, .cancel-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
 }
 
+@media (max-width: 480px) {
+  .button-group {
+    flex-direction: column;
+  }
+  
+  .submit-button, .cancel-button {
+    width: 100%;
+  }
+}
 </style>

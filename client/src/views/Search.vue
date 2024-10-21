@@ -1,5 +1,8 @@
 <template>
   <div class="search-container">
+    <div id="title">
+          <h4>Search for users</h4>
+  </div>
     <CategoryDropdownBar 
       @category-selected="searchCategory"
       @sort-order-selected="updateSortOrder"
@@ -88,10 +91,19 @@ export default {
 
 <style scoped>
 .search-container {
-  padding: 20px;
+  padding: 0 20px;
+  margin: 30px 0;
 }
 
 .results-header {
   margin-bottom: 20px; 
+}
+
+#title {
+  padding: 20px;
+  border: 2px solid;
+  display: inline-block; 
+  border-image: linear-gradient(to right, #5C6CD1E3, #4CD1B1E3) 1; 
+  margin-bottom: 20px;
 }
 </style>

@@ -1,10 +1,14 @@
 <template>
-    <div class = "sign-in-form">
-        <form v-on:submit.prevent="signIn">
-            <input v-model="username" type="text" placeholder="Username" required />
-            <input v-model="password" type="password" placeholder="Password" required />
-            <button type="submit">Sign In</button>
-        </form>
+    <div id = "sign-in-form">
+        <b-form v-on:submit.prevent="signIn">
+            <b-input v-model="username" type="text" placeholder="Username" required />
+            <b-input v-model="password" type="password" placeholder="Password" required />
+            <b-button type="submit">Sign In</b-button>
+            <p>No account?</p>
+            <router-link to="/signup">
+              <b-button id="sign-up">Sign Up</b-button>
+            </router-link>
+        </b-form>
     </div>
 </template>
 
@@ -46,13 +50,15 @@ export default {
 </script>
 
 <style scoped>
-.sign-in-form {
+  #sign-in-form {
     max-width: 400px;
     margin: 0 auto;
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
 
   input {
@@ -66,7 +72,7 @@ export default {
   button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #745bf0;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -74,6 +80,18 @@ export default {
   }
 
   button:hover {
-    background-color: #0056b3;
+    background-color:#5d49c0;
+  }
+
+  p {
+    margin: 12px 0;
+    font-size: 0.8rem;
+    color: #555;
+  }
+
+  @media only screen and (max-width: 768px) {
+    #sign-in-form {
+    width: 100%;
+    }
   }
 </style>

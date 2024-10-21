@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div id="title">
+      <h4>Profile</h4>
+    </div>
     <div class="col-12">
       <div v-if="!editMode">
         <!-- Display User Profile -->
@@ -63,15 +66,13 @@
 import { getUserProfile, deleteUserProfile, getUserSkills, getUserInterests, getUserProfileHyperlink } from '@/Api'
 import UpdateProfileForm from '@/components/Profile/UpdateProfileForm.vue'
 import ProfileCard from '@/components/Profile/ProfileCard.vue'
-import SignIn from '@/components/SignIn/SignInButton.vue'
 
 
 export default {
   name: 'Profile',
   components: {
     UpdateProfileForm,
-    ProfileCard,
-    SignIn
+    ProfileCard
   },
   data() {
     return {
@@ -105,23 +106,14 @@ export default {
       try {
         if (!this.userId) throw new Error('User not found')
         this.form = { ...this.form, ...updatedData }
-        this.$bvToast.toast('Your profile has been updated successfully!', {
-          title: 'Success',
-          variant: 'success',
-          solid: true
-        })
         this.editMode = false
       } catch (error) {
         console.error('Error updating profile:', error)
-        this.$bvToast.toast('Error updating profile!', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
       }
     },
     handleSignOut(){
       this.$emit('signed-out');
+      this.userId = null;
       this.$router.push('/');
     },
     async loadProfileData(userId) {
@@ -137,31 +129,18 @@ export default {
       await this.fetchSkillsAndInterests(userId);
     } catch (error) {
       console.error('Error fetching user data:', error);
-      this.$bvToast.toast('Error fetching user data', {
-        title: 'Error',
-        variant: 'danger',
-        solid: true
-      });
     }
   },
     async confirmDeleteProfile() {
       try {
         if (!this.userId) throw new Error('User not found')
         await deleteUserProfile(this.userId)
-        this.$bvToast.toast('Profile deleted successfully!', {
-          title: 'Success',
-          variant: 'success',
-          solid: true
-        })
-        localStorage.removeItem('userId')
+        this.userId = null;
+        localStorage.clear()
+        this.$emit('signed-out')
         this.$router.push({ name: 'Home' })
       } catch (error) {
         console.error('Error deleting profile:', error)
-        this.$bvToast.toast('Error deleting profile', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
       }
     },
     cancelDelete() {
@@ -178,11 +157,6 @@ export default {
         this.interests = interestsResponse
       } catch (error) {
         console.error('Error fetching skills or interests:', error)
-        this.$bvToast.toast('Error fetching skills or interests', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        })
       }
     },
   },
@@ -192,17 +166,13 @@ export default {
         // If the profile is being loaded via a hyperlink
         const response = await getUserProfileHyperlink(this.hyperlink);
         this.form = { ...this.form, ...response };
+        this.form.birth_date = this.form.birth_date.slice(0, 10);
         localStorage.removeItem('hyperlink');
     } else {
         await this.loadProfileData(this.userId);
       }
     } catch (error) {
         console.error('Error fetching user data:', error);
-        this.$bvToast.toast('Error fetching user data', {
-          title: 'Error',
-          variant: 'danger',
-          solid: true
-        });
       }
   },
   watch: {
@@ -218,5 +188,17 @@ export default {
 </script>
 
 <style scoped>
+
+.container {
+  margin-top: 30px;
+}
+
+#title {
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px solid;
+  display: inline-block; 
+  border-image: linear-gradient(to right, #5C6CD1E3, #4CD1B1E3) 1; 
+}
 
 </style>

@@ -16,5 +16,19 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    proxy: {
+      // Proxy for socket.io connection
+      '/socket.io': {
+        target: 'http://localhost:3000', 
+        changeOrigin: true,
+        ws: true
+      },
+      '/api': {
+        target: 'http://localhost:3000', 
+        changeOrigin: true,
+      },
+    }
   }
 })

@@ -14,7 +14,7 @@
                 <option value="Skill">Skill</option>
                 <option value="Interest">Interest</option>
             </select>
-            <button type="submit">Create Skill</button>
+            <button class="btn" type="submit">Create Skill</button>
         </form>
     </div>
 </template>
@@ -58,7 +58,6 @@ export default {
               console.log('Error creating a new skill')
             } else {
               this.$router.push(`/profile/${this.userId}`);
-              window.alert('A new skill has been created!')
               console.log('A new skill has been created!')
             }
             
@@ -78,6 +77,9 @@ export default {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
   }
 
   input, select {
@@ -86,12 +88,13 @@ export default {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    height: 3rem;
   }
 
   button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #745bf0;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -99,6 +102,12 @@ export default {
   }
 
   button:hover {
-    background-color: #0056b3;
+    background-color:#5d49c0;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .create-skill-form {
+    width: 100%;
+    }
   }
 </style>
