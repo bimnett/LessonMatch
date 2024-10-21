@@ -1,5 +1,8 @@
 <template>
   <div class="search-container">
+    <div id="title">
+          <h4>Search for users</h4>
+    </div>
     <CategoryDropdownBar 
       @category-selected="searchCategory"
       @sort-order-selected="updateSortOrder"
@@ -93,5 +96,13 @@ export default {
 
 .results-header {
   margin-bottom: 20px; 
+}
+
+#title {
+  padding: 20px;
+  border: 2px solid;
+  display: inline-block; 
+  border-image: linear-gradient(to right, #5C6CD1E3, #4CD1B1E3) 1; 
+  margin-bottom: 20px;
 }
 </style>

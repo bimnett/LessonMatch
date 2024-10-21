@@ -1,6 +1,9 @@
 <template>
     <div>
       <b-container>
+        <div id="title">
+          <h4>Your Chatrooms</h4>
+        </div>
         <b-col class="page-content">
             <b-col v-for="chatroom in chatrooms" :key="chatroom._id">
               <ChatroomCard 
@@ -59,6 +62,12 @@ export default {
   margin-bottom: 50px;
 }
 
+#title {
+  padding: 20px;
+  border: 2px solid;
+  display: inline-block; 
+  border-image: linear-gradient(to right, #5C6CD1E3, #4CD1B1E3) 1; 
+}
 
 
 </style>

@@ -64,6 +64,5 @@ export default {
 
 #avatar {
   background: linear-gradient(#5C6CD1E3, #4CD1B1E3);
-  margin-bottom: 1rem;
 }
 </style>
