@@ -47,11 +47,6 @@ export default {
       chatroomData: null,
     }
   },
-  computed: {
-    orderedMessages() {
-      return this.messages.slice().reverse();
-    }
-  },
   async mounted() {
     if (this.userId) {
       await this.getChatroomData();
@@ -87,12 +82,12 @@ export default {
       try {
         const response = await getMessages(this.chatroomId, page, 10);
         console.log('Get Messages Response:', response);
-        const newMessages = response.message;
+        const newMessages = response.message.reverse();
 
         if (newMessages.length === 0) {
           this.allMessagesLoaded = true;
         } else {
-          // Add new messages to the beginning of the array
+          // Add new messages to the end of the array (older messages first)
           this.messages = [...newMessages, ...this.messages];
           this.currentPage = page;
           
@@ -103,7 +98,7 @@ export default {
             // Maintain scroll position when loading older messages
             this.$nextTick(() => {
               const container = this.$refs.messageContainer;
-              container.scrollTop = newMessages.length * 20; // Approximate height of a message
+              container.scrollTop = container.scrollHeight - container.clientHeight - (newMessages.length * 20); // Approximate height of a message
             });
           }
         }
@@ -141,6 +136,10 @@ export default {
 
       socket.on('emitEditMessage', (editedMessage) => {
         // Handle message edit event
+        const index = this.messages.findIndex(msg => msg._id === editedMessage._id);
+        if (index !== -1) {
+          this.messages[index] = editedMessage;
+        }
       });
 
       socket.on('connect_error', () => {
@@ -183,7 +182,7 @@ export default {
             }
           };
           console.log('Saved message:', savedMessage);
-          
+
           // Emit to socket
           socket.emit('sendMessage', this.chatroomId, savedMessage);
           
@@ -201,6 +200,10 @@ export default {
   beforeDestroy() {
     if (this.userId) {
       socket.off('message');
+      socket.off('connect');
+      socket.off('emitEditMessage');
+      socket.off('connect_error');
+      socket.off('disconnect');
       socket.disconnect();
     }
   }
@@ -211,9 +214,17 @@ export default {
 .chat-container {
   display: flex;
   flex-direction: column;
+  max-height: 70vh;
+  overflow-y: auto;
+  scroll-behavior: smooth;
   height: 100vh;
   background: linear-gradient(145deg, rgba(92, 108, 209, 0.05), rgba(76, 209, 177, 0.05));
   padding: 20px;
+}
+.message-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-header {
