@@ -163,7 +163,7 @@ router-view {
 
 @media (max-width: 768px) {
  footer {
-  margin-bottom: 3.5rem;
+  margin-bottom: 3.2rem;
  }
 }
 

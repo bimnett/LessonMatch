@@ -62,30 +62,30 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-LessonMatch is a platform designed to connect people who want to learn and teach new skills. Users create profiles where they list what they can teach and what they want to learn, and the app matches them with others who have complementary skills. The goal is to create a community where people can easily share knowledge and help each other grow.
+LessonMatch is a platform designed to connect people who want to learn and teach new skills. Users create profiles where they list what they can teach and what they want to learn, and then search for other users who have complementary skills. The goal is to create a community where people can easily share knowledge and help each other grow.
 
 ### Pages
 
-**All** pages will have a menu bar at the top of the page, where users can navigate to most of the other pages on the website. The menu will always be at the top of the user’s screen, meaning it will follow the user if they scroll up/down.
+**All** pages will have a menu bar where users can navigate to most of the other pages on the website.
 
 **All** pages will also have a footer at the bottom of the page to display links, trademarks, etc.
 
-* **Home**: This is the landing page, which will contain information about what LessonMatch is, and how it can benefit users to learn something new. In addition to the menu bar, there will also be buttons for users to sign in, sign up, and navigate to the ‘Find match’ page.
+* **Home**: This is the landing page, which will contain information about what LessonMatch is, and how it can benefit users to learn something new. In addition to the menu bar, there will also be buttons for users to sign in, sign up, and navigate to the ‘Search’ page.
 
 
-* **Chatroom**: This page allows users to engage in real-time conversations with others they've matched with. Users can exchange messages, ask questions, and collaborate on learning the skills they are interested in. The chat interface will include basic messaging features, and users can communicate directly to arrange lessons or provide help.
+* **Chatrooms**: This page allows users to engage in real-time conversations with others they've started a conversation with. Users can exchange messages, ask questions, and collaborate on learning the skills they are interested in. The chat interface will include basic messaging features, and users can communicate directly to arrange lessons or provide help.
 
 
-* **Create Account**: The page displays multiple input boxes where the user can fill in their personal information to create an account. At the end the user can finalize the creation by agreeing to terms and clicking a button that says “create account”. 
+* **Sign Up**: The page displays multiple input boxes where the user can fill in their personal information to create an account. At the end the user can finalize the creation by agreeing to terms and clicking a button that says “Sign Up”. 
 
 
-* **Sign in**: This page will contain and display a sign-in form for existing users to sign into their accounts. The sign-in form will ask for a username/email as the identifier, and a password. There will also be a ‘remember me’ button for users to tick in if they don’t want to sign in every time they open the website.
+* **Sign In**: This page will contain and display a sign-in form for existing users to sign into their accounts. The sign-in form will ask for a username as the identifier, and a password. 
 
 
-* **Profile**: The page displays the user’s profile and personal information such as name, age, current skills, progress, etc. Here the user can edit their information and get an overview of their skills and what other users see when they view their profile. 
+* **Profile**: The page displays the user’s profile and personal information such as name, birth date, current skills, etc. Here the user can edit their information and get an overview of their skills and what other users see when they view their profile. 
 
 
-* **Find Match**: The page will display other user-profiles and their main skills that they are willing to give a lesson on. Here the user can “match” with other users based on their skills and give lessons to each other on their respective skills.
+* **Search**: The page will display other user-profiles and their best skill that they are willing to give a lesson on. Here the user can visit other users profiles and start a chat with them to give lessons to each other on their respective skills.
 
 ### Entity-Relationship (ER) Diagram
 
