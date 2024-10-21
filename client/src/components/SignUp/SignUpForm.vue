@@ -37,22 +37,26 @@ export default {
   methods: {
     async register() {
         try {
-          await registerUser (
+          const registeredUser = await registerUser (
               this.username,
               this.password,
               this.birth_date,
               this.location
           );
-          console.log('Registration successful');
 
-          await logInUser(
+          if (!registeredUser){
+            window.alert('This username has been taken. Please try again.')
+            this.username = ''
+          } else {
+            console.log('Registration successful');
+            await logInUser(
               this.username,
               this.password
-          );
-          console.log('Log-In successful');
-          this.$emit('signed-in');
-          this.$emit('show-modal');
-            
+            );
+            console.log('Log-In successful');
+            this.$emit('signed-in');
+            this.$emit('show-modal');
+          }
         } catch (error) {
             console.error(error);
         }

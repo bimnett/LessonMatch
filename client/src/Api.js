@@ -17,7 +17,7 @@ export const registerUser = (username, password, birth_date, location) => {
       return response
     })
     .catch(error => {
-      throw error;
+      console.log(error)
     })
 }
 
@@ -33,7 +33,7 @@ export const logInUser = (username, password) => {
       return response
     })
     .catch(error => {
-      throw error;
+      console.log(error)
     })
 }
 export const updateUserProfile = (userId, formData) => {
