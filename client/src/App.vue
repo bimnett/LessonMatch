@@ -22,8 +22,8 @@
     <router-view @signed-out="handleSignOut" @signed-in="handleSignIn"/>
 
     <footer>
-      <div id="footerbar">
-        <div class="footer-content">
+      <div id="footer">
+        <div class="footer-body">
           <p>&copy; 2024 <strong>LessonMatch</strong> | All rights reserved.</p>
           <div class="icons">
             <img src="../public/email-icon.png" alt="Email" class="mail-icon">
@@ -130,6 +130,8 @@ export default {
 
 router-view {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .logo {
@@ -223,36 +225,36 @@ footer{
     display: flex;
 }
 
-#footerbar {
-    background: linear-gradient(#5C6CD1E3, #4CD1B1E3);
-    color: black;
-	  max-height: 30vh;
-    display: flex;
-    align-items: center;
-    width: 100%;
+#footer {
+  background: linear-gradient(#5C6CD1E3, #4CD1B1E3);
+  color: black;
+  max-height: 30vh;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
-.footer-content {
-    padding: 20px;
+.footer-body {
+  padding: 20px;
 }
 
 .icons {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .mail-icon{
-    width: 45px;
-    height: 35px;
+  width: 45px;
+  height: 35px;
 }
 .instagram-icon {
-    width: 70spx;
-    height: 45px;
+  width: 70spx;
+  height: 45px;
 }
 .facebook-icon{
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 </style>

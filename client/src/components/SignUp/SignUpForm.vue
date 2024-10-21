@@ -80,7 +80,7 @@ export default {
   button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #745bf0;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -88,7 +88,7 @@ export default {
   }
 
   button:hover {
-    background-color: #0056b3;
+    background-color:#5d49c0;
   }
 
   p {

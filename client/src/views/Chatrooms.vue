@@ -2,7 +2,6 @@
     <div>
       <b-container>
         <b-col class="page-content">
-          <h3 id="title">Chatrooms</h3>
             <b-col v-for="chatroom in chatrooms" :key="chatroom._id">
               <ChatroomCard 
                 :chatroom="chatroom"
@@ -55,13 +54,9 @@ export default {
 
 <style scoped>
 
-
-
 .page-content{
   margin-top: 30px;
 }
 
-#title {
-  margin-bottom: 30px;
-}
+
 </style>

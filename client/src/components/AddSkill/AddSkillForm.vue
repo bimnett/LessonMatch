@@ -14,7 +14,7 @@
                 <option value="Skill">Skill</option>
                 <option value="Interest">Interest</option>
             </select>
-            <button type="submit">Create Skill</button>
+            <button class="btn" type="submit">Create Skill</button>
         </form>
     </div>
 </template>
@@ -91,7 +91,7 @@ export default {
   button {
     width: 100%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #745bf0;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -99,6 +99,6 @@ export default {
   }
 
   button:hover {
-    background-color: #0056b3;
+    background-color:#5d49c0;
   }
 </style>
