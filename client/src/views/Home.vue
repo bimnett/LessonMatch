@@ -204,4 +204,31 @@ export default {
 .feature-card h4 {
     margin-bottom: 10px;
 }
+
+
+@media screen and (max-width: 768px) {
+
+    #home {
+        grid-template-columns: 1fr;
+    }
+
+    .home-content {
+        padding: 50px;
+        height: auto;
+
+    }
+
+    #information .information-content {
+        padding: 20px;
+    }
+
+    #features .feature-cards {
+        flex-direction: column;
+        gap: 20px; 
+    }
+
+    .feature-card {
+        max-width: none;
+    }
+}
 </style>
