@@ -1,91 +1,86 @@
-# Backend and Frontend Template
+# LessonMatch
 
-Latest version: https://git.chalmers.se/courses/dit342/group-00-web
+A platform that connects people who want to learn and teach new skills through peer-to-peer knowledge exchange.
 
-This template refers to itself as `group-00-web`. In your project, use your group number in place of `00`.
+## Overview
 
-## Project Structure
+LessonMatch facilitates skill sharing by connecting users who want to learn with those who can teach. Users create profiles listing their teachable skills and learning interests, then connect with others who have complementary skill sets. The platform features real-time chat functionality to enable seamless communication between learners and teachers.
 
-| File        | Purpose           | What you do?  |
-| ------------- | ------------- | ----- |
-| `server/` | Backend server code | All your server code |
-| [server/README.md](server/README.md) | Everything about the server | **READ ME** carefully! |
-| `client/` | Frontend client code | All your client code |
-| [client/README.md](client/README.md) | Everything about the client | **READ ME** carefully! |
-| [docs/LOCAL_DEPLOYMENT.md](docs/LOCAL_DEPLOYMENT.md) | Local production deployment | Deploy your app local in production mode |
+## Features
 
-## Requirements
+### Core Functionality
+- User profile creation and management
+- Skill listing (both teachable and desired)
+- User search based on skills
+- Real-time chat system
+- Secure authentication (sign up/sign in)
 
-The version numbers in brackets indicate the tested versions but feel free to use more recent versions.
-You can also use alternative tools if you know how to configure them (e.g., Firefox instead of Chrome).
+### Real-Time Chat System
+- Dedicated chatroom overview page for managing multiple conversations
+- Chronological message history
+- Instant message delivery using WebSocket technology
+- Profile integration within chat interface
+- Paginated message loading for optimal performance
 
-* [Git](https://git-scm.com/) (v2) => [installation instructions](https://www.atlassian.com/git/tutorials/install-git)
-  * [Add your Git username and set your email](https://docs.gitlab.com/ce/gitlab-basics/start-using-git.html#add-your-git-username-and-set-your-email)
-    * `git config --global user.name "YOUR_USERNAME"` => check `git config --global user.name`
-    * `git config --global user.email "email@example.com"` => check `git config --global user.email`
-  * > **Windows users**: We recommend to use the [Git Bash](https://www.atlassian.com/git/tutorials/git-bash) shell from your Git installation or the Bash shell from the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to run all shell commands for this project.
-* [Chalmers GitLab](https://git.chalmers.se/) => Login with your **Chalmers CID** choosing "Sign in with" **Chalmers Login**. (contact [support@chalmers.se](mailto:support@chalmers.se) if you don't have one)
-  * DIT342 course group: https://git.chalmers.se/courses/dit342
-  * [Setup SSH key with Gitlab](https://docs.gitlab.com/ee/ssh/)
-    * Create an SSH key pair `ssh-keygen -t ed25519 -C "email@example.com"` (skip if you already have one)
-    * Add your public SSH key to your Gitlab profile under https://git.chalmers.se/profile/keys
-    * Make sure the email you use to commit is registered under https://git.chalmers.se/profile/emails
-  * Checkout the [Backend-Frontend](https://git.chalmers.se/courses/dit342/group-00-web) template `git clone git@git.chalmers.se:courses/dit342/group-00-web.git`
-* [Server Requirements](./server/README.md#Requirements)
-* [Client Requirements](./client/README.md#Requirements)
+## Pages
 
-## Getting started
+### Home
+- Platform introduction and benefits
+- Quick access to sign up/sign in
+- Direct navigation to user search
 
-```bash
-# Clone repository
-git clone git@git.chalmers.se:courses/dit342/group-00-web.git
+### Search
+- Browse user profiles
+- View teaching offerings
+- Initiate conversations
+- Filter and search capabilities
 
-# Change into the directory
-cd group-00-web
+### Profile
+- Personal information display
+- Skill management (teaching/learning)
+- Profile customization options
+- Public profile view
 
-# Setup backend
-cd server && npm install
-npm run dev
+### Chatrooms
+- Real-time messaging interface
+- Active conversation management
+- Direct access to user profiles
+- Message history
 
-# Setup frontend
-cd client && npm install
-npm run serve
-```
+### Authentication
+- Secure sign up process
+- User-friendly sign in
+- Password protection
+- Terms of service integration
 
-> Check out the detailed instructions for [backend](./server/README.md) and [frontend](./client/README.md).
+## Technical Implementation
 
-## Visual Studio Code (VSCode)
+### Frontend
+- Responsive design
+- Real-time updates
+- User-friendly interface
+- Profile integration within chat
 
-Open the `server` and `client` in separate VSCode workspaces or open the combined [backend-frontend.code-workspace](./backend-frontend.code-workspace). Otherwise, workspace-specific settings don't work properly.
+### Backend
+- WebSocket implementation using Socket.IO
+- Secure message storage and retrieval
+- Pagination support for large chat histories
+- User authentication and authorization
 
-## System Definition (MS0)
+## Navigation
 
-### Purpose
+The platform features a consistent navigation bar across all pages, providing easy access to:
+- Home
+- Search
+- Profile
+- Chatrooms
+- Authentication options
 
-LessonMatch is a platform designed to connect people who want to learn and teach new skills. Users create profiles where they list what they can teach and what they want to learn, and then search for other users who have complementary skills. The goal is to create a community where people can easily share knowledge and help each other grow.
-
-### Pages
-
-**All** pages will have a menu bar where users can navigate to most of the other pages on the website.
-
-**All** pages will also have a footer at the bottom of the page to display links, trademarks, etc.
-
-* **Home**: This is the landing page, which will contain information about what LessonMatch is, and how it can benefit users to learn something new. In addition to the menu bar, there will also be buttons for users to sign in, sign up, and navigate to the ‘Search’ page.
-
-
-* **Chatrooms**: This page allows users to engage in real-time conversations with others they've started a conversation with. Users can exchange messages, ask questions, and collaborate on learning the skills they are interested in. The chat interface will include basic messaging features, and users can communicate directly to arrange lessons or provide help.
-
-
-* **Sign Up**: The page displays multiple input boxes where the user can fill in their personal information to create an account. At the end the user can finalize the creation by agreeing to terms and clicking a button that says “Sign Up”. 
-
-
-* **Sign In**: This page will contain and display a sign-in form for existing users to sign into their accounts. The sign-in form will ask for a username as the identifier, and a password. 
-
-
-* **Profile**: The page displays the user’s profile and personal information such as name, birth date, current skills, etc. Here the user can edit their information and get an overview of their skills and what other users see when they view their profile. 
-
-
-* **Search**: The page will display other user-profiles and their best skill that they are willing to give a lesson on. Here the user can visit other users profiles and start a chat with them to give lessons to each other on their respective skills.
+A footer is present on all pages containing:
+- Important links
+- Trademark information
+- Legal documentation
+- Contact information
 
 ### Entity-Relationship (ER) Diagram
 
